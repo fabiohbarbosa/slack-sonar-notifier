@@ -11,7 +11,7 @@ import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
-@Mojo(name = "sonar-pusher",
+@Mojo(name = "sonar-notifier",
         requiresOnline = true,
         requiresProject = true,
         threadSafe = false)
