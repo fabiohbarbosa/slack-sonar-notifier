@@ -1,6 +1,18 @@
-## Maven
+# slack-sonar-notifier #
+
+Plugin do Maven para notificar possíveis problemas relatados no Sonarqube em um canal do Slack (https://slack.com/)
+
+## Como usar?
+
+
+
+## Maven Lifecycles
 ### Install
 #### Testes Unitários e Integrados
+Os testes integrados dependem de um Sonar e um Slack configurados para serem executados.
+
+Basta passar os dados de configurações como variáveis para a execução dos testes.
+
 Maven properties:
 
 * **sonar.project.key**: Chave do projeto no sonar, podendo utilizar o `groupId:artifactId` do projeto, ou o id no sonar (entre no projeto no sonar e verifique o ID na url).
@@ -19,7 +31,13 @@ Caso seu sonar esteja sem configuração de usuário e senha as propriedades`son
 
 Exemplo:
 ```bash
-mvn clean install -Dsonar.project.key=br.com.gsw:slack-pusher -Dsonar.url=http://sonarqube.gsw.com.br -Dsonar.user=sonaruser -Dsonar.password=sonarpass -Dslack.webhook=https://hooks.slack.com/services/ASHDIU98/98173JOIJ/sv9RRmWpvTes2Oc3y5QeY54G
+mvn clean install \
+-Dsonar.project.key=br.com.gsw:slack-pusher \
+-Dsonar.url=http://sonarqube.gsw.com.br \
+-Dsonar.user=sonaruser \
+-Dsonar.password=sonarpass \
+-Dslack.webhook=https://hooks.slack.com/services/ASHDIU98/98173JOIJ/sv9RRmWpvTes2Oc3y5QeY54G
+-Dslack.coverage=60
 ```
 
 #### Somente Testes Unitários
