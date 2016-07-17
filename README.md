@@ -51,6 +51,8 @@ Acesse a URL: _https://(seu-canal).slack.com/apps/manage/custom-integrations_
 mvn sonar-notifier:sonar-notifier
 ```
 
+---
+
 ## Compilando o plugin
 
 ### Install
