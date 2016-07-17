@@ -4,7 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 
 public class SonarFixture {
     public static Sonar newSonarAuth() {
-        String sonarkey = System.getProperty("sonar.project.key");
+        String sonarkey = System.getProperty("sonar.key");
         String sonarUrl = System.getProperty("sonar.url");
         String sonarUser = System.getProperty("sonar.user");
         String sonarPass = System.getProperty("sonar.password");
