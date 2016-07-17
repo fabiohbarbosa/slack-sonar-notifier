@@ -4,15 +4,15 @@ import org.apache.commons.lang3.StringUtils;
 
 public class SonarFixture {
     public static Sonar newSonarAuth() {
-        String sonarkey = System.getProperty("sonar.key");
-        String sonarUrl = System.getProperty("sonar.url");
-        String sonarUser = System.getProperty("sonar.user");
-        String sonarPass = System.getProperty("sonar.password");
+        String key = System.getProperty("sonar.key");
+        String url = System.getProperty("sonar.url");
+        String user = System.getProperty("sonar.user");
+        String password = System.getProperty("sonar.password");
 
-        if (StringUtils.isEmpty(sonarUser) || StringUtils.isEmpty(sonarPass)) {
-            return newSonarNoAuth(sonarkey, sonarUrl);
+        if (StringUtils.isEmpty(user) || StringUtils.isEmpty(password)) {
+            return newSonarNoAuth(key, url);
         }
-        return new Sonar(sonarkey, sonarUrl, sonarUser, sonarPass);
+        return new Sonar(key, url, user, password);
     }
 
     private static Sonar newSonarNoAuth(final String sonarkey, final String sonarUrl) {
