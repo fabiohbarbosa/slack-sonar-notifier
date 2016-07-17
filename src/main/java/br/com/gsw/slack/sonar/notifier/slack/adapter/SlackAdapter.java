@@ -29,7 +29,7 @@ public class SlackAdapter {
     }
 
     public void adapter(final Slack slack, final SonarStats sonarStats) {
-        log.debug("Starting slack adapter...");
+        log.debug("Slack adapter...");
 
         if (!isNeedToHook(sonarStats)) {
             log.info(String.format("No sonar problems found in project %s", sonarStats.getProject().getName()));
@@ -47,7 +47,7 @@ public class SlackAdapter {
     }
 
     private void slackPusher(final Slack slack, final SlackRequest slackRequest) {
-        log.info(String.format("Trying to post to slack %s", slack.getWebhook()));
+        log.info(String.format("Trying to post sonar stats into slack %s", slack.getWebhook()));
 
         final Gson gson = new Gson();
         log.debug(gson.toJson(slackRequest));
@@ -57,7 +57,7 @@ public class SlackAdapter {
         client = FeignFactory.build(SLACK_URL, SlackRestClient.class);
         client.post(token, slackRequest);
 
-        log.info(String.format("Push to slack %s", slack.getWebhook()));
+        log.info(String.format("Notifier slack %s", slack.getWebhook()));
     }
 
     private void adapterDefault(final SlackRequest slackRequest, final SonarStats sonarStats) {

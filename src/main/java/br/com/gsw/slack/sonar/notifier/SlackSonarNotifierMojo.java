@@ -29,7 +29,9 @@ public class SlackSonarNotifierMojo extends AbstractMojo {
         LogFactory.init(getLog());
         LOGGER = LogFactory.getInstance();
 
-        LOGGER.info("Starting sonar-pusher...");
+        LOGGER.info("------------------------------------------------------------------------");
+        LOGGER.info("Slack Sonar Notifier Plugin");
+        LOGGER.info("------------------------------------------------------------------------");
         NotifierFactory.getInstance().start(sonar, slack);
     }
 }

@@ -19,11 +19,12 @@ public class SonarAdapter {
     private SonarRestClient client;
 
     public SonarStats adapter(final Sonar sonar) {
-        log.debug("Starting sonar adapter...");
+        log.debug("Sonar adapter...");
         final String url = sonar.getUrl();
         final String user = sonar.getUser();
         final String password = sonar.getPassword();
         final String key = sonar.getKey();
+        log.info(String.format("Trying to get sonar stats from %s", url));
 
         log.debug(String.format("Creating sonar rest client for %s...", url));
         client = FeignFactory.build(url, user, password, SonarRestClient.class);
@@ -38,6 +39,7 @@ public class SonarAdapter {
         log.debug("Parsing project...");
         final Project project = Project.parse(ratings);
 
+        log.info("Sonar stats received");
         return new SonarStats(project, sonar, ratings, issues, duplications, tests);
     }
 
