@@ -12,6 +12,9 @@ public class ResourceResponse {
     private List<MsrResponse> msr;
 
     public String getVal(KeyMsr keyMsr) {
+        if (msr == null || msr.size() == 0) {
+            return null;
+        }
         for (final MsrResponse m : msr) {
             if (Objects.equals(m.getKey(), keyMsr.KEY)) {
                 return m.getVal();
@@ -21,6 +24,9 @@ public class ResourceResponse {
     }
 
     public String getFrmtVal(KeyMsr keyMsr) {
+        if (msr == null || msr.size() == 0) {
+            return null;
+        }
         for (final MsrResponse m : msr) {
             if (Objects.equals(m.getKey(), keyMsr.KEY)) {
                 return m.getFrmtVal();

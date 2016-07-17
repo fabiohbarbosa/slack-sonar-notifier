@@ -24,7 +24,7 @@ public class SonarAdapter {
         final String user = sonar.getUser();
         final String password = sonar.getPassword();
         final String key = sonar.getKey();
-        log.info(String.format("Trying to get sonar stats from %s", url));
+        log.info(String.format("Trying to get sonar stats of %s from %s", key, url));
 
         log.debug(String.format("Creating sonar rest client for %s...", url));
         client = FeignFactory.build(url, user, password, SonarRestClient.class);
