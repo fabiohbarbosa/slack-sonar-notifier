@@ -44,7 +44,11 @@ Acesse a URL: _https://(seu-canal).slack.com/apps/manage/custom-integrations_
 
 * **slack.webhook**: URL de webhook do slack
 
-* **slack.coverage**: Mínino de cobertura de testes exigida no sonar
+* **slack.onlyErrors**: Só notifica os erros no slack
+
+* **slack.coverage***: Mínino de cobertura de testes exigida no sonar
+
+* *Só tem utilidade quando a variável `slack.onlyErrors` estiver habilitada*
 
 ### 3. Execute o plugin
 ```bash
