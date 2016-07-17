@@ -32,8 +32,21 @@ Acesse a URL: _https://(seu-canal).slack.com/apps/manage/custom-integrations_
         </plugin>
     </plugins>
 </build>
-```
 
+```
+* **sonar.key**: Chave do projeto no sonar, podendo utilizar o `groupId:artifactId` do projeto, ou o id no sonar (entre no projeto no sonar e verifique o ID na url).
+
+* **sonar.url**: Url do sonar
+
+* **sonar.user**: Usuário para acesso ao sonar
+
+* **sonar.password**: Senha do usuário para acesso ao sonar
+
+* **slack.webhook**: URL de webhook do slack
+
+* **slack.coverage**: Mínino de cobertura de testes exigida no sonar
+
+### 3. Execute o plugin
 ```bash
 mvn sonar-notifier:sonar-notifier
 ```
@@ -48,7 +61,7 @@ Basta passar os dados de configurações como variáveis para a execução dos t
 
 Maven properties:
 
-* **sonar.project.key**: Chave do projeto no sonar, podendo utilizar o `groupId:artifactId` do projeto, ou o id no sonar (entre no projeto no sonar e verifique o ID na url).
+* **sonar.key**: Chave do projeto no sonar, podendo utilizar o `groupId:artifactId` do projeto, ou o id no sonar (entre no projeto no sonar e verifique o ID na url).
 
 * **sonar.url**: Url do sonar
 
