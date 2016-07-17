@@ -52,6 +52,7 @@ public class SlackAdapter {
         final Gson gson = new Gson();
         log.debug(gson.toJson(slackRequest));
 
+        // Remove slack url
         final String token = slack.getWebhook().split(SLACK_URL)[1];
 
         client = FeignFactory.build(SLACK_URL, SlackRestClient.class);
