@@ -3,7 +3,12 @@
 Plugin do Maven para notificar possíveis problemas relatados no Sonarqube em um canal do Slack (https://slack.com/)
 
 ## Usando o plugin
-Adicione o plugin do pom.xml
+### 1. Crie um _webhook_ no slack
+Crie um *Incoming WebHooks* no seu canal do Slack
+
+Acesse a URL: _https://(seu-canal).slack.com/apps/manage/custom-integrations_
+
+### 2. Adicione o plugin do pom.xml
 
 ```xml
 <build>
