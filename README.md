@@ -14,8 +14,8 @@ Acesse a URL: _https://(seu-canal).slack.com/apps/manage/custom-integrations_
 <build>
     <plugins>
         <plugin>
-            <groupId>br.com.gsw</groupId>
-            <artifactId>slack-pusher</artifactId>
+            <groupId>br.com.gsw.slack</groupId>
+            <artifactId>sonar-notifier</artifactId>
             <version>1.0-SNAPSHOT</version>
             <configuration>
                 <sonar>
