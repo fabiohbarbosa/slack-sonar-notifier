@@ -1,8 +1,9 @@
 package br.com.gsw.slack.sonar.notifier.slack.util;
 
+import br.com.gsw.slack.sonar.notifier.sonar.web.model.Color;
 import br.com.gsw.slack.sonar.notifier.sonar.web.model.KeyMsr;
 import br.com.gsw.slack.sonar.notifier.sonar.web.model.Severity;
-import br.com.gsw.slack.sonar.notifier.sonar.web.model.Color;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
 
 public class SlackMessageHelper {
@@ -22,19 +23,37 @@ public class SlackMessageHelper {
         return String.format("%s/component_issues?id=%s#resolved=false", sonarUrl, projectId);
     }
 
-    public static String issueUrl(final String sonarUrl, final String projectId, final Severity severity, final Integer totalIssues) {
-        return "<" + sonarUrl + "/component_issues?id=" + projectId + "#resolved=false%7Cseverities=" + severity.name() + "|" + WordUtils.capitalize(severity.name().toLowerCase()) + ">: " + totalIssues;
+    public static String issueUrl(final String sonarUrl, final String projectId, final Severity severity, final Integer value) {
+        Integer valueUrl = defaultValueInteger(value);
+        return "<" + sonarUrl + "/component_issues?id=" + projectId + "#resolved=false%7Cseverities=" + severity.name() + "|" + WordUtils.capitalize(severity.name().toLowerCase()) + ">: " + valueUrl;
     }
 
     public static String duplicatedUrl(final String sonarUrl, final String projectId, final KeyMsr keyKsr, final String value) {
-        return String.format("<%s/drilldown/measures/%s?metric=%s|%s>: %s", sonarUrl, projectId, keyKsr.KEY, keyKsr.TEXT, value);
+        return String.format("<%s/drilldown/measures/%s?metric=%s|%s>: %s", sonarUrl, projectId, keyKsr.KEY, keyKsr.TEXT, defaultValueString(value));
     }
 
-    public static String testsUrl(final String sonarUrl, final String projectId, final KeyMsr keyKsr, final String total) {
-        return String.format("<%s/drilldown/measures/%s?metric=%s|%s>: %s", sonarUrl, projectId, keyKsr.KEY, keyKsr.TEXT, total);
+    public static String testsUrl(final String sonarUrl, final String projectId, final KeyMsr keyKsr, final String value) {
+        return String.format("<%s/drilldown/measures/%s?metric=%s|%s>: %s", sonarUrl, projectId, keyKsr.KEY, keyKsr.TEXT, defaultValueString(value));
     }
 
     public static String ratingUrl(final String sonarUrl, final String projectId, final KeyMsr keyMsr, final String value) {
-        return String.format("<%s/drilldown/measures/%s?metric=%s|%s>: %s", sonarUrl, projectId, keyMsr.KEY, keyMsr.TEXT, value);
+        return String.format("<%s/drilldown/measures/%s?metric=%s|%s>: %s", sonarUrl, projectId, keyMsr.KEY, keyMsr.TEXT, defaultValueString(value));
     }
+
+    private static String defaultValueString(final String value) {
+        String valueUrl = value;
+        if (StringUtils.isEmpty(value)) {
+            valueUrl = "-";
+        }
+        return valueUrl;
+    }
+
+    private static Integer defaultValueInteger(final Integer value) {
+        Integer valueUrl = value;
+        if (value == null) {
+            valueUrl = 0;
+        }
+        return valueUrl;
+    }
+
 }
