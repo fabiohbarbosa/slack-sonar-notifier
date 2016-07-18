@@ -1,13 +1,13 @@
 package br.com.gsw.slack.sonar.notifier.sonar.adapter;
 
 import br.com.gsw.slack.sonar.notifier.plugin.factory.LogFactory;
+import br.com.gsw.slack.sonar.notifier.sonar.model.Project;
+import br.com.gsw.slack.sonar.notifier.sonar.model.Sonar;
 import br.com.gsw.slack.sonar.notifier.sonar.model.SonarStats;
 import br.com.gsw.slack.sonar.notifier.sonar.web.client.SonarRestClient;
 import br.com.gsw.slack.sonar.notifier.sonar.web.model.ResourceResponse;
 import br.com.gsw.slack.sonar.notifier.sonar.web.model.Severity;
 import br.com.gsw.slack.sonar.notifier.web.client.FeignFactory;
-import br.com.gsw.slack.sonar.notifier.sonar.model.Project;
-import br.com.gsw.slack.sonar.notifier.sonar.model.Sonar;
 import org.apache.maven.plugin.logging.Log;
 
 import java.util.HashMap;

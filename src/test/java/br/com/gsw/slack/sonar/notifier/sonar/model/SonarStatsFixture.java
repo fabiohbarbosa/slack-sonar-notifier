@@ -10,7 +10,7 @@ import java.util.Map;
 public class SonarStatsFixture {
     public static SonarStats newSonarStats() {
         final Project project = ProjectFixture.newProject();
-        final Sonar sonar = SonarFixture.newSonarAuth();
+        final Sonar sonar = SonarFixture.newSonarAuthEnv();
         final ResourceResponse ratings = ResourceResponseFixture.newRatings();
         final Map<Severity, Integer> issues = IssueResponseFixture.newIssues();
         final ResourceResponse duplications = ResourceResponseFixture.newDuplications();

@@ -4,6 +4,9 @@ import org.apache.commons.lang3.StringUtils;
 
 public class SlackFixture {
     public static Slack newSlack() {
+        return new Slack("slack.webhook", true, 60);
+    }
+    public static Slack newSlackEnv() {
         String webhook = System.getProperty("slack.webhook");
         String coverage = System.getProperty("slack.coverage");
 

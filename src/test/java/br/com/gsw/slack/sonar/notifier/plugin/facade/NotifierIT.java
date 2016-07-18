@@ -18,8 +18,8 @@ public class NotifierIT extends PrepareFactoryTests {
 
     @Test
     public void test() {
-        final Sonar sonar = SonarFixture.newSonarAuth();
-        final Slack slack = SlackFixture.newSlack();
+        final Sonar sonar = SonarFixture.newSonarAuthEnv();
+        final Slack slack = SlackFixture.newSlackEnv();
 
         notifier.start(sonar, slack);
     }
