@@ -12,6 +12,6 @@ public class SlackFixture {
             coverageInt = Integer.parseInt(coverage);
         }
 
-        return new Slack(webhook, coverageInt);
+        return new Slack(webhook, false, coverageInt);
     }
 }

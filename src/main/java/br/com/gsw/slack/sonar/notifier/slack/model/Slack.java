@@ -2,13 +2,15 @@ package br.com.gsw.slack.sonar.notifier.slack.model;
 
 public class Slack {
     private String webhook;
+    private Boolean onlyErrors;
     private Integer coverage;
 
     public Slack() {
     }
 
-    public Slack(final String webhook, final Integer coverage) {
+    public Slack(final String webhook, final Boolean onlyErrors, final Integer coverage) {
         this.webhook = webhook;
+        this.onlyErrors = onlyErrors;
         this.coverage = coverage;
     }
 
@@ -18,6 +20,14 @@ public class Slack {
 
     public void setWebhook(final String webhook) {
         this.webhook = webhook;
+    }
+
+    public Boolean getOnlyErrors() {
+        return onlyErrors;
+    }
+
+    public void setOnlyErrors(final Boolean onlyErrors) {
+        this.onlyErrors = onlyErrors;
     }
 
     public Integer getCoverage() {
