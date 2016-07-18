@@ -34,8 +34,8 @@ public class NotifierTest extends PrepareFactoryTests {
 
     @Test
     public void startSuccessTest() {
-        final Sonar sonar = SonarFixture.newSonarAuth();
-        final Slack slack = SlackFixture.newSlack();
+        final Sonar sonar = SonarFixture.newSonarAuthEnv();
+        final Slack slack = SlackFixture.newSlackEnv();
         final SonarStats sonarStats = SonarStatsFixture.newSonarStats();
 
         doReturn(sonarStats).when(sonarAdapter).adapter(sonar);

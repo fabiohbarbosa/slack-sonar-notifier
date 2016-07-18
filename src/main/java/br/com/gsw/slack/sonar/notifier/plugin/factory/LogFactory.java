@@ -5,6 +5,10 @@ import org.apache.maven.plugin.logging.Log;
 public class LogFactory {
     private static Log log;
 
+    private LogFactory() {
+        // block constructor
+    }
+
     public static void init(Log _log) {
         log = _log;
     }
