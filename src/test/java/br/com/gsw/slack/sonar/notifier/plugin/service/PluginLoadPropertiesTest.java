@@ -6,6 +6,7 @@ import br.com.gsw.slack.sonar.notifier.slack.model.Slack;
 import br.com.gsw.slack.sonar.notifier.slack.model.SlackFixture;
 import br.com.gsw.slack.sonar.notifier.sonar.model.Sonar;
 import br.com.gsw.slack.sonar.notifier.sonar.model.SonarFixture;
+import org.apache.maven.project.MavenProject;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -19,7 +20,7 @@ public class PluginLoadPropertiesTest extends PrepareFactoryTests {
     @Test
     public void sonarTestAllFieldsSet() {
         final Sonar sonar = SonarFixture.newSonar();
-        final Sonar sonarProp = loadProperties.sonar(sonar);
+        final Sonar sonarProp = loadProperties.sonar(sonar, MavenProjectFixture.newProject());
         assertEquals(sonar.getKey(), sonarProp.getKey());
         assertEquals(sonar.getUrl(), sonarProp.getUrl());
         assertEquals(sonar.getUser(), sonarProp.getUser());
@@ -28,7 +29,7 @@ public class PluginLoadPropertiesTest extends PrepareFactoryTests {
 
     @Test
     public void sonarTestNullSonarParam() {
-        assertNotNull(loadProperties.sonar(null));
+        assertNotNull(loadProperties.sonar(null, MavenProjectFixture.newProject()));
     }
 
     //~-- sonar.key
@@ -41,7 +42,7 @@ public class PluginLoadPropertiesTest extends PrepareFactoryTests {
         final String key = "sonar.key";
         System.setProperty("sonar.key", key);
 
-        final Sonar sonarProp = loadProperties.sonar(sonar);
+        final Sonar sonarProp = loadProperties.sonarKey(sonar, MavenProjectFixture.newProject());
         assertEquals(key, sonarProp.getKey());
         assertEquals(sonar.getUrl(), sonarProp.getUrl());
         assertEquals(sonar.getUser(), sonarProp.getUser());
@@ -57,8 +58,23 @@ public class PluginLoadPropertiesTest extends PrepareFactoryTests {
         final String key = "sonar.key";
         System.setProperty("sonar.key", key);
 
-        final Sonar sonarProp = loadProperties.sonar(sonar);
+        final Sonar sonarProp = loadProperties.sonarKey(sonar, MavenProjectFixture.newProject());
         assertEquals(key, sonarProp.getKey());
+        assertEquals(sonar.getUrl(), sonarProp.getUrl());
+        assertEquals(sonar.getUser(), sonarProp.getUser());
+        assertEquals(sonar.getPassword(), sonarProp.getPassword());
+    }
+
+    @Test
+    public void sonarTestNullKeyUsingProjectProperties() {
+        final Sonar sonar = SonarFixture.newSonar();
+        sonar.setKey(null);
+
+        System.setProperty("sonar.key", "");
+        final MavenProject mavenProject = MavenProjectFixture.newProject();
+
+        final Sonar sonarProp = loadProperties.sonarKey(sonar, mavenProject);
+        assertEquals(mavenProject.getGroupId()+":"+mavenProject.getArtifactId(), sonarProp.getKey());
         assertEquals(sonar.getUrl(), sonarProp.getUrl());
         assertEquals(sonar.getUser(), sonarProp.getUser());
         assertEquals(sonar.getPassword(), sonarProp.getPassword());
@@ -74,7 +90,7 @@ public class PluginLoadPropertiesTest extends PrepareFactoryTests {
         final String url = "sonar.url";
         System.setProperty("sonar.url", url);
 
-        final Sonar sonarProp = loadProperties.sonar(sonar);
+        final Sonar sonarProp = loadProperties.sonarUrl(sonar);
         assertEquals(sonar.getKey(), sonarProp.getKey());
         assertEquals(url, sonarProp.getUrl());
         assertEquals(sonar.getUser(), sonarProp.getUser());
@@ -90,7 +106,7 @@ public class PluginLoadPropertiesTest extends PrepareFactoryTests {
         final String url = "sonar.url";
         System.setProperty("sonar.url", url);
 
-        final Sonar sonarProp = loadProperties.sonar(sonar);
+        final Sonar sonarProp = loadProperties.sonarUrl(sonar);
         assertEquals(sonar.getKey(), sonarProp.getKey());
         assertEquals(url, sonarProp.getUrl());
         assertEquals(sonar.getUser(), sonarProp.getUser());
@@ -107,7 +123,7 @@ public class PluginLoadPropertiesTest extends PrepareFactoryTests {
         final String user = "sonar.user";
         System.setProperty("sonar.user", user);
 
-        final Sonar sonarProp = loadProperties.sonar(sonar);
+        final Sonar sonarProp = loadProperties.sonarUser(sonar);
         assertEquals(sonar.getKey(), sonarProp.getKey());
         assertEquals(sonar.getUrl(), sonarProp.getUrl());
         assertEquals(user, sonarProp.getUser());
@@ -123,7 +139,7 @@ public class PluginLoadPropertiesTest extends PrepareFactoryTests {
         final String user = "sonar.user";
         System.setProperty("sonar.user", user);
 
-        final Sonar sonarProp = loadProperties.sonar(sonar);
+        final Sonar sonarProp = loadProperties.sonarUser(sonar);
         assertEquals(sonar.getKey(), sonarProp.getKey());
         assertEquals(sonar.getUrl(), sonarProp.getUrl());
         assertEquals(user, sonarProp.getUser());
@@ -140,7 +156,7 @@ public class PluginLoadPropertiesTest extends PrepareFactoryTests {
         final String password = "sonar.password";
         System.setProperty("sonar.password", password);
 
-        final Sonar sonarProp = loadProperties.sonar(sonar);
+        final Sonar sonarProp = loadProperties.sonarPassword(sonar);
         assertEquals(sonar.getKey(), sonarProp.getKey());
         assertEquals(sonar.getUrl(), sonarProp.getUrl());
         assertEquals(sonar.getUser(), sonarProp.getUser());
@@ -156,7 +172,7 @@ public class PluginLoadPropertiesTest extends PrepareFactoryTests {
         final String password = "sonar.password";
         System.setProperty("sonar.password", password);
 
-        final Sonar sonarProp = loadProperties.sonar(sonar);
+        final Sonar sonarProp = loadProperties.sonarPassword(sonar);
         assertEquals(sonar.getKey(), sonarProp.getKey());
         assertEquals(sonar.getUrl(), sonarProp.getUrl());
         assertEquals(sonar.getUser(), sonarProp.getUser());
@@ -188,7 +204,7 @@ public class PluginLoadPropertiesTest extends PrepareFactoryTests {
         final String webhook = "slack.webhook";
         System.setProperty("slack.webhook", webhook);
 
-        final Slack slackProp = loadProperties.slack(slack);
+        final Slack slackProp = loadProperties.slackWebhook(slack);
         assertEquals(webhook, slackProp.getWebhook());
         assertEquals(slack.getOnlyErrors(), slackProp.getOnlyErrors());
         assertEquals(slack.getCoverage(), slackProp.getCoverage());
@@ -203,7 +219,7 @@ public class PluginLoadPropertiesTest extends PrepareFactoryTests {
         final String webhook = "slack.webhook";
         System.setProperty("slack.webhook", webhook);
 
-        final Slack slackProp = loadProperties.slack(slack);
+        final Slack slackProp = loadProperties.slackWebhook(slack);
         assertEquals(webhook, slackProp.getWebhook());
         assertEquals(slack.getOnlyErrors(), slackProp.getOnlyErrors());
         assertEquals(slack.getCoverage(), slackProp.getCoverage());
@@ -218,7 +234,7 @@ public class PluginLoadPropertiesTest extends PrepareFactoryTests {
         final String onlyErrors = "false";
         System.setProperty("slack.onlyErrors", onlyErrors);
 
-        final Slack slackProp = loadProperties.slack(slack);
+        final Slack slackProp = loadProperties.slackOnlyErrors(slack);
         assertEquals(slack.getWebhook(), slackProp.getWebhook());
         assertEquals(Boolean.parseBoolean(onlyErrors), slackProp.getOnlyErrors());
         assertEquals(slack.getCoverage(), slackProp.getCoverage());
@@ -233,7 +249,7 @@ public class PluginLoadPropertiesTest extends PrepareFactoryTests {
         final String coverage = "1";
         System.setProperty("slack.coverage", coverage);
 
-        final Slack slackProp = loadProperties.slack(slack);
+        final Slack slackProp = loadProperties.slackCoverage(slack);
         assertEquals(slack.getWebhook(), slackProp.getWebhook());
         assertEquals(slack.getOnlyErrors(), slackProp.getOnlyErrors());
         assertTrue(slackProp.getCoverage() == Integer.parseInt(coverage));
