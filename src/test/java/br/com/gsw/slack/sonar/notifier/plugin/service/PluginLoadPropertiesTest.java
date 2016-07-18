@@ -9,7 +9,7 @@ import br.com.gsw.slack.sonar.notifier.sonar.model.SonarFixture;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class PluginLoadPropertiesTest extends PrepareFactoryTests {
@@ -28,7 +28,7 @@ public class PluginLoadPropertiesTest extends PrepareFactoryTests {
 
     @Test
     public void sonarTestNullSonarParam() {
-        assertNull(loadProperties.sonar(null));
+        assertNotNull(loadProperties.sonar(null));
     }
 
     //~-- sonar.key
@@ -175,7 +175,7 @@ public class PluginLoadPropertiesTest extends PrepareFactoryTests {
 
     @Test
     public void slackTestNullSlackParam() {
-        assertNull(loadProperties.slack(null));
+        assertNotNull(loadProperties.slack(null));
     }
 
     //~-- slack.webhook

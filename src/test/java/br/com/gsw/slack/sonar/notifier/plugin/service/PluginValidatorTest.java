@@ -20,6 +20,11 @@ public class PluginValidatorTest extends PrepareFactoryTests {
         validator.sonar(SonarFixture.newSonar());
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void sonarTestNull() {
+        validator.sonar(null);
+    }
+
     @Test
     public void sonarTestNullKey() {
         final Sonar sonar = SonarFixture.newSonar();
@@ -72,6 +77,11 @@ public class PluginValidatorTest extends PrepareFactoryTests {
     @Test
     public void slackSuccessTest() {
         validator.slack(SlackFixture.newSlack());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void slackrTestNull() {
+        validator.slack(null);
     }
 
     @Test
