@@ -26,12 +26,9 @@ public class SlackSonarNotifierMojo extends AbstractMojo {
     @Parameter
     private Slack slack;
 
-    public SlackSonarNotifierMojo() {
-        LogFactory.init(getLog());
-    }
-
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
+        LogFactory.init(getLog());
         LOGGER = LogFactory.getInstance();
 
         LOGGER.info("------------------------------------------------------------------------");
