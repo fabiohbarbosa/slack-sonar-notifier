@@ -16,10 +16,10 @@ import org.apache.maven.plugins.annotations.Parameter;
         requiresProject = true,
         threadSafe = false)
 public class SlackSonarNotifierMojo extends AbstractMojo {
-    @Parameter(required = true)
+    @Parameter
     protected Sonar sonar;
 
-    @Parameter(required = true)
+    @Parameter
     protected Slack slack;
 
     private static Log LOGGER;
