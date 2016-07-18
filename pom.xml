@@ -24,7 +24,6 @@
         </developer>
     </developers>
 
-
     <dependencies>
         <dependency>
             <groupId>com.netflix.feign</groupId>
@@ -140,6 +139,11 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>br.com.gsw.slack</groupId>
+                <artifactId>sonar-notifier</artifactId>
+                <version>${project.version}</version>
             </plugin>
         </plugins>
     </build>
