@@ -53,8 +53,13 @@ Caso seu sonar esteja sem configuração de usuário e senha as propriedades`son
 * *Só tem utilidade quando a variável `slack.onlyErrors` estiver habilitada*
 
 ### 3. Execute o plugin
-```bash
+```sh
 mvn sonar-notifier:sonar-notifier
+```
+
+## Mais Informações sobre o plugin
+```sh
+mvn help:describe -Dplugin=sonar-notifier -Ddetail
 ```
 
 ---
@@ -84,7 +89,7 @@ Maven properties:
 Caso seu sonar esteja sem configuração de usuário e senha as propriedades`sonar.user` e `sonar.password` não são obrigatórias.
 
 Exemplo:
-```bash
+```sh
 mvn clean install \
 -Dsonar.project.key=br.com.gsw.slack:sonar-notifier-client \
 -Dsonar.url=http://sonarqube.gsw.com.br \
@@ -95,6 +100,6 @@ mvn clean install \
 ```
 
 #### Somente Testes Unitários
-```bash
+```sh
 mvn clean install -DskipITs
 ```
