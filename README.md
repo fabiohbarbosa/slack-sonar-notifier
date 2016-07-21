@@ -19,7 +19,7 @@ Acesse a URL: _https://(seu-canal).slack.com/apps/manage/custom-integrations_
             <version>1.0-SNAPSHOT</version>
             <configuration>
                 <sonar>
-                    <key>${groupId}:${artifactId}</key>
+                    <key>${project.groupId}:${project.artifactId}</key>
                     <url>http://sonarqube.gsw.com.br</url>
                     <user>sonaruser</user>
                     <password>sonarpass</password>
