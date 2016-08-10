@@ -23,10 +23,10 @@ Acesse a URL: _https://(seu-canal).slack.com/apps/manage/custom-integrations_
                     <url>http://sonarqube.gsw.com.br</url>
                     <user>sonaruser</user>
                     <password>sonarpass</password>
+                    <coverage>60</coverage>
                 </sonar>
                 <slack>
                     <webhook>https://hooks.slack.com/services/ASHDIU98/98173JOIJ/sv9RRmWpvTes2Oc3y5QeY54G</webhook>
-                    <coverage>60</coverage>
                 </slack>
             </configuration>
         </plugin>
@@ -42,11 +42,11 @@ Acesse a URL: _https://(seu-canal).slack.com/apps/manage/custom-integrations_
 
 * **sonar.password**: Senha do usuário para acesso ao sonar
 
+* **sonar.coverage***: Mínino de cobertura de testes exigida no sonar
+
 * **slack.webhook**: URL de webhook do slack
 
 * **slack.onlyErrors**: Só notifica os erros no slack
-
-* **slack.coverage***: Mínino de cobertura de testes exigida no sonar
 
 Caso seu sonar esteja sem configuração de usuário e senha as propriedades`sonar.user` e `sonar.password` não são obrigatórias.
 
@@ -82,21 +82,21 @@ Maven properties:
 
 * **sonar.password**: Senha do usuário para acesso ao sonar
 
-* **slack.webhook**: URL de webhook do slack
+* **sonar.coverage**: Mínino de cobertura de testes exigida no sonar
 
-* **slack.coverage**: Mínino de cobertura de testes exigida no sonar
+* **slack.webhook**: URL de webhook do slack
 
 Caso seu sonar esteja sem configuração de usuário e senha as propriedades`sonar.user` e `sonar.password` não são obrigatórias.
 
 Exemplo:
 ```sh
 mvn clean install \
--Dsonar.project.key=br.com.gsw.slack:sonar-notifier-client \
+-Dsonar.key=br.com.gsw.slack:sonar-notifier \
 -Dsonar.url=http://sonarqube.gsw.com.br \
 -Dsonar.user=sonaruser \
 -Dsonar.password=sonarpass \
+-Dsonar.coverage=60 \
 -Dslack.webhook=https://hooks.slack.com/services/ASHDIU98/98173JOIJ/sv9RRmWpvTes2Oc3y5QeY54G
--Dslack.coverage=60
 ```
 
 #### Somente Testes Unitários

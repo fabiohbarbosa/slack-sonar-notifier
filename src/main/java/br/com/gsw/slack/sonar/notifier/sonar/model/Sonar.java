@@ -5,15 +5,17 @@ public class Sonar {
     private String url;
     private String user;
     private String password;
+    private Integer coverage;
 
     public Sonar() {
     }
 
-    public Sonar(final String key, final String url, final String user, final String password) {
+    public Sonar(final String key, final String url, final String user, final String password, final Integer coverage) {
         this.key = key;
         this.url = url;
         this.user = user;
         this.password = password;
+        this.coverage = coverage;
     }
 
     public Sonar(final String key, final String url) {
@@ -53,6 +55,14 @@ public class Sonar {
         this.password = password;
     }
 
+    public Integer getCoverage() {
+        return coverage;
+    }
+
+    public void setCoverage(Integer coverage) {
+        this.coverage = coverage;
+    }
+
     @Override
     public String toString() {
         return "Sonar{" +
@@ -60,6 +70,7 @@ public class Sonar {
                 ", url='" + url + '\'' +
                 ", user='" + user + '\'' +
                 ", password='" + password + '\'' +
+                ", coverage='" + coverage + '\'' +
                 '}';
     }
 }

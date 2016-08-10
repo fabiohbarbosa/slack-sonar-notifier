@@ -9,9 +9,7 @@ import br.com.gsw.slack.sonar.notifier.sonar.model.SonarFixture;
 import org.apache.maven.project.MavenProject;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class PluginLoadPropertiesTest extends PrepareFactoryTests {
     private PluginLoadProperties loadProperties = PluginLoadPropertiesFactory.getInstance();
@@ -25,6 +23,7 @@ public class PluginLoadPropertiesTest extends PrepareFactoryTests {
         assertEquals(sonar.getUrl(), sonarProp.getUrl());
         assertEquals(sonar.getUser(), sonarProp.getUser());
         assertEquals(sonar.getPassword(), sonarProp.getPassword());
+        assertEquals(sonar.getCoverage(), sonarProp.getCoverage());
     }
 
     @Test
@@ -47,6 +46,7 @@ public class PluginLoadPropertiesTest extends PrepareFactoryTests {
         assertEquals(sonar.getUrl(), sonarProp.getUrl());
         assertEquals(sonar.getUser(), sonarProp.getUser());
         assertEquals(sonar.getPassword(), sonarProp.getPassword());
+        assertEquals(sonar.getCoverage(), sonarProp.getCoverage());
     }
 
     @Test
@@ -63,6 +63,7 @@ public class PluginLoadPropertiesTest extends PrepareFactoryTests {
         assertEquals(sonar.getUrl(), sonarProp.getUrl());
         assertEquals(sonar.getUser(), sonarProp.getUser());
         assertEquals(sonar.getPassword(), sonarProp.getPassword());
+        assertEquals(sonar.getCoverage(), sonarProp.getCoverage());
     }
 
     @Test
@@ -78,6 +79,7 @@ public class PluginLoadPropertiesTest extends PrepareFactoryTests {
         assertEquals(sonar.getUrl(), sonarProp.getUrl());
         assertEquals(sonar.getUser(), sonarProp.getUser());
         assertEquals(sonar.getPassword(), sonarProp.getPassword());
+        assertEquals(sonar.getCoverage(), sonarProp.getCoverage());
     }
 
     //~-- sonar.url
@@ -95,6 +97,7 @@ public class PluginLoadPropertiesTest extends PrepareFactoryTests {
         assertEquals(url, sonarProp.getUrl());
         assertEquals(sonar.getUser(), sonarProp.getUser());
         assertEquals(sonar.getPassword(), sonarProp.getPassword());
+        assertEquals(sonar.getCoverage(), sonarProp.getCoverage());
     }
 
     @Test
@@ -111,6 +114,7 @@ public class PluginLoadPropertiesTest extends PrepareFactoryTests {
         assertEquals(url, sonarProp.getUrl());
         assertEquals(sonar.getUser(), sonarProp.getUser());
         assertEquals(sonar.getPassword(), sonarProp.getPassword());
+        assertEquals(sonar.getCoverage(), sonarProp.getCoverage());
     }
 
     //~-- sonar.user
@@ -128,6 +132,7 @@ public class PluginLoadPropertiesTest extends PrepareFactoryTests {
         assertEquals(sonar.getUrl(), sonarProp.getUrl());
         assertEquals(user, sonarProp.getUser());
         assertEquals(sonar.getPassword(), sonarProp.getPassword());
+        assertEquals(sonar.getCoverage(), sonarProp.getCoverage());
     }
 
     @Test
@@ -144,6 +149,7 @@ public class PluginLoadPropertiesTest extends PrepareFactoryTests {
         assertEquals(sonar.getUrl(), sonarProp.getUrl());
         assertEquals(user, sonarProp.getUser());
         assertEquals(sonar.getPassword(), sonarProp.getPassword());
+        assertEquals(sonar.getCoverage(), sonarProp.getCoverage());
     }
 
     //~-- sonar.password
@@ -161,6 +167,7 @@ public class PluginLoadPropertiesTest extends PrepareFactoryTests {
         assertEquals(sonar.getUrl(), sonarProp.getUrl());
         assertEquals(sonar.getUser(), sonarProp.getUser());
         assertEquals(password, sonarProp.getPassword());
+        assertEquals(sonar.getCoverage(), sonarProp.getCoverage());
     }
 
     @Test
@@ -177,6 +184,24 @@ public class PluginLoadPropertiesTest extends PrepareFactoryTests {
         assertEquals(sonar.getUrl(), sonarProp.getUrl());
         assertEquals(sonar.getUser(), sonarProp.getUser());
         assertEquals(password, sonarProp.getPassword());
+        assertEquals(sonar.getCoverage(), sonarProp.getCoverage());
+    }
+
+    //~-- sonar.coverage
+    @Test
+    public void slackTestNullCoverage() {
+        final Sonar sonar = SonarFixture.newSonarAuthEnv();
+        sonar.setCoverage(null);
+
+        // set property
+        final String coverage = "1";
+        System.setProperty("sonar.coverage", coverage);
+
+        final Sonar sonarProp = loadProperties.sonarCoverage(sonar);
+        assertEquals(sonar.getKey(), sonarProp.getKey());
+        assertEquals(sonar.getUrl(), sonarProp.getUrl());
+        assertEquals(sonar.getUser(), sonarProp.getUser());
+        assertTrue(sonarProp.getCoverage() == Integer.parseInt(coverage));
     }
 
     //~-- all slack keys
@@ -186,7 +211,6 @@ public class PluginLoadPropertiesTest extends PrepareFactoryTests {
         final Slack slackProp = loadProperties.slack(slack);
         assertEquals(slack.getWebhook(), slackProp.getWebhook());
         assertEquals(slack.getOnlyErrors(), slackProp.getOnlyErrors());
-        assertEquals(slack.getCoverage(), slackProp.getCoverage());
     }
 
     @Test
@@ -207,7 +231,6 @@ public class PluginLoadPropertiesTest extends PrepareFactoryTests {
         final Slack slackProp = loadProperties.slackWebhook(slack);
         assertEquals(webhook, slackProp.getWebhook());
         assertEquals(slack.getOnlyErrors(), slackProp.getOnlyErrors());
-        assertEquals(slack.getCoverage(), slackProp.getCoverage());
     }
 
     @Test
@@ -222,7 +245,6 @@ public class PluginLoadPropertiesTest extends PrepareFactoryTests {
         final Slack slackProp = loadProperties.slackWebhook(slack);
         assertEquals(webhook, slackProp.getWebhook());
         assertEquals(slack.getOnlyErrors(), slackProp.getOnlyErrors());
-        assertEquals(slack.getCoverage(), slackProp.getCoverage());
     }
 
     @Test
@@ -237,21 +259,6 @@ public class PluginLoadPropertiesTest extends PrepareFactoryTests {
         final Slack slackProp = loadProperties.slackOnlyErrors(slack);
         assertEquals(slack.getWebhook(), slackProp.getWebhook());
         assertEquals(Boolean.parseBoolean(onlyErrors), slackProp.getOnlyErrors());
-        assertEquals(slack.getCoverage(), slackProp.getCoverage());
     }
 
-    @Test
-    public void slackTestNullCoverage() {
-        final Slack slack = SlackFixture.newSlackEnv();
-        slack.setCoverage(null);
-
-        // set property
-        final String coverage = "1";
-        System.setProperty("slack.coverage", coverage);
-
-        final Slack slackProp = loadProperties.slackCoverage(slack);
-        assertEquals(slack.getWebhook(), slackProp.getWebhook());
-        assertEquals(slack.getOnlyErrors(), slackProp.getOnlyErrors());
-        assertTrue(slackProp.getCoverage() == Integer.parseInt(coverage));
-    }
 }

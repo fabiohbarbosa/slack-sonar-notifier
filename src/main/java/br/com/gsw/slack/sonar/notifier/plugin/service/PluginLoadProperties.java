@@ -11,11 +11,12 @@ import static org.apache.commons.lang3.StringUtils.isEmpty;
 public class PluginLoadProperties {
     private static final Log LOGGER = LogFactory.getInstance();
 
+    //-- sonar
     public Sonar sonar(Sonar sonar, final MavenProject mavenProject) {
         if (sonar == null) {
             sonar = new Sonar();
         }
-        Sonar sonarProp = new Sonar(sonar.getKey(), sonar.getUrl(), sonar.getUser(),sonar.getPassword());
+        Sonar sonarProp = new Sonar(sonar.getKey(), sonar.getUrl(), sonar.getUser(),sonar.getPassword(), sonar.getCoverage());
         LOGGER.debug("Sonar properties");
         LOGGER.debug(sonarProp.toString());
 
@@ -23,6 +24,7 @@ public class PluginLoadProperties {
         sonarProp = sonarUrl(sonarProp);
         sonarProp = sonarUser(sonarProp);
         sonarProp = sonarPassword(sonarProp);
+        sonarProp = sonarCoverage(sonarProp);
 
         return sonarProp;
     }
@@ -75,27 +77,27 @@ public class PluginLoadProperties {
         return sonarProp;
     }
 
+    protected Sonar sonarCoverage(final Sonar sonarProp) {
+        if (sonarProp.getCoverage() == null) {
+            LOGGER.debug(String.format("Load %s from property", "sonar.coverage"));
+            final String property = System.getProperty("sonar.coverage");
+            if (!isEmpty(property)) {
+                sonarProp.setCoverage(Integer.parseInt(property));
+            }
+        }
+        return sonarProp;
+    }
+
+    //-- slack
     public Slack slack(Slack slack) {
         if (slack == null) {
             slack = new Slack();
         }
 
-        final Slack slackProp = new Slack(slack.getWebhook(), slack.getOnlyErrors(), slack.getCoverage());
+        final Slack slackProp = new Slack(slack.getWebhook(), slack.getOnlyErrors());
         slackWebhook(slackProp);
         slackOnlyErrors(slackProp);
-        slackCoverage(slackProp);
 
-        return slackProp;
-    }
-
-    protected Slack slackCoverage(final Slack slackProp) {
-        if (slackProp.getCoverage() == null) {
-            LOGGER.debug(String.format("Load %s from property", "slack.coverage"));
-            final String property = System.getProperty("slack.coverage");
-            if (!isEmpty(property)) {
-                slackProp.setCoverage(Integer.parseInt(property));
-            }
-        }
         return slackProp;
     }
 
