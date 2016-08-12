@@ -38,7 +38,7 @@ public class SlackSonarNotifierMojo extends AbstractMojo {
         log.info("------------------------------------------------------------------------");
 
         if (skipNotifier) {
-            log.info("Slack Sonar Notifier Plugin are skipped.");
+            log.info("Slack Sonar Notifier Plugin is skipped.");
             return;
         }
 
