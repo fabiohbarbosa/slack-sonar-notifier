@@ -1,5 +1,6 @@
 package br.com.gsw.slack.sonar.notifier.sonar.web.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -93,5 +94,12 @@ public class ResourceResponse {
                 ", description='" + description + '\'' +
                 ", msr=" + msr +
                 '}';
+    }
+
+    public void addMsr(final KeyMsr keyMsr, final String val, final String frmtVal) {
+        if (msr == null) {
+            msr = new ArrayList<>();
+        }
+        msr.add(new MsrResponse(keyMsr.KEY, val, frmtVal));
     }
 }

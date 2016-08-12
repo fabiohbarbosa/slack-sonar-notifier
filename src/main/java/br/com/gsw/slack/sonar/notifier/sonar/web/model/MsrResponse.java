@@ -8,6 +8,16 @@ public class MsrResponse {
     @SerializedName("frmt_val")
     private String frmtVal;
 
+    public MsrResponse() {
+
+    }
+
+    public MsrResponse(final String key, final String val, final String frmtVal) {
+        this.key = key;
+        this.val = val;
+        this.frmtVal = frmtVal;
+    }
+
     public String getKey() {
         return key;
     }
