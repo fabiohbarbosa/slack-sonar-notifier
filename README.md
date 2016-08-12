@@ -39,7 +39,7 @@ Acesse a URL: _https://(seu-canal).slack.com/apps/manage/custom-integrations_
 ```
 * **skipNotifier**: Não executar o plugin
 
-* **skipNotifier**: Quebrar a execução do plugin caso seja encontrado erros no sonar
+* **breakNotifier**: Quebrar a execução do plugin caso seja encontrado erros no sonar
 
 * **sonar.key**: Chave do projeto no sonar, podendo utilizar o `groupId:artifactId` do projeto, ou o id no sonar (entre no projeto no sonar e verifique o ID na url).
 
