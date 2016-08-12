@@ -18,6 +18,7 @@ Acesse a URL: _https://(seu-canal).slack.com/apps/manage/custom-integrations_
             <artifactId>sonar-notifier</artifactId>
             <version>1.0-SNAPSHOT</version>
             <configuration>
+                <skipNotifier>false</skipNotifier>
                 <sonar>
                     <key>${project.groupId}:${project.artifactId}</key>
                     <url>http://sonarqube.gsw.com.br</url>
@@ -35,6 +36,8 @@ Acesse a URL: _https://(seu-canal).slack.com/apps/manage/custom-integrations_
 </build>
 
 ```
+* **skipNotifier**: Não executar o plugin
+
 * **sonar.key**: Chave do projeto no sonar, podendo utilizar o `groupId:artifactId` do projeto, ou o id no sonar (entre no projeto no sonar e verifique o ID na url).
 
 * **sonar.url**: Url do sonar
