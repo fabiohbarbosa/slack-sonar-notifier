@@ -12,9 +12,9 @@ import br.com.gsw.slack.sonar.notifier.web.client.FeignFactory;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.logging.Log;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class SonarAdapter {
     private static final Log LOGGER = LogFactory.getInstance();
@@ -59,7 +59,7 @@ public class SonarAdapter {
     protected Map<Severity, Integer> adapterIssues(final String key) {
         LOGGER.debug("Find sonar issues...");
 
-        final Map<Severity, Integer> issues = new HashMap<>();
+        final Map<Severity, Integer> issues = new ConcurrentHashMap<>();
         final Integer blocker = client.issues(Severity.BLOCKER, key).getTotal();
         final Integer critical = client.issues(Severity.CRITICAL, key).getTotal();
         final Integer major = client.issues(Severity.MAJOR, key).getTotal();
@@ -104,7 +104,7 @@ public class SonarAdapter {
 
         if (tests != null && tests.size() == 1) {
             final ResourceResponse test = tests.get(0);
-            normalizeAdapterTestsValue(test);
+            normalize(test);
             return test;
         }
         if (tests != null && tests.size() > 1) {
@@ -115,23 +115,39 @@ public class SonarAdapter {
         return null;
     }
 
-    private void normalizeAdapterTestsValue(final ResourceResponse test) {
+    private void normalize(final ResourceResponse test) {
+        normalizeTotal(test);
+        normalizeErrors(test);
+        normalizeFailures(test);
+        normalizeCoverage(test);
+        normalizeSuccess(test);
+    }
+
+    private void normalizeTotal(final ResourceResponse test) {
         if (StringUtils.isEmpty(test.getFrmtVal(KeyMsr.TESTS_TOTAL)) || StringUtils.isEmpty(test.getVal(KeyMsr.TESTS_TOTAL))) {
             test.addMsr(KeyMsr.TESTS_TOTAL, "0", "0");
         }
+    }
 
+    private void normalizeErrors(final ResourceResponse test) {
         if (StringUtils.isEmpty(test.getFrmtVal(KeyMsr.TESTS_ERROR)) || StringUtils.isEmpty(test.getVal(KeyMsr.TESTS_ERROR))) {
             test.addMsr(KeyMsr.TESTS_ERROR, "0", "0");
         }
+    }
 
+    private void normalizeFailures(final ResourceResponse test) {
         if (StringUtils.isEmpty(test.getFrmtVal(KeyMsr.TESTS_FAILURES)) || StringUtils.isEmpty(test.getVal(KeyMsr.TESTS_FAILURES))) {
             test.addMsr(KeyMsr.TESTS_FAILURES, "0", "0");
         }
+    }
 
+    private void normalizeCoverage(final ResourceResponse test) {
         if (StringUtils.isEmpty(test.getFrmtVal(KeyMsr.COVERAGE)) || StringUtils.isEmpty(test.getVal(KeyMsr.COVERAGE))) {
             test.addMsr(KeyMsr.COVERAGE, "0.0", "0.0%");
         }
+    }
 
+    private void normalizeSuccess(final ResourceResponse test) {
         if (StringUtils.isEmpty(test.getFrmtVal(KeyMsr.TESTS_SUCCESS)) || StringUtils.isEmpty(test.getVal(KeyMsr.TESTS_SUCCESS))) {
             test.addMsr(KeyMsr.TESTS_SUCCESS, "0.0", "0.0%");
         }
