@@ -5,6 +5,7 @@ import br.com.gsw.slack.sonar.notifier.slack.adapter.SlackAdapter;
 import br.com.gsw.slack.sonar.notifier.slack.factory.SlackAdapterFactory;
 import br.com.gsw.slack.sonar.notifier.slack.factory.SlackPusherFactory;
 import br.com.gsw.slack.sonar.notifier.slack.model.Slack;
+import br.com.gsw.slack.sonar.notifier.slack.service.SlackPusher;
 import br.com.gsw.slack.sonar.notifier.slack.web.model.SlackRequest;
 import br.com.gsw.slack.sonar.notifier.sonar.adapter.SonarAdapter;
 import br.com.gsw.slack.sonar.notifier.sonar.factory.OnlyErrorsFilterFactory;
@@ -12,7 +13,6 @@ import br.com.gsw.slack.sonar.notifier.sonar.factory.SonarAdapterFactory;
 import br.com.gsw.slack.sonar.notifier.sonar.model.Sonar;
 import br.com.gsw.slack.sonar.notifier.sonar.model.SonarStats;
 import br.com.gsw.slack.sonar.notifier.sonar.service.OnlyErrorsFilter;
-import br.com.gsw.slack.sonar.notifier.slack.service.SlackPusher;
 import org.apache.maven.plugin.logging.Log;
 
 public class Notifier {
@@ -37,6 +37,6 @@ public class Notifier {
             slackPusher.slackPusher(slack, slackRequest);
             return;
         }
-        LOGGER.info("Not found errors on Sonarqube :-)");
+        LOGGER.info(String.format("Not found errors in project %s", sonarStats.getProject().getName()));
     }
 }
