@@ -32,6 +32,7 @@ public class Slack {
     public String toString() {
         return "Slack{" +
                 "webhook='" + webhook + '\'' +
+                "onlyErrors='" + onlyErrors + '\'' +
                 '}';
     }
 }

@@ -27,6 +27,7 @@ Acesse a URL: _https://(seu-canal).slack.com/apps/manage/custom-integrations_
                 </sonar>
                 <slack>
                     <webhook>https://hooks.slack.com/services/ASHDIU98/98173JOIJ/sv9RRmWpvTes2Oc3y5QeY54G</webhook>
+                    <onlyErrors>true</onlyErrors>
                 </slack>
             </configuration>
         </plugin>

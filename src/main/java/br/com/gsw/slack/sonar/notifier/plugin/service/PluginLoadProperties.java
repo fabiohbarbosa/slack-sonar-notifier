@@ -107,7 +107,7 @@ public class PluginLoadProperties {
             LOGGER.debug(String.format("Load %s from property", "slack.onlyErrors"));
             final String property = System.getProperty("slack.onlyErrors");
             if (!isEmpty(property)) {
-                slackProp.setOnlyErrors(Boolean.valueOf(System.getProperty("slack.onlyErrors")));
+                slackProp.setOnlyErrors(Boolean.valueOf(property));
             }
         }
         return slackProp;
@@ -118,7 +118,7 @@ public class PluginLoadProperties {
             LOGGER.debug(String.format("Load %s from property", "slack.webhook"));
             final String property = System.getProperty("slack.webhook");
             if (!isEmpty(property)) {
-                slackProp.setWebhook(System.getProperty("slack.webhook"));
+                slackProp.setWebhook(property);
             }
         }
         return slackProp;

@@ -2,8 +2,8 @@ package br.com.gsw.slack.sonar.notifier.plugin.facade;
 
 import br.com.gsw.slack.sonar.notifier.plugin.factory.LogFactory;
 import br.com.gsw.slack.sonar.notifier.slack.adapter.SlackRequestAdapter;
-import br.com.gsw.slack.sonar.notifier.slack.factory.SlackRequestAdapterFactory;
 import br.com.gsw.slack.sonar.notifier.slack.factory.SlackPusherFactory;
+import br.com.gsw.slack.sonar.notifier.slack.factory.SlackRequestAdapterFactory;
 import br.com.gsw.slack.sonar.notifier.slack.model.Slack;
 import br.com.gsw.slack.sonar.notifier.slack.service.SlackPusher;
 import br.com.gsw.slack.sonar.notifier.slack.web.model.SlackRequest;
@@ -23,12 +23,12 @@ public class Notifier {
     private SlackPusher slackPusher = SlackPusherFactory.getInstance();
     private OnlyErrorsFilter onlyErrorsFilter = OnlyErrorsFilterFactory.getInstance();
 
-    public void start(final Sonar sonar, final Slack slack, final boolean onlyErrors) {
+    public void start(final Sonar sonar, final Slack slack) {
         LOGGER.debug("Starting notifier...");
 
         SonarStats sonarStats = sonarAdapter.adapter(sonar);
 
-        if (onlyErrors) {
+        if (slack.getOnlyErrors() != null && slack.getOnlyErrors()) {
             sonarStats = onlyErrorsFilter.filter(sonarStats, sonar.getCoverage());
         }
 

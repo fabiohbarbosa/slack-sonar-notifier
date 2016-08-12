@@ -4,6 +4,7 @@ import br.com.gsw.slack.sonar.notifier.PrepareFactoryTests;
 import br.com.gsw.slack.sonar.notifier.slack.adapter.SlackRequestAdapter;
 import br.com.gsw.slack.sonar.notifier.slack.model.Slack;
 import br.com.gsw.slack.sonar.notifier.slack.model.SlackFixture;
+import br.com.gsw.slack.sonar.notifier.slack.service.SlackPusher;
 import br.com.gsw.slack.sonar.notifier.slack.web.model.SlackRequest;
 import br.com.gsw.slack.sonar.notifier.slack.web.model.SlackRequestFixture;
 import br.com.gsw.slack.sonar.notifier.sonar.adapter.SonarAdapter;
@@ -12,7 +13,6 @@ import br.com.gsw.slack.sonar.notifier.sonar.model.SonarFixture;
 import br.com.gsw.slack.sonar.notifier.sonar.model.SonarStats;
 import br.com.gsw.slack.sonar.notifier.sonar.model.SonarStatsFixture;
 import br.com.gsw.slack.sonar.notifier.sonar.service.OnlyErrorsFilter;
-import br.com.gsw.slack.sonar.notifier.slack.service.SlackPusher;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -43,7 +43,7 @@ public class NotifierTest extends PrepareFactoryTests {
     @Test
     public void startSuccessOnlyErrorsTrue() {
         final Sonar sonar = SonarFixture.newSonarAuthEnv();
-        final Slack slack = SlackFixture.newSlackEnv();
+        final Slack slack = SlackFixture.newSlackEnv(true);
         final SonarStats sonarStats = SonarStatsFixture.newSonarStats();
         final SlackRequest slackRequest = SlackRequestFixture.newSlackRequest();
 
@@ -51,7 +51,7 @@ public class NotifierTest extends PrepareFactoryTests {
         doReturn(sonarStats).when(onlyErrorsFilter).filter(sonarStats, sonar.getCoverage());
         doReturn(slackRequest).when(slackRequestAdapter).adapter(sonarStats);
 
-        notifier.start(sonar, slack, true);
+        notifier.start(sonar, slack);
 
         verify(sonarAdapter, times(1)).adapter(sonar);
         verify(onlyErrorsFilter, times(1)).filter(sonarStats, sonar.getCoverage());
@@ -62,33 +62,51 @@ public class NotifierTest extends PrepareFactoryTests {
     @Test
     public void startSuccessOnlyErrorsFalse() {
         final Sonar sonar = SonarFixture.newSonarAuthEnv();
-        final Slack slack = SlackFixture.newSlackEnv();
+        final Slack slack = SlackFixture.newSlackEnv(false);
         final SonarStats sonarStats = SonarStatsFixture.newSonarStats();
         final SlackRequest slackRequest = SlackRequestFixture.newSlackRequest();
 
         doReturn(sonarStats).when(sonarAdapter).adapter(sonar);
         doReturn(slackRequest).when(slackRequestAdapter).adapter(sonarStats);
 
-        notifier.start(sonar, slack, false);
+        notifier.start(sonar, slack);
 
         verify(sonarAdapter, times(1)).adapter(sonar);
         verify(onlyErrorsFilter, times(0)).filter(sonarStats, sonar.getCoverage());
         verify(slackRequestAdapter, times(1)).adapter(sonarStats);
         verify(slackPusher, times(1)).slackPusher(slack, slackRequest);
-
     }
+
+    @Test
+    public void startSuccessOnlyErrorsNull() {
+        final Sonar sonar = SonarFixture.newSonarAuthEnv();
+        final Slack slack = SlackFixture.newSlackEnv(null);
+        final SonarStats sonarStats = SonarStatsFixture.newSonarStats();
+        final SlackRequest slackRequest = SlackRequestFixture.newSlackRequest();
+
+        doReturn(sonarStats).when(sonarAdapter).adapter(sonar);
+        doReturn(slackRequest).when(slackRequestAdapter).adapter(sonarStats);
+
+        notifier.start(sonar, slack);
+
+        verify(sonarAdapter, times(1)).adapter(sonar);
+        verify(onlyErrorsFilter, times(0)).filter(sonarStats, sonar.getCoverage());
+        verify(slackRequestAdapter, times(1)).adapter(sonarStats);
+        verify(slackPusher, times(1)).slackPusher(slack, slackRequest);
+    }
+
 
     @Test
     public void startSucessNotCallSlackPusherToNullSlackRequest() {
         final Sonar sonar = SonarFixture.newSonarAuthEnv();
-        final Slack slack = SlackFixture.newSlackEnv();
+        final Slack slack = SlackFixture.newSlackEnv(false);
         final SonarStats sonarStats = SonarStatsFixture.newSonarStats();
 
         doReturn(sonarStats).when(sonarAdapter).adapter(sonar);
         doReturn(sonarStats).when(onlyErrorsFilter).filter(sonarStats, sonar.getCoverage());
         doReturn(null).when(slackRequestAdapter).adapter(sonarStats);
 
-        notifier.start(sonar, slack, false);
+        notifier.start(sonar, slack);
 
         verify(sonarAdapter, times(1)).adapter(sonar);
         verify(onlyErrorsFilter, times(0)).filter(sonarStats, sonar.getCoverage());
