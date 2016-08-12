@@ -15,8 +15,7 @@ import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.eclipse.sisu.Parameters;
 
-@Mojo(name = "sonar-notifier",
-        requiresOnline = true)
+@Mojo(name = "sonar-notifier",  requiresOnline = true)
 public class SlackSonarNotifierMojo extends AbstractMojo {
     private static Log LOGGER;
 
@@ -29,7 +28,7 @@ public class SlackSonarNotifierMojo extends AbstractMojo {
     @Parameter(defaultValue = "${project}")
     private MavenProject mavenProject;
 
-    @Parameter(defaultValue = "${onlyErrors}")
+    @Parameter(defaultValue = "false", property = "onlyErrors")
     private boolean onlyErrors;
 
     @Override
