@@ -12,9 +12,6 @@ public class Attachment {
     private String color;
     private List<Field> fields;
 
-    public Attachment() {
-    }
-
     public void addField(Field field) {
         if (fields == null) {
             fields = new ArrayList<>();

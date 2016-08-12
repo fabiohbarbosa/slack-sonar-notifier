@@ -1,10 +1,10 @@
 package br.com.gsw.slack.sonar.notifier.sonar.web.model;
 
 public class ResourceResponseFixture {
-    public static ResourceResponse newRatings(final String sqale) {
+    public static ResourceResponse newRatings(final SqaleRating sqaleRating) {
         final ResourceResponse resource = new ResourceResponse();
         resourcesDefault(resource);
-        resource.setMsr(MsrResponseFixture.newRatings(sqale));
+        resource.setMsr(MsrResponseFixture.newRatings(sqaleRating.name()));
         return resource;
     }
 

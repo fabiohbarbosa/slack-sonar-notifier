@@ -159,6 +159,9 @@
                 <sonar.java.codeCoveragePlugin>jacoco</sonar.java.codeCoveragePlugin>
                 <sonar.language>java</sonar.language>
                 <sonar.sourceEncoding>UTF-8</sonar.sourceEncoding>
+                <sonar.exclusion>
+                    **/HelpMojo.java
+                </sonar.exclusion>
                 <jacoco.version>0.7.5.201505241946</jacoco.version>
             </properties>
 

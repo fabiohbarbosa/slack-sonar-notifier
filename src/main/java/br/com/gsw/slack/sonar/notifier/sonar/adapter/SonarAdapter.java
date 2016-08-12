@@ -119,6 +119,7 @@ public class SonarAdapter {
         normalizeTotal(test);
         normalizeErrors(test);
         normalizeFailures(test);
+        normalizeSkipped(test);
         normalizeCoverage(test);
         normalizeSuccess(test);
     }
@@ -138,6 +139,12 @@ public class SonarAdapter {
     private void normalizeFailures(final ResourceResponse test) {
         if (StringUtils.isEmpty(test.getFrmtVal(KeyMsr.TESTS_FAILURES)) || StringUtils.isEmpty(test.getVal(KeyMsr.TESTS_FAILURES))) {
             test.addMsr(KeyMsr.TESTS_FAILURES, "0", "0");
+        }
+    }
+
+    private void normalizeSkipped(final ResourceResponse test) {
+        if (StringUtils.isEmpty(test.getFrmtVal(KeyMsr.TESTS_SKIPPED)) || StringUtils.isEmpty(test.getVal(KeyMsr.TESTS_SKIPPED))) {
+            test.addMsr(KeyMsr.TESTS_SKIPPED, "0", "0");
         }
     }
 

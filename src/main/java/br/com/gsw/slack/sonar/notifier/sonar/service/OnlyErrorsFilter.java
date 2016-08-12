@@ -5,6 +5,7 @@ import br.com.gsw.slack.sonar.notifier.sonar.model.SonarStats;
 import br.com.gsw.slack.sonar.notifier.sonar.web.model.KeyMsr;
 import br.com.gsw.slack.sonar.notifier.sonar.web.model.ResourceResponse;
 import br.com.gsw.slack.sonar.notifier.sonar.web.model.Severity;
+import br.com.gsw.slack.sonar.notifier.sonar.web.model.SqaleRating;
 import org.apache.maven.plugin.logging.Log;
 
 import java.util.Map;
@@ -30,7 +31,7 @@ public class OnlyErrorsFilter {
             LOGGER.debug("Ratings not found to filter!");
             return null;
         }
-        if (ratings.getFrmtVal(KeyMsr.SQALE_RATING).equals("A")) {
+        if (ratings.getFrmtVal(KeyMsr.SQALE_RATING).equals(SqaleRating.A.name())) {
             LOGGER.debug("Filter removing ratings because not found problems!");
             return null;
         }
@@ -67,7 +68,7 @@ public class OnlyErrorsFilter {
         return duplications;
     }
 
-    protected ResourceResponse filterTests(final ResourceResponse tests, Double coverage) {
+    protected ResourceResponse filterTests(final ResourceResponse tests, final Double coverage) {
         LOGGER.debug("Filter tests...");
 
         if (tests == null || tests.getMsr() == null || tests.getMsr().size() == 0) {
@@ -80,22 +81,26 @@ public class OnlyErrorsFilter {
         final Integer failures = Integer.parseInt(tests.getFrmtVal(KeyMsr.TESTS_FAILURES));
         final Double testsCoverage = Double.parseDouble(tests.getVal(KeyMsr.COVERAGE));
 
-        boolean analsysCoverage = false;
-        if (coverage != null) {
-            LOGGER.debug(String.format("Coverage in project is %s and compare to %s", testsCoverage, coverage));
-            if (testsCoverage >= coverage) {
-                LOGGER.debug("Filter removing tests because not found problems!");
-                analsysCoverage = true;
-            }
-        } else {
-            analsysCoverage = true;
-        }
+        final boolean analsysCoverage = verifyCoverage(testsCoverage, coverage);
 
         if (analsysCoverage && error == 0 && skipped == 0 && failures == 0) {
             LOGGER.debug("Filter removing tests because not found problems!");
             return null;
         }
         return tests;
+    }
+
+    private boolean verifyCoverage(final Double testsCoverage, final Double coverage) {
+        if (coverage == null) {
+            LOGGER.debug("Ignore coverage validation!");
+            return true;
+        }
+        LOGGER.debug(String.format("Coverage in project is %s and compare to %s", testsCoverage, coverage));
+        if (testsCoverage >= coverage) {
+            LOGGER.debug("Filter removing tests because not found problems!");
+            return true;
+        }
+        return false;
     }
 }
 

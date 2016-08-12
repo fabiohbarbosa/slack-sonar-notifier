@@ -50,7 +50,7 @@ public class OnlyErrorsFilterTest extends PrepareFactoryTests {
 
     @Test
     public void removeRatingForNullMsrValue() {
-        final ResourceResponse ratings = ResourceResponseFixture.newRatings("A");
+        final ResourceResponse ratings = ResourceResponseFixture.newRatings(SqaleRating.A);
         ratings.setMsr(null);
 
         assertEquals(null, filter.filterRating(ratings));
@@ -58,7 +58,7 @@ public class OnlyErrorsFilterTest extends PrepareFactoryTests {
 
     @Test
     public void removeRatingForEmptyMsrValue() {
-        final ResourceResponse ratings = ResourceResponseFixture.newRatings("A");
+        final ResourceResponse ratings = ResourceResponseFixture.newRatings(SqaleRating.A);
         ratings.setMsr(new ArrayList<MsrResponse>());
 
         assertEquals(null, filter.filterRating(ratings));
@@ -66,13 +66,13 @@ public class OnlyErrorsFilterTest extends PrepareFactoryTests {
 
     @Test
     public void removeRatingForAValue() {
-        final ResourceResponse ratings = ResourceResponseFixture.newRatings("A");
+        final ResourceResponse ratings = ResourceResponseFixture.newRatings(SqaleRating.A);
         assertEquals(null, filter.filterRating(ratings));
     }
 
     @Test
     public void notRemoveRatingForBValue() {
-        final ResourceResponse ratings = ResourceResponseFixture.newRatings("B");
+        final ResourceResponse ratings = ResourceResponseFixture.newRatings(SqaleRating.B);
         assertEquals(ratings, filter.filterRating(ratings));
     }
 

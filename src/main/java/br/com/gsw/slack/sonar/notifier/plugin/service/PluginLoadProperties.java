@@ -17,6 +17,7 @@ public class PluginLoadProperties {
             sonar = new Sonar();
         }
         Sonar sonarProp = new Sonar(sonar.getKey(), sonar.getUrl(), sonar.getUser(),sonar.getPassword(), sonar.getCoverage());
+
         LOGGER.debug("Sonar properties");
         LOGGER.debug(sonarProp.toString());
 

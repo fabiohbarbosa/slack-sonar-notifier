@@ -8,9 +8,6 @@ public class SlackRequest {
     private String text;
     private List<Attachment> attachments;
 
-    public SlackRequest() {
-    }
-
     public void addAttachment(Attachment attachment) {
         if (attachments == null) {
             attachments = new ArrayList<>();
