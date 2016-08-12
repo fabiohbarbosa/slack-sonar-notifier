@@ -24,7 +24,7 @@ public final class SlackMessageHelper {
     }
 
     public static String issueUrl(final String sonarUrl, final String projectId, final Severity severity, final Integer value) {
-        Integer valueUrl = defaultValueInteger(value);
+        final Integer valueUrl = defaultValueInteger(value);
         return "<" + sonarUrl + "/component_issues?id=" + projectId + "#resolved=false%7Cseverities=" + severity.name() + "|" + WordUtils.capitalize(severity.name().toLowerCase()) + ">: " + valueUrl;
     }
 
