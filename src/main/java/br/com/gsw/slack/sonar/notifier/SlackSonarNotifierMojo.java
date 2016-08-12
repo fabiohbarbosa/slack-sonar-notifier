@@ -13,6 +13,7 @@ import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
+import org.eclipse.sisu.Parameters;
 
 @Mojo(name = "sonar-notifier",
         requiresOnline = true)
@@ -27,6 +28,9 @@ public class SlackSonarNotifierMojo extends AbstractMojo {
 
     @Parameter(defaultValue = "${project}")
     private MavenProject mavenProject;
+
+    @Parameter(defaultValue = "${onlyErrors}")
+    private boolean onlyErrors;
 
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
@@ -43,7 +47,7 @@ public class SlackSonarNotifierMojo extends AbstractMojo {
         PluginValidatorFactory.getInstance().sonar(sonar);
         PluginValidatorFactory.getInstance().slack(slack);
 
-        NotifierFactory.getInstance().start(sonar, slack);
+        NotifierFactory.getInstance().start(sonar, slack, onlyErrors);
     }
 
 }

@@ -23,7 +23,7 @@ Acesse a URL: _https://(seu-canal).slack.com/apps/manage/custom-integrations_
                     <url>http://sonarqube.gsw.com.br</url>
                     <user>sonaruser</user>
                     <password>sonarpass</password>
-                    <coverage>60</coverage>
+                    <coverage>60.0</coverage>
                 </sonar>
                 <slack>
                     <webhook>https://hooks.slack.com/services/ASHDIU98/98173JOIJ/sv9RRmWpvTes2Oc3y5QeY54G</webhook>
@@ -42,7 +42,7 @@ Acesse a URL: _https://(seu-canal).slack.com/apps/manage/custom-integrations_
 
 * **sonar.password**: Senha do usuário para acesso ao sonar
 
-* **sonar.coverage***: Mínino de cobertura de testes exigida no sonar
+* **sonar.coveragecoverage***: Mínino de cobertura de testes exigida no sonar
 
 * **slack.webhook**: URL de webhook do slack
 
@@ -95,7 +95,7 @@ mvn clean install \
 -Dsonar.url=http://sonarqube.gsw.com.br \
 -Dsonar.user=sonaruser \
 -Dsonar.password=sonarpass \
--Dsonar.coverage=60 \
+-Dsonar.coverage=60.0 \
 -Dslack.webhook=https://hooks.slack.com/services/ASHDIU98/98173JOIJ/sv9RRmWpvTes2Oc3y5QeY54G
 ```
 

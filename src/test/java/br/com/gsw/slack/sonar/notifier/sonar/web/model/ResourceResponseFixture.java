@@ -1,10 +1,17 @@
 package br.com.gsw.slack.sonar.notifier.sonar.web.model;
 
 public class ResourceResponseFixture {
+    public static ResourceResponse newRatings(final String sqale) {
+        final ResourceResponse resource = new ResourceResponse();
+        resourcesDefault(resource);
+        resource.setMsr(MsrResponseFixture.newRatings(sqale));
+        return resource;
+    }
+
     public static ResourceResponse newRatings() {
         final ResourceResponse resource = new ResourceResponse();
         resourcesDefault(resource);
-        resource.setMsr(MsrResponseFixture.newRatings());
+        resource.setMsr(MsrResponseFixture.newRatings("A"));
         return resource;
     }
 
@@ -15,10 +22,24 @@ public class ResourceResponseFixture {
         return resource;
     }
 
+    public static ResourceResponse newDuplications(final Integer totalFile) {
+        final ResourceResponse resource = new ResourceResponse();
+        resourcesDefault(resource);
+        resource.setMsr(MsrResponseFixture.newDuplications(totalFile));
+        return resource;
+    }
+
     public static ResourceResponse newTests() {
         final ResourceResponse resource = new ResourceResponse();
         resourcesDefault(resource);
         resource.setMsr(MsrResponseFixture.newTests());
+        return resource;
+    }
+
+    public static ResourceResponse newTests(final Integer total, final Integer errors, final Integer failures, final Integer skipped, final Double success, final Double coverage) {
+        final ResourceResponse resource = new ResourceResponse();
+        resourcesDefault(resource);
+        resource.setMsr(MsrResponseFixture.newTests(total, errors, failures, skipped, success, coverage));
         return resource;
     }
 

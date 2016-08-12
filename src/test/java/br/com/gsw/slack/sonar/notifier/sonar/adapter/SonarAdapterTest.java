@@ -1,11 +1,14 @@
 package br.com.gsw.slack.sonar.notifier.sonar.adapter;
 
+import br.com.gsw.slack.sonar.notifier.PrepareFactoryTests;
+import br.com.gsw.slack.sonar.notifier.sonar.model.Sonar;
+import br.com.gsw.slack.sonar.notifier.sonar.model.SonarFixture;
+import br.com.gsw.slack.sonar.notifier.sonar.web.client.SonarRestClient;
 import br.com.gsw.slack.sonar.notifier.sonar.web.model.IssueResponseFixture;
 import br.com.gsw.slack.sonar.notifier.sonar.web.model.ResourceResponse;
-import br.com.gsw.slack.sonar.notifier.PrepareFactoryTests;
-import br.com.gsw.slack.sonar.notifier.sonar.web.client.SonarRestClient;
 import br.com.gsw.slack.sonar.notifier.sonar.web.model.ResourceResponseFixture;
 import br.com.gsw.slack.sonar.notifier.sonar.web.model.Severity;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -18,13 +21,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doReturn;
 
 @RunWith(MockitoJUnitRunner.class)
-public class SonarAdapterTest  extends PrepareFactoryTests {
+public class SonarAdapterTest extends PrepareFactoryTests {
 
     @Spy
     @InjectMocks
@@ -34,6 +36,32 @@ public class SonarAdapterTest  extends PrepareFactoryTests {
     private SonarRestClient client;
 
     private final static String KEY = "br.com.gsw:slack-pusher";
+
+    @Before
+    public void startUp() {
+        // mock static
+        doReturn(client).when(adapter).buildClient(anyString(), anyString(), anyString());
+    }
+
+    // adapter
+    @Test
+    public void adapterSucessTest() {
+        final Sonar sonar = SonarFixture.newSonar();
+        final String key = sonar.getKey();
+
+        final ResourceResponse ratings = ResourceResponseFixture.newRatings();
+        final Map<Severity, Integer> issues = IssueResponseFixture.newIssues();
+        final ResourceResponse duplications = ResourceResponseFixture.newDuplications();
+        final ResourceResponse tests = ResourceResponseFixture.newTests();
+
+
+        doReturn(ratings).when(adapter).adapterRating(key);
+        doReturn(issues).when(adapter).adapterIssues(key);
+        doReturn(duplications).when(adapter).adapterDuplications(key);
+        doReturn(tests).when(adapter).adapterTests(key);
+
+        assertNotNull(adapter.adapter(sonar));
+    }
 
     // adapterRating
     @Test(expected = IllegalArgumentException.class)

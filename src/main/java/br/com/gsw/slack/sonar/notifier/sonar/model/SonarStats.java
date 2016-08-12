@@ -22,6 +22,30 @@ public class SonarStats {
         this.tests = tests;
     }
 
+    public void setProject(final Project project) {
+        this.project = project;
+    }
+
+    public void setSonar(final Sonar sonar) {
+        this.sonar = sonar;
+    }
+
+    public void setRatings(final ResourceResponse ratings) {
+        this.ratings = ratings;
+    }
+
+    public void setIssues(final Map<Severity, Integer> issues) {
+        this.issues = issues;
+    }
+
+    public void setDuplications(final ResourceResponse duplications) {
+        this.duplications = duplications;
+    }
+
+    public void setTests(final ResourceResponse tests) {
+        this.tests = tests;
+    }
+
     public Project getProject() {
         return project;
     }

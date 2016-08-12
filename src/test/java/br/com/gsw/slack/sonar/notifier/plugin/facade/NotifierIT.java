@@ -17,10 +17,38 @@ public class NotifierIT extends PrepareFactoryTests {
     }
 
     @Test
-    public void successTest() {
+    public void successTestOnlyErrorsTrue() {
         final Sonar sonar = SonarFixture.newSonarAuthEnv();
         final Slack slack = SlackFixture.newSlackEnv();
 
-        notifier.start(sonar, slack);
+        notifier.start(sonar, slack, true);
     }
+
+    @Test
+    public void successTestOnlyErrorsFalse() {
+        final Sonar sonar = SonarFixture.newSonarAuthEnv();
+        final Slack slack = SlackFixture.newSlackEnv();
+
+        notifier.start(sonar, slack, false);
+    }
+
+    @Test
+    public void successTestOnlyErrorsTrueAndNullCoverage() {
+        final Sonar sonar = SonarFixture.newSonarAuthEnv();
+        sonar.setCoverage(null);
+        final Slack slack = SlackFixture.newSlackEnv();
+
+        notifier.start(sonar, slack, true);
+    }
+
+    @Test
+    public void successTestOnlyErrorsTrueAndZeroCoverage() {
+        final Sonar sonar = SonarFixture.newSonarAuthEnv();
+        sonar.setCoverage(0.0);
+        final Slack slack = SlackFixture.newSlackEnv();
+
+        notifier.start(sonar, slack, true);
+    }
+
+
 }

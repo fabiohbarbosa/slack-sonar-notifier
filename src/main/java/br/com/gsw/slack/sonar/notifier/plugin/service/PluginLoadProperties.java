@@ -82,7 +82,7 @@ public class PluginLoadProperties {
             LOGGER.debug(String.format("Load %s from property", "sonar.coverage"));
             final String property = System.getProperty("sonar.coverage");
             if (!isEmpty(property)) {
-                sonarProp.setCoverage(Integer.parseInt(property));
+                sonarProp.setCoverage(Double.parseDouble(property));
             }
         }
         return sonarProp;

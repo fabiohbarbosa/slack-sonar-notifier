@@ -5,12 +5,12 @@ public class Sonar {
     private String url;
     private String user;
     private String password;
-    private Integer coverage;
+    private Double coverage;
 
     public Sonar() {
     }
 
-    public Sonar(final String key, final String url, final String user, final String password, final Integer coverage) {
+    public Sonar(final String key, final String url, final String user, final String password, final Double coverage) {
         this.key = key;
         this.url = url;
         this.user = user;
@@ -55,11 +55,11 @@ public class Sonar {
         this.password = password;
     }
 
-    public Integer getCoverage() {
+    public Double getCoverage() {
         return coverage;
     }
 
-    public void setCoverage(Integer coverage) {
+    public void setCoverage(Double coverage) {
         this.coverage = coverage;
     }
 

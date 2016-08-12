@@ -1,10 +1,7 @@
 package br.com.gsw.slack.sonar.notifier.slack.adapter;
 
-import br.com.gsw.slack.sonar.notifier.web.client.FeignFactory;
 import br.com.gsw.slack.sonar.notifier.plugin.factory.LogFactory;
-import br.com.gsw.slack.sonar.notifier.slack.model.Slack;
 import br.com.gsw.slack.sonar.notifier.slack.util.SlackMessageHelper;
-import br.com.gsw.slack.sonar.notifier.slack.web.client.SlackRestClient;
 import br.com.gsw.slack.sonar.notifier.slack.web.model.Attachment;
 import br.com.gsw.slack.sonar.notifier.slack.web.model.Field;
 import br.com.gsw.slack.sonar.notifier.slack.web.model.SlackRequest;
@@ -13,52 +10,32 @@ import br.com.gsw.slack.sonar.notifier.sonar.web.model.Color;
 import br.com.gsw.slack.sonar.notifier.sonar.web.model.KeyMsr;
 import br.com.gsw.slack.sonar.notifier.sonar.web.model.ResourceResponse;
 import br.com.gsw.slack.sonar.notifier.sonar.web.model.Severity;
-import com.google.gson.Gson;
 import org.apache.maven.plugin.logging.Log;
 
 import java.util.Map;
 
 public class SlackAdapter {
-    private final static String SLACK_URL = "https://hooks.slack.com/services/";
+    private final static Log LOGGER = LogFactory.getInstance();
 
-    private Log log = LogFactory.getInstance();
-    private SlackRestClient client;
-
-    public SlackAdapter() {
-        log = LogFactory.getInstance();
-    }
-
-    public void adapter(final Slack slack, final SonarStats sonarStats) {
-        log.debug("Slack adapter...");
+    public SlackRequest adapter(final SonarStats sonarStats) {
+        LOGGER.debug("Slack adapter...");
 
         if (!isNeedToHook(sonarStats)) {
-            log.info(String.format("No sonar problems found in project %s", sonarStats.getProject().getName()));
-            return;
+            LOGGER.info(String.format("No sonar stats found in project %s", sonarStats.getProject().getName()));
+            return null;
         }
 
-        SlackRequest slackRequest  = new SlackRequest();
+        return adapters(sonarStats);
+    }
 
+    private SlackRequest adapters(final SonarStats sonarStats) {
+        final SlackRequest slackRequest = new SlackRequest();
         adapterDefault(slackRequest, sonarStats);
         adapterRatings(slackRequest, sonarStats);
         adapterIssues(slackRequest, sonarStats);
         adapterDuplications(slackRequest, sonarStats);
         adapterTests(slackRequest, sonarStats);
-        slackPusher(slack, slackRequest);
-    }
-
-    private void slackPusher(final Slack slack, final SlackRequest slackRequest) {
-        log.info(String.format("Trying to post sonar stats into slack %s", slack.getWebhook()));
-
-        final Gson gson = new Gson();
-        log.debug(gson.toJson(slackRequest));
-
-        // Remove slack url
-        final String token = slack.getWebhook().split(SLACK_URL)[1];
-
-        client = FeignFactory.build(SLACK_URL, SlackRestClient.class);
-        client.post(token, slackRequest);
-
-        log.info(String.format("Notifier slack %s", slack.getWebhook()));
+        return slackRequest;
     }
 
     private void adapterDefault(final SlackRequest slackRequest, final SonarStats sonarStats) {
@@ -74,7 +51,7 @@ public class SlackAdapter {
     private void adapterRatings(final SlackRequest slackRequest, final SonarStats sonarStats) {
         final ResourceResponse ratings = sonarStats.getRatings();
         if (ratings == null) {
-            log.debug(String.format("Not found rating for project %s", sonarStats.getProject().getId()));
+            LOGGER.debug(String.format("Not found rating for project %s", sonarStats.getProject().getId()));
             return;
         }
         final String sqaleRating = ratings.getFrmtVal(KeyMsr.SQALE_RATING);
@@ -99,7 +76,7 @@ public class SlackAdapter {
     private void adapterIssues(final SlackRequest slackRequest, final SonarStats sonarStats) {
         final Map<Severity, Integer> issues = sonarStats.getIssues();
         if (issues == null || issues.size() == 0) {
-            log.debug(String.format("Not found issues for project %s", sonarStats.getProject().getId()));
+            LOGGER.debug(String.format("Not found issues for project %s", sonarStats.getProject().getId()));
             return;
         }
 
@@ -128,7 +105,7 @@ public class SlackAdapter {
     private void adapterDuplications(final SlackRequest slackRequest, final SonarStats sonarStats) {
         final ResourceResponse duplications = sonarStats.getDuplications();
         if (duplications == null) {
-            log.debug(String.format("Not found duplications for project %s", sonarStats.getProject().getId()));
+            LOGGER.debug(String.format("Not found duplications for project %s", sonarStats.getProject().getId()));
             return;
         }
 
@@ -160,7 +137,7 @@ public class SlackAdapter {
     private void adapterTests(final SlackRequest slackRequest, final SonarStats sonarStats) {
         final ResourceResponse tests = sonarStats.getTests();
         if (tests == null) {
-            log.debug(String.format("Not found tests for project %s", sonarStats.getProject().getId()));
+            LOGGER.debug(String.format("Not found tests for project %s", sonarStats.getProject().getId()));
             return;
         }
 
