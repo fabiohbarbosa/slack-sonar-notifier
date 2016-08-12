@@ -42,7 +42,7 @@ Acesse a URL: _https://(seu-canal).slack.com/apps/manage/custom-integrations_
 
 * **sonar.password**: Senha do usuário para acesso ao sonar
 
-* **sonar.coveragecoverage***: Mínino de cobertura de testes exigida no sonar
+* **sonar.coverage***: Mínino de cobertura de testes exigida no sonar
 
 * **slack.webhook**: URL de webhook do slack
 
