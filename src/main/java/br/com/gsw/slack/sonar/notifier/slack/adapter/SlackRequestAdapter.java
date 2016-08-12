@@ -14,11 +14,11 @@ import org.apache.maven.plugin.logging.Log;
 
 import java.util.Map;
 
-public class SlackAdapter {
+public class SlackRequestAdapter {
     private final static Log LOGGER = LogFactory.getInstance();
 
     public SlackRequest adapter(final SonarStats sonarStats) {
-        LOGGER.debug("Slack adapter...");
+        LOGGER.debug("Slack request adapter...");
 
         if (!isNeedToHook(sonarStats)) {
             LOGGER.info(String.format("No sonar stats found in project %s", sonarStats.getProject().getName()));
@@ -44,8 +44,9 @@ public class SlackAdapter {
         final String sonarUrl = sonarStats.getSonar().getUrl();
         final String projectId = sonarStats.getProject().getId();
         final String projectName = sonarStats.getProject().getName();
+        final String projectVersion = sonarStats.getProject().getVersion();
 
-        slackRequest.setText(SlackMessageHelper.projectUrl(sonarUrl, projectId, projectName));
+        slackRequest.setText(SlackMessageHelper.projectUrl(sonarUrl, projectId, projectName, projectVersion));
     }
 
     private void adapterRatings(final SlackRequest slackRequest, final SonarStats sonarStats) {

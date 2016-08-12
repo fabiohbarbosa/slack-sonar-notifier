@@ -1,8 +1,8 @@
 package br.com.gsw.slack.sonar.notifier.plugin.facade;
 
 import br.com.gsw.slack.sonar.notifier.plugin.factory.LogFactory;
-import br.com.gsw.slack.sonar.notifier.slack.adapter.SlackAdapter;
-import br.com.gsw.slack.sonar.notifier.slack.factory.SlackAdapterFactory;
+import br.com.gsw.slack.sonar.notifier.slack.adapter.SlackRequestAdapter;
+import br.com.gsw.slack.sonar.notifier.slack.factory.SlackRequestAdapterFactory;
 import br.com.gsw.slack.sonar.notifier.slack.factory.SlackPusherFactory;
 import br.com.gsw.slack.sonar.notifier.slack.model.Slack;
 import br.com.gsw.slack.sonar.notifier.slack.service.SlackPusher;
@@ -19,7 +19,7 @@ public class Notifier {
     private static final Log LOGGER = LogFactory.getInstance();
 
     private SonarAdapter sonarAdapter = SonarAdapterFactory.getInstance();
-    private SlackAdapter slackAdapter = SlackAdapterFactory.getInstance();
+    private SlackRequestAdapter slackRequestAdapter = SlackRequestAdapterFactory.getInstance();
     private SlackPusher slackPusher = SlackPusherFactory.getInstance();
     private OnlyErrorsFilter onlyErrorsFilter = OnlyErrorsFilterFactory.getInstance();
 
@@ -32,7 +32,7 @@ public class Notifier {
             sonarStats = onlyErrorsFilter.filter(sonarStats, sonar.getCoverage());
         }
 
-        final SlackRequest slackRequest = slackAdapter.adapter(sonarStats);
+        final SlackRequest slackRequest = slackRequestAdapter.adapter(sonarStats);
         if (slackRequest != null) {
             slackPusher.slackPusher(slack, slackRequest);
             return;

@@ -1,7 +1,7 @@
 package br.com.gsw.slack.sonar.notifier.plugin.facade;
 
 import br.com.gsw.slack.sonar.notifier.PrepareFactoryTests;
-import br.com.gsw.slack.sonar.notifier.slack.adapter.SlackAdapter;
+import br.com.gsw.slack.sonar.notifier.slack.adapter.SlackRequestAdapter;
 import br.com.gsw.slack.sonar.notifier.slack.model.Slack;
 import br.com.gsw.slack.sonar.notifier.slack.model.SlackFixture;
 import br.com.gsw.slack.sonar.notifier.slack.web.model.SlackRequest;
@@ -35,7 +35,7 @@ public class NotifierTest extends PrepareFactoryTests {
     private OnlyErrorsFilter onlyErrorsFilter;
 
     @Mock
-    private SlackAdapter slackAdapter;
+    private SlackRequestAdapter slackRequestAdapter;
 
     @Mock
     private SlackPusher slackPusher;
@@ -49,13 +49,13 @@ public class NotifierTest extends PrepareFactoryTests {
 
         doReturn(sonarStats).when(sonarAdapter).adapter(sonar);
         doReturn(sonarStats).when(onlyErrorsFilter).filter(sonarStats, sonar.getCoverage());
-        doReturn(slackRequest).when(slackAdapter).adapter(sonarStats);
+        doReturn(slackRequest).when(slackRequestAdapter).adapter(sonarStats);
 
         notifier.start(sonar, slack, true);
 
         verify(sonarAdapter, times(1)).adapter(sonar);
         verify(onlyErrorsFilter, times(1)).filter(sonarStats, sonar.getCoverage());
-        verify(slackAdapter, times(1)).adapter(sonarStats);
+        verify(slackRequestAdapter, times(1)).adapter(sonarStats);
         verify(slackPusher, times(1)).slackPusher(slack, slackRequest);
     }
 
@@ -67,13 +67,13 @@ public class NotifierTest extends PrepareFactoryTests {
         final SlackRequest slackRequest = SlackRequestFixture.newSlackRequest();
 
         doReturn(sonarStats).when(sonarAdapter).adapter(sonar);
-        doReturn(slackRequest).when(slackAdapter).adapter(sonarStats);
+        doReturn(slackRequest).when(slackRequestAdapter).adapter(sonarStats);
 
         notifier.start(sonar, slack, false);
 
         verify(sonarAdapter, times(1)).adapter(sonar);
         verify(onlyErrorsFilter, times(0)).filter(sonarStats, sonar.getCoverage());
-        verify(slackAdapter, times(1)).adapter(sonarStats);
+        verify(slackRequestAdapter, times(1)).adapter(sonarStats);
         verify(slackPusher, times(1)).slackPusher(slack, slackRequest);
 
     }
@@ -86,13 +86,13 @@ public class NotifierTest extends PrepareFactoryTests {
 
         doReturn(sonarStats).when(sonarAdapter).adapter(sonar);
         doReturn(sonarStats).when(onlyErrorsFilter).filter(sonarStats, sonar.getCoverage());
-        doReturn(null).when(slackAdapter).adapter(sonarStats);
+        doReturn(null).when(slackRequestAdapter).adapter(sonarStats);
 
         notifier.start(sonar, slack, false);
 
         verify(sonarAdapter, times(1)).adapter(sonar);
         verify(onlyErrorsFilter, times(0)).filter(sonarStats, sonar.getCoverage());
-        verify(slackAdapter, times(1)).adapter(sonarStats);
+        verify(slackRequestAdapter, times(1)).adapter(sonarStats);
         verify(slackPusher, times(0)).slackPusher(any(Slack.class), any(SlackRequest.class));
     }
 }
