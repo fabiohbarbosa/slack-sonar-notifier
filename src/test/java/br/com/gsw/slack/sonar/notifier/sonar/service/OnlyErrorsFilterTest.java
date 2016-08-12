@@ -212,6 +212,19 @@ public class OnlyErrorsFilterTest extends PrepareFactoryTests {
     }
 
     @Test
+    public void removeTestsForCoverageNullAndNotExistErrorsFailuresAndSkipped() {
+        final Integer total = 534;
+        final Integer errors = 0;
+        final Integer failures = 0;
+        final Integer skipped = 0;
+        final Double success = 100.0;
+        final Double coverage = 80.0;
+        final ResourceResponse tests = ResourceResponseFixture.newTests(total, errors, failures, skipped, success, coverage);
+
+        assertEquals(null, filter.filterTests(tests, null));
+    }
+
+    @Test
     public void notRemoveTestsForCoverageInProjectGreaterThanCoverageAnalysisButExistErrors() {
         final Integer total = 534;
         final Integer errors = 30;
@@ -222,6 +235,19 @@ public class OnlyErrorsFilterTest extends PrepareFactoryTests {
         final ResourceResponse tests = ResourceResponseFixture.newTests(total, errors, failures, skipped, success, coverage);
 
         assertEquals(tests, filter.filterTests(tests, 60.0));
+    }
+
+    @Test
+    public void notRemoveTestsForCoverageNullButExistErrors() {
+        final Integer total = 534;
+        final Integer errors = 30;
+        final Integer failures = 0;
+        final Integer skipped = 0;
+        final Double success = 100.0;
+        final Double coverage = 80.0;
+        final ResourceResponse tests = ResourceResponseFixture.newTests(total, errors, failures, skipped, success, coverage);
+
+        assertEquals(tests, filter.filterTests(tests, null));
     }
 
     @Test

@@ -87,6 +87,8 @@ public class OnlyErrorsFilter {
                 LOGGER.debug("Filter removing tests because not found problems!");
                 analsysCoverage = true;
             }
+        } else {
+            analsysCoverage = true;
         }
 
         if (analsysCoverage && error == 0 && skipped == 0 && failures == 0) {
