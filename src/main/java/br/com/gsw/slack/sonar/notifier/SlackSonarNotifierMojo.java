@@ -28,6 +28,9 @@ public class SlackSonarNotifierMojo extends AbstractMojo {
     @Parameter(defaultValue = "false", property = "skipNotifier")
     private Boolean skipNotifier;
 
+    @Parameter(defaultValue = "false", property = "breakNotifier", alias = "breakNotifier")
+    private Boolean toBreak;
+
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
         LogFactory.init(getLog());
@@ -48,7 +51,7 @@ public class SlackSonarNotifierMojo extends AbstractMojo {
         PluginValidatorFactory.getInstance().sonar(sonar);
         PluginValidatorFactory.getInstance().slack(slack);
 
-        NotifierFactory.getInstance().start(sonar, slack);
+        NotifierFactory.getInstance().start(sonar, slack, toBreak);
     }
 
 }

@@ -1,5 +1,6 @@
 package br.com.gsw.slack.sonar.notifier.plugin.facade;
 
+import br.com.gsw.slack.sonar.notifier.plugin.exception.SlackNotifierException;
 import br.com.gsw.slack.sonar.notifier.plugin.factory.LogFactory;
 import br.com.gsw.slack.sonar.notifier.slack.adapter.SlackRequestAdapter;
 import br.com.gsw.slack.sonar.notifier.slack.factory.SlackPusherFactory;
@@ -23,7 +24,7 @@ public class Notifier {
     private SlackPusher slackPusher = SlackPusherFactory.getInstance();
     private OnlyErrorsFilter onlyErrorsFilter = OnlyErrorsFilterFactory.getInstance();
 
-    public void start(final Sonar sonar, final Slack slack) {
+    public void start(final Sonar sonar, final Slack slack, final Boolean toBreak) {
         LOGGER.debug("Starting notifier...");
 
         SonarStats sonarStats = sonarAdapter.adapter(sonar);
@@ -33,10 +34,17 @@ public class Notifier {
         }
 
         final SlackRequest slackRequest = slackRequestAdapter.adapter(sonarStats);
+        final String projectName = sonarStats.getProject().getName();
         if (slackRequest != null) {
             slackPusher.slackPusher(slack, slackRequest);
+            if (toBreak) {
+                final String errorMsg = String.format("Found sonar errors in project %s", projectName);
+                LOGGER.error(errorMsg);
+                LOGGER.error("Vreaking execution");
+                throw new SlackNotifierException(errorMsg);
+            }
             return;
         }
-        LOGGER.info(String.format("Not found errors in project %s", sonarStats.getProject().getName()));
+        LOGGER.info(String.format("Not found errors in project %s", projectName));
     }
 }

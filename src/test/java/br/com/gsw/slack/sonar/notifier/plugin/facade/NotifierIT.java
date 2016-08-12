@@ -21,7 +21,7 @@ public class NotifierIT extends PrepareFactoryTests {
         final Sonar sonar = SonarFixture.newSonarAuthEnv();
         final Slack slack = SlackFixture.newSlackEnv(true);
 
-        notifier.start(sonar, slack);
+        notifier.start(sonar, slack, false);
     }
 
     @Test
@@ -29,7 +29,7 @@ public class NotifierIT extends PrepareFactoryTests {
         final Sonar sonar = SonarFixture.newSonarAuthEnv();
         final Slack slack = SlackFixture.newSlackEnv(false);
 
-        notifier.start(sonar, slack);
+        notifier.start(sonar, slack, false);
     }
 
     @Test
@@ -38,7 +38,7 @@ public class NotifierIT extends PrepareFactoryTests {
         sonar.setCoverage(null);
         final Slack slack = SlackFixture.newSlackEnv(true);
 
-        notifier.start(sonar, slack);
+        notifier.start(sonar, slack, false);
     }
 
     @Test
@@ -47,8 +47,7 @@ public class NotifierIT extends PrepareFactoryTests {
         sonar.setCoverage(0.0);
         final Slack slack = SlackFixture.newSlackEnv(true);
 
-        notifier.start(sonar, slack);
+        notifier.start(sonar, slack, false);
     }
-
 
 }
