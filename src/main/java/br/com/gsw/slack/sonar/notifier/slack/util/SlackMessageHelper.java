@@ -6,7 +6,7 @@ import br.com.gsw.slack.sonar.notifier.sonar.web.model.Severity;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
 
-public class SlackMessageHelper {
+public final class SlackMessageHelper {
     private SlackMessageHelper() {
         // Block constructor
     }

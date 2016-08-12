@@ -2,7 +2,7 @@ package br.com.gsw.slack.sonar.notifier.plugin.factory;
 
 import br.com.gsw.slack.sonar.notifier.plugin.service.PluginValidator;
 
-public class PluginValidatorFactory {
+public final class PluginValidatorFactory {
     private static PluginValidator validator;
 
     private PluginValidatorFactory() {

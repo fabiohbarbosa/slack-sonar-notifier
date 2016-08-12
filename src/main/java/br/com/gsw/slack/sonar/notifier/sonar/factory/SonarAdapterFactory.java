@@ -2,7 +2,7 @@ package br.com.gsw.slack.sonar.notifier.sonar.factory;
 
 import br.com.gsw.slack.sonar.notifier.sonar.adapter.SonarAdapter;
 
-public class SonarAdapterFactory {
+public final class SonarAdapterFactory {
     private static SonarAdapter sonarAdapter;
 
     private SonarAdapterFactory() {

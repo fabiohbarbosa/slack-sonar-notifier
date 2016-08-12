@@ -6,7 +6,7 @@ import feign.gson.GsonDecoder;
 import feign.gson.GsonEncoder;
 import org.apache.commons.lang3.StringUtils;
 
-public class FeignFactory {
+public final class FeignFactory {
     private FeignFactory() {
         // private constructor
     }

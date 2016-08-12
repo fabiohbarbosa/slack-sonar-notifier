@@ -2,7 +2,7 @@ package br.com.gsw.slack.sonar.notifier.sonar.factory;
 
 import br.com.gsw.slack.sonar.notifier.sonar.service.OnlyErrorsFilter;
 
-public class OnlyErrorsFilterFactory {
+public final class OnlyErrorsFilterFactory {
     private static OnlyErrorsFilter filter;
 
     private OnlyErrorsFilterFactory() {

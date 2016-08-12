@@ -2,7 +2,7 @@ package br.com.gsw.slack.sonar.notifier.slack.factory;
 
 import br.com.gsw.slack.sonar.notifier.slack.service.SlackPusher;
 
-public class SlackPusherFactory {
+public final class SlackPusherFactory {
     private static SlackPusher pusher;
 
     private SlackPusherFactory() {

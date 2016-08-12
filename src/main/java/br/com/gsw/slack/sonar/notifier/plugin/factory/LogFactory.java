@@ -2,7 +2,7 @@ package br.com.gsw.slack.sonar.notifier.plugin.factory;
 
 import org.apache.maven.plugin.logging.Log;
 
-public class LogFactory {
+public final class LogFactory {
     private static Log log;
 
     private LogFactory() {

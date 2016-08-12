@@ -2,7 +2,7 @@ package br.com.gsw.slack.sonar.notifier.plugin.factory;
 
 import br.com.gsw.slack.sonar.notifier.plugin.service.PluginLoadProperties;
 
-public class PluginLoadPropertiesFactory {
+public final class PluginLoadPropertiesFactory {
     private static PluginLoadProperties loadProperties;
 
     private PluginLoadPropertiesFactory() {
