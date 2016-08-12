@@ -25,8 +25,8 @@ public class SlackSonarNotifierMojo extends AbstractMojo {
     @Parameter(defaultValue = "${project}")
     private MavenProject mavenProject;
 
-    @Parameter(defaultValue = "false", property = "onlyErrors")
-    private boolean skip;
+    @Parameter(defaultValue = "false", property = "skipNotifier")
+    private Boolean skipNotifier;
 
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
@@ -36,6 +36,11 @@ public class SlackSonarNotifierMojo extends AbstractMojo {
         log.info("------------------------------------------------------------------------");
         log.info("Slack Sonar Notifier Plugin");
         log.info("------------------------------------------------------------------------");
+
+        if (skipNotifier) {
+            log.info("Slack Sonar Notifier Plugin are skipped.");
+            return;
+        }
 
         sonar = PluginLoadPropertiesFactory.getInstance().sonar(sonar, mavenProject);
         slack = PluginLoadPropertiesFactory.getInstance().slack(slack);
