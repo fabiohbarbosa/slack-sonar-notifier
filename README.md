@@ -120,7 +120,7 @@ URL de webhook do slack
 ***
 
 
-###### slack.onlyErrors 
+**slack.onlyErrors**: 
 Só notifica os erros no slack. Default: true
 * _Property_: -Dslack.onlyErrors
 
