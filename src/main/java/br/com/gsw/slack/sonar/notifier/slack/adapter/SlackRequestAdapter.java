@@ -95,7 +95,7 @@ public class SlackRequestAdapter {
 
     protected Field createScmCommitField(final Scm scm) {
         final String url = Scm.normalizeUrl(scm.getUrl());
-        final String commit = scm.getCommit();
+        final String commit = Scm.normalizeCommit(scm.getCommit());
 
         if (StringUtils.isEmpty(commit)) {
             return null;
@@ -110,7 +110,7 @@ public class SlackRequestAdapter {
                 valueUrl = url + "/commits/" + commit;
             }
         }
-        return new Field(String.format("*Commit*:\n %s", SlackMessageHelper.url(valueUrl, commit)), true);
+        return new Field(String.format("*Commit*:\n %s", SlackMessageHelper.url(valueUrl, commit.substring(7))), true);
     }
 
     private Field createScmField(final String value, final String title) {

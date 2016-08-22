@@ -35,6 +35,13 @@ public class Scm {
         return branch.replace("origin/", "");
     }
 
+    public static String normalizeCommit(final String commit) {
+        if (commit.length() > 7) {
+            return commit.substring(0, 7);
+        }
+        return commit;
+    }
+
     public String getUrl() {
         return url;
     }
