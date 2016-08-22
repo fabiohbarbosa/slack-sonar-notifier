@@ -36,6 +36,9 @@ public class Scm {
     }
 
     public static String normalizeCommit(final String commit) {
+        if (StringUtils.isEmpty(commit)) {
+            return null;
+        }
         if (commit.length() > 7) {
             return commit.substring(0, 7);
         }
