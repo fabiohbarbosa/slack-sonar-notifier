@@ -44,8 +44,6 @@ Acesse a URL: _https://(seu-canal).slack.com/apps/manage/custom-integrations_
 
 ```
 
-#### Properties
-
 **skipNotifier**: 
 Não executa o plugin
 * _Property_: -DskipNotifier
@@ -54,13 +52,11 @@ Não executa o plugin
 ***
 
 **breakNotifier**: 
-Quebra a execução do plugin caso seja encontrado erros no sonar
+Caso seja encontrado erros no sonar, quebra o build
 * _Property_: -DbreakNotifier
 * _Default_: false
 
 ***
-
-##### Sonar
 
 **sonar.key***:
 Chave do projeto no sonar, podendo utilizar o `project.groupId:project.artifactId`, ou o id no sonar (entre no projeto no sonar e verifique o ID na url).
@@ -89,22 +85,29 @@ Senha do usuário para acesso ao sonar
 
 **sonar.coverage**:
 Mínino de cobertura de testes exigida no sonar
-* _Propriedade_: -Dsonar.coverage
+* _Property_: -Dsonar.coverage
 
-###### scm.url 
+**scm.url**: 
 URL do repositório (SVN/GIT)
+* _Property_: -Dscm.url
 
-###### scm.branch 
+**scm.branch**: 
 Branch no repositório (SVN/GIT)
+* _Property_: -Dscm.branch
 
-###### scm.user 
+**scm.user**:
 Usuário no repositório (SVN/GIT)
+* _Property_: -Dscm.user
 
-###### scm.commit 
+**scm.commit**: 
 Commit do usuário no repositório
+* _Property_: -Dscm.commit
 
-###### slack.webhook 
+**slack.webhook***: 
 URL de webhook do slack
+* _Property_: -Dslack.webhook
+
+> * Obrigatórios
 
 ###### slack.onlyErrors 
 Só notifica os erros no slack. Default: true
