@@ -43,42 +43,62 @@ Acesse a URL: _https://(seu-canal).slack.com/apps/manage/custom-integrations_
 </build>
 
 ```
-##### \<skipNotifier\> 
+###### \<skipNotifier\> 
 Não executa o plugin
+
 **Propriedade**: -DskipNotifier
+
 **Obrigatório**: Não
+
 **Default**: false
 
 ##### \<breakNotifier\> 
 Quebra a execução do plugin caso seja encontrado erros no sonar
+
 **Propriedade**: -DbreakNotifier
+
 **Obrigatório**: Não
+
 **Default**: false
 
 ***
 
-##### \<sonar\>
-#####   \<sonar.key\>
+##### \<sonar.key\>
 Chave do projeto no sonar, podendo utilizar o `project.groupId:project.artifactId` do projeto, ou o id no sonar (entre no projeto no sonar e verifique o ID na url).
+
 **Propriedade**: -Dsonar.key
+
 **Obrigatório**: Sim
+
 **Default**: ${project.groupId}:${project.artifactId}
 
 ##### \<sonar.url\>
 Url do sonar
-**Propriedade**: -Dsonar.url ou -Dsonar.host.url
-**Obrigatório**: Não
-**Default**: false
 
-###### sonar.user 
+**Propriedade**: -Dsonar.url ou -Dsonar.host.url
+
+**Obrigatório**: Sim
+
+###### \<sonar.user\> 
 Usuário para acesso ao sonar
 
-###### sonar.password 
+**Propriedade**: -Dsonar.user
+
+**Obrigatório**: Não
+
+###### \<sonar.password\> 
 Senha do usuário para acesso ao sonar
 
-###### sonar.coverage* 
+**Propriedade**: -Dsonar.url ou -Dsonar.host.url
+
+**Obrigatório**: Não
+
+###### \<sonar.coverage\>
 Mínino de cobertura de testes exigida no sonar
-##### </sonar>
+
+**Propriedade**: -Dsonar.url ou -Dsonar.host.url
+
+**Obrigatório**: Não
 
 ***
 
