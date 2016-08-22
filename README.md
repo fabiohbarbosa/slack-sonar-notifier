@@ -43,13 +43,13 @@ Acesse a URL: _https://(seu-canal).slack.com/apps/manage/custom-integrations_
 </build>
 
 ```
-###### skipNotifier 
+##### \<skipNotifier\> 
 Não executa o plugin
 **Propriedade**: -DskipNotifier
 **Obrigatório**: Não
 **Default**: false
 
-###### breakNotifier 
+#### \<breakNotifier\> 
 Quebra a execução do plugin caso seja encontrado erros no sonar
 **Propriedade**: -DbreakNotifier
 **Obrigatório**: Não
