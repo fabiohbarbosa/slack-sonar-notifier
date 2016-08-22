@@ -87,31 +87,46 @@ Senha do usuário para acesso ao sonar
 Mínino de cobertura de testes exigida no sonar
 * _Property_: -Dsonar.coverage
 
+***
+
 **scm.url**: 
 URL do repositório (SVN/GIT)
 * _Property_: -Dscm.url
+
+***
 
 **scm.branch**: 
 Branch no repositório (SVN/GIT)
 * _Property_: -Dscm.branch
 
+***
+
 **scm.user**:
 Usuário no repositório (SVN/GIT)
 * _Property_: -Dscm.user
+
+***
 
 **scm.commit**: 
 Commit do usuário no repositório
 * _Property_: -Dscm.commit
 
+***
+
 **slack.webhook***: 
 URL de webhook do slack
 * _Property_: -Dslack.webhook
 
-> * Obrigatórios
+***
+
 
 ###### slack.onlyErrors 
 Só notifica os erros no slack. Default: true
+* _Property_: -Dslack.onlyErrors
 
+***
+
+> * Obrigatórios
 Caso seu sonar esteja sem configuração de usuário e senha as propriedades`sonar.user` e `sonar.password` não são obrigatórias.
 
 * *Só tem utilidade quando a variável `slack.onlyErrors` estiver habilitada*
