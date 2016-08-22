@@ -128,7 +128,7 @@ Só notifica os erros no slack. Default: true
 
 ***
 
-> * Obrigatórios
+> \* Obrigatórios
 
 ### 3. Execute o plugin
 ```sh
