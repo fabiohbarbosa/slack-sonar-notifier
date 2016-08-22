@@ -53,20 +53,20 @@ Quebra a execução do plugin caso seja encontrado erros no sonar
 * **Property**: -DbreakNotifier
 * **Default**: false
 
-**sonar.key***
+**sonar.key***:
 Chave do projeto no sonar, podendo utilizar o `project.groupId:project.artifactId` do projeto, ou o id no sonar (entre no projeto no sonar e verifique o ID na url).
 * **Property**: -Dsonar.key
 * **Default**: ${project.groupId}:${project.artifactId}
 
-**sonar.url**
+**sonar.url**:
 Url do sonar
 * **Property**: -Dsonar.url ou -Dsonar.host.url
 
-**sonar.user** 
+**sonar.user** :
 Usuário para acesso ao sonar
 * **Property**: -Dsonar.user
 
-**sonar.password** 
+**sonar.password**: 
 Senha do usuário para acesso ao sonar
 * **Property**: -Dsonar.password
 
