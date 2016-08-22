@@ -47,29 +47,41 @@ Acesse a URL: _https://(seu-canal).slack.com/apps/manage/custom-integrations_
 Não executa o plugin
 * _Property_: -DskipNotifier
 * _Default_: false
+
 ***
+
 **breakNotifier**: 
 Quebra a execução do plugin caso seja encontrado erros no sonar
 * _Property_: -DbreakNotifier
 * _Default_: false
+
 ***
+
 **sonar.key***:
 Chave do projeto no sonar, podendo utilizar o `project.groupId:project.artifactId`, ou o id no sonar (entre no projeto no sonar e verifique o ID na url).
 * _Property_: -Dsonar.key
 * _Default_: ${project.groupId}:${project.artifactId}
+
 ***
+
 **sonar.url**:
 URL do sonar
 * _Property_: -Dsonar.url ou -Dsonar.host.url
+
 ***
+
 **sonar.user** :
 Usuário para acesso ao sonar
 * _Property_: -Dsonar.user
+
 ***
+
 **sonar.password**: 
 Senha do usuário para acesso ao sonar
 * _Property_: -Dsonar.password
+
 ***
+
 **sonar.coverage**:
 Mínino de cobertura de testes exigida no sonar
 * _Propriedade_: -Dsonar.coverage
