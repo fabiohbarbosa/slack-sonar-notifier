@@ -167,7 +167,7 @@ public class PluginLoadProperties {
 
     private String getProperty(final String property) {
         final String sysProp = System.getProperty(property);
-        LOGGER.debug(String.format("Read system property '%s' to :%s", property, sysProp));
+        LOGGER.debug(String.format("Read system property '%s' to %s", sysProp, property));
         return sysProp;
     }
 }
