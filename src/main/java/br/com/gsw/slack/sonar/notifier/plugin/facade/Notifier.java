@@ -1,7 +1,9 @@
 package br.com.gsw.slack.sonar.notifier.plugin.facade;
 
-import br.com.gsw.slack.sonar.notifier.plugin.exception.SlackNotifierException;
+import br.com.gsw.slack.sonar.notifier.breaker.factory.BreakerFactory;
+import br.com.gsw.slack.sonar.notifier.breaker.service.Breaker;
 import br.com.gsw.slack.sonar.notifier.plugin.factory.LogFactory;
+import br.com.gsw.slack.sonar.notifier.scm.model.Scm;
 import br.com.gsw.slack.sonar.notifier.slack.adapter.SlackRequestAdapter;
 import br.com.gsw.slack.sonar.notifier.slack.factory.SlackPusherFactory;
 import br.com.gsw.slack.sonar.notifier.slack.factory.SlackRequestAdapterFactory;
@@ -23,8 +25,9 @@ public class Notifier {
     private SlackRequestAdapter slackRequestAdapter = SlackRequestAdapterFactory.getInstance();
     private SlackPusher slackPusher = SlackPusherFactory.getInstance();
     private OnlyErrorsFilter onlyErrorsFilter = OnlyErrorsFilterFactory.getInstance();
+    private Breaker breaker = BreakerFactory.getInstance();
 
-    public void start(final Sonar sonar, final Slack slack, final Boolean toBreak) {
+    public void start(final Sonar sonar, final Slack slack, final Scm scm, final Boolean toBreak) {
         LOGGER.debug("Starting notifier...");
 
         SonarStats sonarStats = sonarAdapter.adapter(sonar);
@@ -33,18 +36,14 @@ public class Notifier {
             sonarStats = onlyErrorsFilter.filter(sonarStats, sonar.getCoverage());
         }
 
-        final SlackRequest slackRequest = slackRequestAdapter.adapter(sonarStats);
+        final SlackRequest slackRequest = slackRequestAdapter.adapter(sonarStats, scm);
         final String projectName = sonarStats.getProject().getName();
-        if (slackRequest != null) {
-            slackPusher.slackPusher(slack, slackRequest);
-            if (toBreak) {
-                final String errorMsg = String.format("Found sonar errors in project %s", projectName);
-                LOGGER.error(errorMsg);
-                LOGGER.error("Vreaking execution");
-                throw new SlackNotifierException(errorMsg);
-            }
+
+        if (slackRequest == null) {
+            LOGGER.info(String.format("Not found errors in project %s", projectName));
             return;
         }
-        LOGGER.info(String.format("Not found errors in project %s", projectName));
+        slackPusher.slackPusher(slack, slackRequest);
+        breaker.toBreak(toBreak, projectName);
     }
 }

@@ -4,6 +4,7 @@ import br.com.gsw.slack.sonar.notifier.plugin.factory.LogFactory;
 import br.com.gsw.slack.sonar.notifier.plugin.factory.NotifierFactory;
 import br.com.gsw.slack.sonar.notifier.plugin.factory.PluginLoadPropertiesFactory;
 import br.com.gsw.slack.sonar.notifier.plugin.factory.PluginValidatorFactory;
+import br.com.gsw.slack.sonar.notifier.scm.model.Scm;
 import br.com.gsw.slack.sonar.notifier.slack.model.Slack;
 import br.com.gsw.slack.sonar.notifier.sonar.model.Sonar;
 import org.apache.maven.plugin.AbstractMojo;
@@ -21,6 +22,9 @@ public class SlackSonarNotifierMojo extends AbstractMojo {
 
     @Parameter
     private Slack slack;
+
+    @Parameter
+    private Scm scm;
 
     @Parameter(defaultValue = "${project}")
     private MavenProject mavenProject;
@@ -47,11 +51,12 @@ public class SlackSonarNotifierMojo extends AbstractMojo {
 
         sonar = PluginLoadPropertiesFactory.getInstance().sonar(sonar, mavenProject);
         slack = PluginLoadPropertiesFactory.getInstance().slack(slack);
+        scm = PluginLoadPropertiesFactory.getInstance().scm(scm);
 
         PluginValidatorFactory.getInstance().sonar(sonar);
         PluginValidatorFactory.getInstance().slack(slack);
 
-        NotifierFactory.getInstance().start(sonar, slack, toBreak);
+        NotifierFactory.getInstance().start(sonar, slack, scm, toBreak);
     }
 
 }

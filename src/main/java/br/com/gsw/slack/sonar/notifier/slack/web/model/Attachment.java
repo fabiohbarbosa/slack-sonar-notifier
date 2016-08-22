@@ -9,8 +9,20 @@ public class Attachment {
     private String title;
     @SerializedName("title_link")
     private String titleLink;
+    @SerializedName("pretext")
+    private String preText;
     private String color;
     private List<Field> fields;
+    @SerializedName("mrkdwn_in")
+    private List<String> mrkdwnIn;
+
+    public Attachment() {
+        if (mrkdwnIn == null) {
+            mrkdwnIn = new ArrayList<>();
+        }
+        mrkdwnIn.add("fields");
+        mrkdwnIn.add("pretext");
+    }
 
     public void addField(Field field) {
         if (fields == null) {
@@ -33,6 +45,22 @@ public class Attachment {
 
     public void setTitleLink(final String titleLink) {
         this.titleLink = titleLink;
+    }
+
+    public String getPreText() {
+        return preText;
+    }
+
+    public void setPreText(final String preText) {
+        this.preText = preText;
+    }
+
+    public List<String> getMrkdwnIn() {
+        return mrkdwnIn;
+    }
+
+    public void setMrkdwnIn(final List<String> mrkdwnIn) {
+        this.mrkdwnIn = mrkdwnIn;
     }
 
     public String getColor() {

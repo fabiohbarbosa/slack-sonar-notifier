@@ -27,6 +27,12 @@ Acesse a URL: _https://(seu-canal).slack.com/apps/manage/custom-integrations_
                     <password>sonarpass</password>
                     <coverage>60.0</coverage>
                 </sonar>
+                <scm>
+                    <url>https://github.com/gswteam/slack-sonar-notifier</url>
+                    <branch>origin/master</branch>
+                    <user>fabiohbarbosa</user>
+                    <commit>caaef090d185e90132043487bee78b877455e4a1</commit>
+                </scm>
                 <slack>
                     <webhook>https://hooks.slack.com/services/ASHDIU98/98173JOIJ/sv9RRmWpvTes2Oc3y5QeY54G</webhook>
                     <onlyErrors>true</onlyErrors>
@@ -51,9 +57,17 @@ Acesse a URL: _https://(seu-canal).slack.com/apps/manage/custom-integrations_
 
 * **sonar.coverage***: Mínino de cobertura de testes exigida no sonar
 
+* **scm.url**: URL do repositório (SVN/GIT)
+
+* **scm.branch**: Branch no repositório (SVN/GIT)
+
+* **scm.user**: Usuário no repositório (SVN/GIT)
+
+* **scm.commit**: Commit do usuário no repositório
+
 * **slack.webhook**: URL de webhook do slack
 
-* **slack.onlyErrors**: Só notifica os erros no slack
+* **slack.onlyErrors**: Só notifica os erros no slack. Default: true
 
 Caso seu sonar esteja sem configuração de usuário e senha as propriedades`sonar.user` e `sonar.password` não são obrigatórias.
 

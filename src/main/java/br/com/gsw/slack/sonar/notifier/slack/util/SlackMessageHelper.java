@@ -11,8 +11,8 @@ public final class SlackMessageHelper {
         // Block constructor
     }
 
-    public static String projectUrl(final String sonarUrl, final String projectId, final String projectName, final String projectVersion) {
-        return String.format("<%s/dashboard/index?id=%s| SonarQube: %s - v%s>", sonarUrl, projectId, projectName.toUpperCase(), projectVersion);
+    public static String projectUrl(final String sonarUrl, final String projectId, final String projectName) {
+        return String.format("<%s/dashboard/index?id=%s| %s>", sonarUrl, projectId, projectName.toUpperCase());
     }
 
     public static String ratingColor(final String sqaleRating) {
@@ -56,4 +56,10 @@ public final class SlackMessageHelper {
         return valueUrl;
     }
 
+    public static String url(final String valueUrl, final String value) {
+        if (StringUtils.isEmpty(valueUrl)) {
+            return value;
+        }
+        return String.format("<%s|%s>", valueUrl, value);
+    }
 }

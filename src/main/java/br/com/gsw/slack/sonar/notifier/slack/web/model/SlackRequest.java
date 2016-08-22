@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SlackRequest {
-    private Boolean mrkdwn;
+    private boolean mrkdwn = true;
     private String text;
     private List<Attachment> attachments;
 
@@ -15,20 +15,12 @@ public class SlackRequest {
         attachments.add(attachment);
     }
 
-    public void setMrkdwn(final Boolean mrkdwn) {
-        this.mrkdwn = mrkdwn;
-    }
-
     public void setText(final String text) {
         this.text = text;
     }
 
     public void setAttachments(final List<Attachment> attachments) {
         this.attachments = attachments;
-    }
-
-    public Boolean getMrkdwn() {
-        return mrkdwn;
     }
 
     public String getText() {

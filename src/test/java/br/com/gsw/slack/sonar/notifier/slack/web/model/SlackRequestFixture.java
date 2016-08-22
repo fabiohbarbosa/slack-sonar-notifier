@@ -7,7 +7,6 @@ public class SlackRequestFixture {
 
     public static SlackRequest newSlackRequest() {
         final SlackRequest slackRequest = new SlackRequest();
-        slackRequest.setMrkdwn(true);
         slackRequest.setText("Text");
         final Attachment attachment = new Attachment();
         attachment.addField(new Field("field1", true));

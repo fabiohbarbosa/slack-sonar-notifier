@@ -1,6 +1,7 @@
 package br.com.gsw.slack.sonar.notifier.slack.adapter;
 
 import br.com.gsw.slack.sonar.notifier.plugin.factory.LogFactory;
+import br.com.gsw.slack.sonar.notifier.scm.model.Scm;
 import br.com.gsw.slack.sonar.notifier.slack.util.SlackMessageHelper;
 import br.com.gsw.slack.sonar.notifier.slack.web.model.Attachment;
 import br.com.gsw.slack.sonar.notifier.slack.web.model.Field;
@@ -10,6 +11,8 @@ import br.com.gsw.slack.sonar.notifier.sonar.web.model.Color;
 import br.com.gsw.slack.sonar.notifier.sonar.web.model.KeyMsr;
 import br.com.gsw.slack.sonar.notifier.sonar.web.model.ResourceResponse;
 import br.com.gsw.slack.sonar.notifier.sonar.web.model.Severity;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.logging.Log;
 
 import java.util.Map;
@@ -17,7 +20,7 @@ import java.util.Map;
 public class SlackRequestAdapter {
     private final static Log LOGGER = LogFactory.getInstance();
 
-    public SlackRequest adapter(final SonarStats sonarStats) {
+    public SlackRequest adapter(final SonarStats sonarStats, final Scm scm) {
         LOGGER.debug("Slack request adapter...");
 
         if (!isNeedToHook(sonarStats)) {
@@ -25,12 +28,13 @@ public class SlackRequestAdapter {
             return null;
         }
 
-        return adapters(sonarStats);
+        return adapters(sonarStats, scm);
     }
 
-    private SlackRequest adapters(final SonarStats sonarStats) {
+    private SlackRequest adapters(final SonarStats sonarStats, final Scm scm) {
         final SlackRequest slackRequest = new SlackRequest();
-        adapterDefault(slackRequest, sonarStats);
+        adapterProject(slackRequest, sonarStats);
+        adapterScm(slackRequest, scm);
         adapterRatings(slackRequest, sonarStats);
         adapterIssues(slackRequest, sonarStats);
         adapterDuplications(slackRequest, sonarStats);
@@ -38,15 +42,82 @@ public class SlackRequestAdapter {
         return slackRequest;
     }
 
-    private void adapterDefault(final SlackRequest slackRequest, final SonarStats sonarStats) {
-        slackRequest.setMrkdwn(true);
-
+    private void adapterProject(final SlackRequest slackRequest, final SonarStats sonarStats) {
         final String sonarUrl = sonarStats.getSonar().getUrl();
         final String projectId = sonarStats.getProject().getId();
         final String projectName = sonarStats.getProject().getName();
         final String projectVersion = sonarStats.getProject().getVersion();
 
-        slackRequest.setText(SlackMessageHelper.projectUrl(sonarUrl, projectId, projectName, projectVersion));
+        final Attachment attachment = new Attachment();
+        attachment.setColor(Color.PROJECT_COLOR.VALUE);
+        attachment.setPreText("*PROJECT*");
+
+        attachment.addField(new Field(String.format("*Name*: %s", SlackMessageHelper.projectUrl(sonarUrl, projectId, projectName)), false));
+        attachment.addField(new Field(String.format("*Version*: %s", projectVersion), false));
+
+        slackRequest.addAttachment(attachment);
+    }
+
+    private void adapterScm(final SlackRequest slackRequest, final Scm scm) {
+        final Attachment attachment = new Attachment();
+        attachment.setColor(Color.SCM_COLOR.VALUE);
+        attachment.setPreText("*SCM*");
+
+        attachment.addField(createScmField(scm.getUrl(), "URL"));
+        attachment.addField(createScmBranchField(scm));
+        attachment.addField(createScmField(scm.getUser(), "User"));
+        attachment.addField(createScmCommitField(scm));
+
+        if (!CollectionUtils.isEmpty(attachment.getFields())) {
+            slackRequest.addAttachment(attachment);
+        }
+    }
+
+    protected Field createScmBranchField(final Scm scm) {
+        final String url = Scm.normalizeUrl(scm.getUrl());
+        final String branch = Scm.removeOrigin(scm.getBranch());
+
+        if (StringUtils.isEmpty(branch)) {
+            return null;
+        }
+
+        String valueUrl = "";
+        if (!StringUtils.isEmpty(url)) {
+            if (url.contains("github")) {
+                valueUrl = url + "/tree/" + branch;
+            }
+            if (url.contains("bitbucket")) {
+                valueUrl = url + "/src/?at=" + branch;
+            }
+        }
+        return new Field(String.format("*Branch*:\n %s", SlackMessageHelper.url(valueUrl, branch)), true);
+    }
+
+    protected Field createScmCommitField(final Scm scm) {
+        final String url = Scm.normalizeUrl(scm.getUrl());
+        final String commit = scm.getCommit();
+
+        if (StringUtils.isEmpty(commit)) {
+            return null;
+        }
+
+        String valueUrl = "";
+        if (!StringUtils.isEmpty(url)) {
+            if (url.contains("github")) {
+                valueUrl = url + "/commit/" + commit;
+            }
+            if (url.contains("bitbucket")) {
+                valueUrl = url + "/commits/" + commit;
+            }
+        }
+        return new Field(String.format("*Commit*:\n %s", SlackMessageHelper.url(valueUrl, commit)), true);
+    }
+
+    private Field createScmField(final String value, final String title) {
+        if (StringUtils.isEmpty(value)) {
+            return null;
+        }
+        return new Field(String.format("*%s*:\n %s", title, value), true);
     }
 
     private void adapterRatings(final SlackRequest slackRequest, final SonarStats sonarStats) {
@@ -59,19 +130,20 @@ public class SlackRequestAdapter {
         final String sqaleRatio = ratings.getFrmtVal(KeyMsr.SQALE_DEBT_RATIO);
 
         final Attachment attachment = new Attachment();
+        attachment.setPreText("*TECHNICAL DEBT*");
 
         final String sonarUrl = sonarStats.getSonar().getUrl();
         final String projectId = sonarStats.getProject().getId();
 
         attachment.setColor(SlackMessageHelper.ratingColor(sqaleRating));
-        attachment.addField(createFieldForRatings(sonarUrl, projectId, KeyMsr.SQALE_RATING, sqaleRating));
-        attachment.addField(createFieldForRatings(sonarUrl, projectId, KeyMsr.SQALE_DEBT_RATIO, sqaleRatio));
+        attachment.addField(createRatingsField(sonarUrl, projectId, KeyMsr.SQALE_RATING, sqaleRating));
+        attachment.addField(createRatingsField(sonarUrl, projectId, KeyMsr.SQALE_DEBT_RATIO, sqaleRatio));
 
         slackRequest.addAttachment(attachment);
     }
 
-    private Field createFieldForRatings(final String sonarUrl, final String projectId, final KeyMsr keyMsr, final String value) {
-        return new Field(SlackMessageHelper.ratingUrl(sonarUrl, projectId, keyMsr, value), true);
+    private Field createRatingsField(final String sonarUrl, final String projectId, final KeyMsr keyMsr, final String value) {
+        return new Field(SlackMessageHelper.ratingUrl(sonarUrl, projectId, keyMsr, value), false);
     }
 
     private void adapterIssues(final SlackRequest slackRequest, final SonarStats sonarStats) {
@@ -86,21 +158,21 @@ public class SlackRequestAdapter {
         final String sonarUrl = sonarStats.getSonar().getUrl();
         final String projectId = sonarStats.getProject().getId();
 
-        attachment.setTitle(String.format("ISSUES: %s", issues.get(Severity.TOTAL)));
-        attachment.setTitleLink(SlackMessageHelper.allIssuesUrl(sonarUrl, projectId));
+        attachment.setPreText("*ISSUES*");
         attachment.setColor(Color.ISSUES_COLOR.VALUE);
 
-        attachment.addField(createFieldForIssue(sonarUrl, projectId, Severity.BLOCKER, issues));
-        attachment.addField(createFieldForIssue(sonarUrl, projectId, Severity.CRITICAL, issues));
-        attachment.addField(createFieldForIssue(sonarUrl, projectId, Severity.MAJOR, issues));
-        attachment.addField(createFieldForIssue(sonarUrl, projectId, Severity.MINOR, issues));
-        attachment.addField(createFieldForIssue(sonarUrl, projectId, Severity.INFO, issues));
+        attachment.addField(createIssuesField(sonarUrl, projectId, Severity.TOTAL, issues, false));
+        attachment.addField(createIssuesField(sonarUrl, projectId, Severity.BLOCKER, issues, true));
+        attachment.addField(createIssuesField(sonarUrl, projectId, Severity.CRITICAL, issues, true));
+        attachment.addField(createIssuesField(sonarUrl, projectId, Severity.MAJOR, issues, true));
+        attachment.addField(createIssuesField(sonarUrl, projectId, Severity.MINOR, issues, true));
+        attachment.addField(createIssuesField(sonarUrl, projectId, Severity.INFO, issues, true));
 
         slackRequest.addAttachment(attachment);
     }
 
-    private Field createFieldForIssue(final String sonarUrl, final String projectId, final Severity severity, final Map<Severity, Integer> issues) {
-        return new Field(SlackMessageHelper.issueUrl(sonarUrl, projectId, severity, issues.get(severity)), true);
+    private Field createIssuesField(final String sonarUrl, final String projectId, final Severity severity, final Map<Severity, Integer> issues, final boolean isShort) {
+        return new Field(SlackMessageHelper.issueUrl(sonarUrl, projectId, severity, issues.get(severity)), isShort);
     }
 
     private void adapterDuplications(final SlackRequest slackRequest, final SonarStats sonarStats) {
@@ -115,7 +187,7 @@ public class SlackRequestAdapter {
         final String sonarUrl = sonarStats.getSonar().getUrl();
         final String projectId = sonarStats.getProject().getId();
 
-        attachment.setTitle(("DUPLICATED"));
+        attachment.setPreText(("*DUPLICATED*"));
         attachment.setColor(Color.ISSUES_COLOR.VALUE);
 
         final String duplicated = duplications.getFrmtVal(KeyMsr.DUPLICATED_LINES_DENSITY);
@@ -123,15 +195,15 @@ public class SlackRequestAdapter {
         final String blocks = duplications.getFrmtVal(KeyMsr.DUPLICATED_BLOCKS);
         final String files = duplications.getFrmtVal(KeyMsr.DUPLICATED_FILES);
 
-        attachment.addField(createFieldDuplicated(sonarUrl, projectId, KeyMsr.DUPLICATED_LINES_DENSITY, duplicated));
-        attachment.addField(createFieldDuplicated(sonarUrl, projectId, KeyMsr.DUPLICATED_LINES, lines));
-        attachment.addField(createFieldDuplicated(sonarUrl, projectId, KeyMsr.DUPLICATED_BLOCKS, blocks));
-        attachment.addField(createFieldDuplicated(sonarUrl, projectId, KeyMsr.DUPLICATED_FILES, files));
+        attachment.addField(createDuplicatedField(sonarUrl, projectId, KeyMsr.DUPLICATED_LINES_DENSITY, duplicated));
+        attachment.addField(createDuplicatedField(sonarUrl, projectId, KeyMsr.DUPLICATED_LINES, lines));
+        attachment.addField(createDuplicatedField(sonarUrl, projectId, KeyMsr.DUPLICATED_BLOCKS, blocks));
+        attachment.addField(createDuplicatedField(sonarUrl, projectId, KeyMsr.DUPLICATED_FILES, files));
 
         slackRequest.addAttachment(attachment);
     }
 
-    private Field createFieldDuplicated(final String sonarUrl, final String projectId, final KeyMsr keyMsr, final String value) {
+    private Field createDuplicatedField(final String sonarUrl, final String projectId, final KeyMsr keyMsr, final String value) {
         return new Field(SlackMessageHelper.duplicatedUrl(sonarUrl, projectId, keyMsr, value), true);
     }
 
@@ -147,27 +219,27 @@ public class SlackRequestAdapter {
         final String sonarUrl = sonarStats.getSonar().getUrl();
         final String projectId = sonarStats.getProject().getId();
 
-        attachment.setTitle(("TESTS"));
+        attachment.setPreText(("*TESTS*"));
         attachment.setColor(Color.ISSUES_COLOR.VALUE);
 
+        final String coverage = tests.getFrmtVal(KeyMsr.COVERAGE);
+        final String success = tests.getFrmtVal(KeyMsr.TESTS_SUCCESS);
         final String total = tests.getFrmtVal(KeyMsr.TESTS_TOTAL);
-        final String error = tests.getFrmtVal(KeyMsr.TESTS_ERROR);
         final String skipped = tests.getFrmtVal(KeyMsr.TESTS_SKIPPED);
         final String failures = tests.getFrmtVal(KeyMsr.TESTS_FAILURES);
-        final String success = tests.getFrmtVal(KeyMsr.TESTS_SUCCESS);
-        final String coverage = tests.getFrmtVal(KeyMsr.COVERAGE);
+        final String error = tests.getFrmtVal(KeyMsr.TESTS_ERROR);
 
-        attachment.addField(createFieldTests(sonarUrl, projectId, KeyMsr.TESTS_TOTAL, total));
-        attachment.addField(createFieldTests(sonarUrl, projectId, KeyMsr.TESTS_ERROR, error));
-        attachment.addField(createFieldTests(sonarUrl, projectId, KeyMsr.TESTS_SKIPPED, skipped));
-        attachment.addField(createFieldTests(sonarUrl, projectId, KeyMsr.TESTS_FAILURES, failures));
-        attachment.addField(createFieldTests(sonarUrl, projectId, KeyMsr.TESTS_SUCCESS, success));
-        attachment.addField(createFieldTests(sonarUrl, projectId, KeyMsr.COVERAGE, coverage));
+        attachment.addField(createTestsField(sonarUrl, projectId, KeyMsr.COVERAGE, coverage));
+        attachment.addField(createTestsField(sonarUrl, projectId, KeyMsr.TESTS_SUCCESS, success));
+        attachment.addField(createTestsField(sonarUrl, projectId, KeyMsr.TESTS_TOTAL, total));
+        attachment.addField(createTestsField(sonarUrl, projectId, KeyMsr.TESTS_SKIPPED, skipped));
+        attachment.addField(createTestsField(sonarUrl, projectId, KeyMsr.TESTS_FAILURES, failures));
+        attachment.addField(createTestsField(sonarUrl, projectId, KeyMsr.TESTS_ERROR, error));
 
         slackRequest.addAttachment(attachment);
     }
 
-    private Field createFieldTests(final String sonarUrl, final String projectId, final KeyMsr keyKsr, final String total) {
+    private Field createTestsField(final String sonarUrl, final String projectId, final KeyMsr keyKsr, final String total) {
         return new Field(SlackMessageHelper.testsUrl(sonarUrl, projectId, keyKsr, total), true);
     }
 
