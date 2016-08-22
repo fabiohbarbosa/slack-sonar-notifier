@@ -67,13 +67,13 @@ Chave do projeto no sonar, podendo utilizar o `project.groupId:project.artifactI
 
 ***
 
-**sonar.url**:
+**sonar.url***:
 URL do sonar
 * _Property_: -Dsonar.url ou -Dsonar.host.url
 
 ***
 
-**sonar.user** :
+**sonar.user**:
 Usuário para acesso ao sonar
 * _Property_: -Dsonar.user
 
