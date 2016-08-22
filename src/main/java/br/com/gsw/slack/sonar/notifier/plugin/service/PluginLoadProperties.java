@@ -1,6 +1,7 @@
 package br.com.gsw.slack.sonar.notifier.plugin.service;
 
 import br.com.gsw.slack.sonar.notifier.plugin.factory.LogFactory;
+import br.com.gsw.slack.sonar.notifier.scm.model.Scm;
 import br.com.gsw.slack.sonar.notifier.slack.model.Slack;
 import br.com.gsw.slack.sonar.notifier.sonar.model.Sonar;
 import org.apache.maven.plugin.logging.Log;
@@ -21,72 +22,59 @@ public class PluginLoadProperties {
         LOGGER.debug("Sonar properties");
         LOGGER.debug(sonarProp.toString());
 
-        sonarProp = sonarKey(sonarProp, mavenProject);
-        sonarProp = sonarUrl(sonarProp);
-        sonarProp = sonarUser(sonarProp);
-        sonarProp = sonarPassword(sonarProp);
-        sonarProp = sonarCoverage(sonarProp);
+        sonarProp.setKey(sonarKey(sonarProp, mavenProject));
+        sonarProp.setUrl(sonarUrl(sonarProp));
+        sonarProp.setUser(sonarUser(sonarProp));
+        sonarProp.setPassword(sonarPassword(sonarProp));
+        sonarProp.setCoverage(sonarCoverage(sonarProp));
 
         return sonarProp;
     }
 
-    protected Sonar sonarPassword(final Sonar sonarProp) {
-        if (isEmpty(sonarProp.getPassword())) {
-            LOGGER.debug(String.format("Load %s from property", "sonar.password"));
-            final String property = System.getProperty("sonar.password");
-            if (!isEmpty(property)) {
-                sonarProp.setPassword(property);
-            }
+    protected String sonarKey(final Sonar sonarProp, final MavenProject project) {
+        String property = sonarProp.getKey();
+        if (isEmpty(property)) {
+            property = getProperty("sonar.key");
         }
-        return sonarProp;
-    }
-
-    protected Sonar sonarUser(final Sonar sonarProp) {
-        if (isEmpty(sonarProp.getUser())) {
-            LOGGER.debug(String.format("Load %s from property", "sonar.user"));
-            final String property = System.getProperty("sonar.user");
-            if (!isEmpty(property)) {
-                sonarProp.setUser(property);
-            }
-        }
-        return sonarProp;
-    }
-
-    protected Sonar sonarUrl(final Sonar sonarProp) {
-        if (isEmpty(sonarProp.getUrl())) {
-            LOGGER.debug(String.format("Load %s from property", "sonar.url"));
-            final String property = System.getProperty("sonar.url");
-            if (!isEmpty(property)) {
-                sonarProp.setUrl(property);
-            }
-        }
-        return sonarProp;
-    }
-
-    protected Sonar sonarKey(final Sonar sonarProp, final MavenProject project) {
-        if (isEmpty(sonarProp.getKey())) {
-            LOGGER.debug(String.format("Load %s from property", "sonar.key"));
-            final String property = System.getProperty("sonar.key");
-            if (!isEmpty(property)) {
-                sonarProp.setKey(property);
-            }
-        }
-        if (isEmpty(sonarProp.getKey())) {
+        if (isEmpty(property)) {
             LOGGER.debug(String.format("Load %s from project artifactId and groupId", "sonar.key"));
-            sonarProp.setKey(project.getGroupId()+":"+project.getArtifactId());
+            property = project.getGroupId()+":"+project.getArtifactId();
         }
-        return sonarProp;
+        return property;
     }
 
-    protected Sonar sonarCoverage(final Sonar sonarProp) {
-        if (sonarProp.getCoverage() == null) {
-            LOGGER.debug(String.format("Load %s from property", "sonar.coverage"));
-            final String property = System.getProperty("sonar.coverage");
-            if (!isEmpty(property)) {
-                sonarProp.setCoverage(Double.parseDouble(property));
+    protected String sonarUrl(final Sonar sonarProp) {
+        String property = sonarProp.getUrl();
+        if (isEmpty(property)) {
+            property = getProperty("sonar.url");
+        }
+        return property;
+    }
+
+    protected String sonarPassword(final Sonar sonarProp) {
+        String property = sonarProp.getPassword();
+        if (isEmpty(property)) {
+            property = getProperty("sonar.password");
+        }
+        return property;
+    }
+
+    protected String sonarUser(final Sonar sonarProp) {
+        String property = sonarProp.getUser();
+        if (isEmpty(property)) {
+            property = getProperty("sonar.user");
+        }
+        return property;
+    }
+
+    protected Double sonarCoverage(final Sonar sonarProp) {
+        Double property = sonarProp.getCoverage();
+        if (property == null) {
+            if (!isEmpty(getProperty("sonar.coverage"))) {
+                property = Double.parseDouble(getProperty("sonar.coverage"));
             }
         }
-        return sonarProp;
+        return property;
     }
 
     //-- slack
@@ -95,32 +83,87 @@ public class PluginLoadProperties {
             slack = new Slack();
         }
 
-        final Slack slackProp = new Slack(slack.getWebhook(), slack.getOnlyErrors());
-        slackWebhook(slackProp);
-        slackOnlyErrors(slackProp);
+        Slack slackProp = new Slack(slack.getWebhook(), slack.getOnlyErrors());
+
+        LOGGER.debug("Slack properties");
+        LOGGER.debug(slackProp.toString());
+
+        slackProp.setWebhook(slackWebhook(slackProp));
+        slackProp.setOnlyErrors(slackOnlyErrors(slackProp));
 
         return slackProp;
     }
 
-    protected Slack slackOnlyErrors(final Slack slackProp) {
-        if (slackProp.getOnlyErrors() == null) {
-            LOGGER.debug(String.format("Load %s from property", "slack.onlyErrors"));
-            final String property = System.getProperty("slack.onlyErrors");
-            if (!isEmpty(property)) {
-                slackProp.setOnlyErrors(Boolean.valueOf(property));
-            }
+    protected String slackWebhook(final Slack slackProp) {
+        String property = slackProp.getWebhook();
+        if (isEmpty(property)) {
+            property = getProperty("slack.webhook");
         }
-        return slackProp;
+        return property;
     }
 
-    protected Slack slackWebhook(final Slack slackProp) {
-        if (isEmpty(slackProp.getWebhook())) {
-            LOGGER.debug(String.format("Load %s from property", "slack.webhook"));
-            final String property = System.getProperty("slack.webhook");
-            if (!isEmpty(property)) {
-                slackProp.setWebhook(property);
+    protected Boolean slackOnlyErrors(final Slack slackProp) {
+        Boolean property = slackProp.getOnlyErrors();
+        if (property == null) {
+            if (!isEmpty(getProperty("slack.onlyErrors"))) {
+                property = Boolean.valueOf(getProperty("slack.onlyErrors"));
             }
         }
-        return slackProp;
+        return property;
+    }
+
+    //-- scm
+    public Scm scm(Scm scm) {
+        if (scm == null) {
+            scm = new Scm();
+        }
+        Scm scmProp = new Scm(scm.getUrl(), scm.getBranch(), scm.getUser(), scm.getCommit());
+
+        LOGGER.debug("Scm properties");
+        LOGGER.debug(scmProp.toString());
+
+        scmProp.setUrl(scmUrl(scmProp));
+        scmProp.setBranch(scmBranch(scmProp));
+        scmProp.setUser(scmUser(scmProp));
+        scmProp.setCommit(scmCommit(scmProp));
+
+        return scmProp;
+    }
+
+    private String scmUrl(final Scm scmProp) {
+        String property = scmProp.getUser();
+        if (isEmpty(property)) {
+            property = getProperty("scm.url");
+        }
+        return property;
+    }
+
+    protected String scmUser(final Scm scmProp) {
+        String property = scmProp.getUser();
+        if (isEmpty(property)) {
+            property = getProperty("scm.user");
+        }
+        return property;
+    }
+
+    protected String scmBranch(final Scm scmProp) {
+        String property = scmProp.getBranch();
+        if (isEmpty(property)) {
+            property = getProperty("scm.branch");
+        }
+        return property;
+    }
+
+    private String scmCommit(final Scm scmProp) {
+        String property = scmProp.getUser();
+        if (isEmpty(property)) {
+            property = getProperty("scm.commit");
+        }
+        return property;
+    }
+
+    private String getProperty(final String scmUser) {
+        LOGGER.debug(String.format("Load %s from property", scmUser));
+        return System.getProperty(scmUser);
     }
 }
