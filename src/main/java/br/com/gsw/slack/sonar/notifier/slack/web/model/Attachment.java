@@ -25,6 +25,9 @@ public class Attachment {
     }
 
     public void addField(Field field) {
+        if (field == null) {
+            return;
+        }
         if (fields == null) {
             fields = new ArrayList<>();
         }
