@@ -106,11 +106,11 @@ public class PluginLoadPropertiesTest extends PrepareFactoryTests {
         sonar.setLogin(null);
 
         // set property
-        final String user = "sonar.login";
-        System.setProperty("sonar.login", user);
+        final String login = "sonar.login";
+        System.setProperty("sonar.login", login);
 
         final String property = loadProperties.sonarLogin(sonar);
-        assertEquals(user, property);
+        assertEquals(login, property);
     }
 
     @Test
@@ -119,11 +119,11 @@ public class PluginLoadPropertiesTest extends PrepareFactoryTests {
         sonar.setLogin("");
 
         // set property
-        final String user = "sonar.login";
-        System.setProperty("sonar.login", user);
+        final String login = "sonar.login";
+        System.setProperty("sonar.login", login);
 
         final String property = loadProperties.sonarLogin(sonar);
-        assertEquals(user, property);
+        assertEquals(login, property);
     }
 
     //~-- sonar.password
