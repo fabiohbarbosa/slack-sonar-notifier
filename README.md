@@ -43,31 +43,56 @@ Acesse a URL: _https://(seu-canal).slack.com/apps/manage/custom-integrations_
 </build>
 
 ```
-* **skipNotifier**: Não executar o plugin
+###### skipNotifier 
+Não executa o plugin
+**Propriedade**: -DskipNotifier
+**Obrigatório**: Não
+**Default**: false
 
-* **breakNotifier**: Quebra a execução do plugin caso seja encontrado erros no sonar
+###### breakNotifier 
+Quebra a execução do plugin caso seja encontrado erros no sonar
+**Propriedade**: -DbreakNotifier
+**Obrigatório**: Não
+**Default**: false
 
-* **sonar.key**: Chave do projeto no sonar, podendo utilizar o `project.groupId:project.artifactId` do projeto, ou o id no sonar (entre no projeto no sonar e verifique o ID na url).
+###### sonar.key
+Chave do projeto no sonar, podendo utilizar o `project.groupId:project.artifactId` do projeto, ou o id no sonar (entre no projeto no sonar e verifique o ID na url).
+**Propriedade**: -Dsonar.key
+**Obrigatório**: Sim
+**Default**: ${project.groupId}:${project.artifactId}
 
-* **sonar.url**: Url do sonar
+###### sonar.url 
+Url do sonar
+**Propriedade**: -Dsonar.url ou -Dsonar.host.url
+**Obrigatório**: Não
+**Default**: false
 
-* **sonar.user**: Usuário para acesso ao sonar
+###### sonar.user 
+Usuário para acesso ao sonar
 
-* **sonar.password**: Senha do usuário para acesso ao sonar
+###### sonar.password 
+Senha do usuário para acesso ao sonar
 
-* **sonar.coverage***: Mínino de cobertura de testes exigida no sonar
+###### sonar.coverage* 
+Mínino de cobertura de testes exigida no sonar
 
-* **scm.url**: URL do repositório (SVN/GIT)
+###### scm.url 
+URL do repositório (SVN/GIT)
 
-* **scm.branch**: Branch no repositório (SVN/GIT)
+###### scm.branch 
+Branch no repositório (SVN/GIT)
 
-* **scm.user**: Usuário no repositório (SVN/GIT)
+###### scm.user 
+Usuário no repositório (SVN/GIT)
 
-* **scm.commit**: Commit do usuário no repositório
+###### scm.commit 
+Commit do usuário no repositório
 
-* **slack.webhook**: URL de webhook do slack
+###### slack.webhook 
+URL de webhook do slack
 
-* **slack.onlyErrors**: Só notifica os erros no slack. Default: true
+###### slack.onlyErrors 
+Só notifica os erros no slack. Default: true
 
 Caso seu sonar esteja sem configuração de usuário e senha as propriedades`sonar.user` e `sonar.password` não são obrigatórias.
 
@@ -97,7 +122,7 @@ Maven properties:
 
 * **sonar.key**: Chave do projeto no sonar, podendo utilizar o `groupId:artifactId` do projeto, ou o id no sonar (entre no projeto no sonar e verifique o ID na url).
 
-* **sonar.url**: Url do sonar
+* **sonar.host.url**: Url do sonar
 
 * **sonar.user**: Usuário para acesso ao sonar
 
@@ -113,7 +138,7 @@ Exemplo:
 ```sh
 mvn clean install \
 -Dsonar.key=br.com.gsw.slack:sonar-notifier \
--Dsonar.url=http://sonarqube.gsw.com.br \
+-Dsonar.host.url=http://sonarqube.gsw.com.br \
 -Dsonar.user=sonaruser \
 -Dsonar.password=sonarpass \
 -Dsonar.coverage=60.0 \
