@@ -7,12 +7,12 @@ public class ScmFixture {
 
     public static Scm newScmBitbucket() {
         final String url = "https://bitbucket.com/gswteam/slack-sonar-notifier/";
-        return newScm(url, "origin/master", "fabiohbarbosa", "caaef090d185e90132043487bee78b877455e4a1");
+        return newScm(url, "origin/testIT", "fabiohbarbosa", "caaef090d185e90132043487bee78b877455e4a1");
     }
 
     public static Scm newScmGithub() {
         final String url = "https://github.com/gswteam/slack-sonar-notifier/";
-        return newScm(url, "origin/master", "fabiohbarbosa", "caaef090d185e90132043487bee78b877455e4a1");
+        return newScm(url, "origin/testIT", "fabiohbarbosa", "caaef090d185e90132043487bee78b877455e4a1");
     }
 
     private static Scm newScm(final String url, final String branch, final String user, final String commit) {
