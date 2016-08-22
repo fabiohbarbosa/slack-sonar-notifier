@@ -85,6 +85,8 @@ Senha do usuário para acesso ao sonar
 
 **sonar.coverage**:
 Mínino de cobertura de testes exigida no sonar
+
+_Só tem utilidade quando as properties `breakNotifier` ou `slack.onlyErrors` estiver habilitada_
 * _Property_: -Dsonar.coverage
 
 ***
@@ -127,9 +129,6 @@ Só notifica os erros no slack. Default: true
 ***
 
 > * Obrigatórios
-Caso seu sonar esteja sem configuração de usuário e senha as propriedades`sonar.user` e `sonar.password` não são obrigatórias.
-
-* *Só tem utilidade quando a variável `slack.onlyErrors` estiver habilitada*
 
 ### 3. Execute o plugin
 ```sh
