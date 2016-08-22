@@ -110,7 +110,7 @@ public class SlackRequestAdapter {
                 valueUrl = url + "/commits/" + commit;
             }
         }
-        return new Field(String.format("*Commit*:\n %s", SlackMessageHelper.url(valueUrl, commit.substring(7))), true);
+        return new Field(String.format("*Commit*:\n %s", SlackMessageHelper.url(valueUrl, commit)), true);
     }
 
     private Field createScmField(final String value, final String title) {
