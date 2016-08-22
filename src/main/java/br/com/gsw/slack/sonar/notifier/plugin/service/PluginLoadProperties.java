@@ -158,7 +158,7 @@ public class PluginLoadProperties {
     }
 
     private String scmCommit(final Scm scmProp) {
-        String property = scmProp.getUser();
+        String property = scmProp.getCommit();
         if (isEmpty(property)) {
             property = getProperty("scm.commit");
         }
