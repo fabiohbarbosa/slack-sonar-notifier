@@ -23,7 +23,7 @@ public class PluginValidator {
             throw new IllegalArgumentException(errorMessage);
         }
         if (isEmpty(sonar.getUrl())) {
-            final String errorMessage = "Plugin require sonar.url property";
+            final String errorMessage = "Plugin require sonar.url or sonar.host.url property";
             LOGGER.error(errorMessage);
             throw new IllegalArgumentException(errorMessage);
         }
