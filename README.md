@@ -44,6 +44,8 @@ Acesse a URL: _https://(seu-canal).slack.com/apps/manage/custom-integrations_
 
 ```
 
+***
+
 **skipNotifier**: 
 Não executa o plugin
 * _Property_: -DskipNotifier
