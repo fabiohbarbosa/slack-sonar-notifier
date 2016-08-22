@@ -45,39 +45,34 @@ Acesse a URL: _https://(seu-canal).slack.com/apps/manage/custom-integrations_
 ```
 **skipNotifier**: 
 Não executa o plugin
-* **Property**: -DskipNotifier
-* **Default**: false
+* _Property_: -DskipNotifier
+* _Default_: false
 
 **breakNotifier**: 
 Quebra a execução do plugin caso seja encontrado erros no sonar
-* **Property**: -DbreakNotifier
-* **Default**: false
+* _Property_: -DbreakNotifier
+* _Default_: false
 
 **sonar.key***:
 Chave do projeto no sonar, podendo utilizar o `project.groupId:project.artifactId` do projeto, ou o id no sonar (entre no projeto no sonar e verifique o ID na url).
-* **Property**: -Dsonar.key
-* **Default**: ${project.groupId}:${project.artifactId}
+* _Property_: -Dsonar.key
+* _Default_: ${project.groupId}:${project.artifactId}
 
 **sonar.url**:
 Url do sonar
-* **Property**: -Dsonar.url ou -Dsonar.host.url
+* _Property_: -Dsonar.url ou -Dsonar.host.url
 
 **sonar.user** :
 Usuário para acesso ao sonar
-* **Property**: -Dsonar.user
+* _Property_: -Dsonar.user
 
 **sonar.password**: 
 Senha do usuário para acesso ao sonar
-* **Property**: -Dsonar.password
+* _Property_: -Dsonar.password
 
-###### \<sonar.coverage\>
+**sonar.coverage**:
 Mínino de cobertura de testes exigida no sonar
-
-**Propriedade**: -Dsonar.url ou -Dsonar.host.url
-
-**Obrigatório**: Não
-
-***
+* _Propriedade_: -Dsonar.coverage
 
 ###### scm.url 
 URL do repositório (SVN/GIT)
