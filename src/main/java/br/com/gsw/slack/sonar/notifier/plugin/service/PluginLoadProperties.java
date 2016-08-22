@@ -48,6 +48,9 @@ public class PluginLoadProperties {
         if (isEmpty(property)) {
             property = getProperty("sonar.url");
         }
+        if (isEmpty(property)) {
+            property = getProperty("sonar.host.url");
+        }
         return property;
     }
 

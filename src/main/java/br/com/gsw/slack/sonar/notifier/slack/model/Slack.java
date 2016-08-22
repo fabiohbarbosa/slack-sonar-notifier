@@ -2,7 +2,7 @@ package br.com.gsw.slack.sonar.notifier.slack.model;
 
 public class Slack {
     private String webhook;
-    private Boolean onlyErrors;
+    private Boolean onlyErrors = true;
 
     public Slack() {
     }

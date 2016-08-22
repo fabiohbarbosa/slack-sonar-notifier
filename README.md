@@ -48,6 +48,7 @@ Acesse a URL: _https://(seu-canal).slack.com/apps/manage/custom-integrations_
 
 **skipNotifier**: 
 Não executa o plugin
+* _Type_: Boolean
 * _Property_: -DskipNotifier
 * _Default_: false
 
@@ -55,6 +56,7 @@ Não executa o plugin
 
 **breakNotifier**: 
 Caso seja encontrado erros no sonar, quebra o build
+* _Type_: Boolean
 * _Property_: -DbreakNotifier
 * _Default_: false
 
@@ -62,6 +64,7 @@ Caso seja encontrado erros no sonar, quebra o build
 
 **sonar.key***:
 Chave do projeto no sonar, podendo utilizar o `project.groupId:project.artifactId`, ou o id no sonar (entre no projeto no sonar e verifique o ID na url).
+* _Type_: String
 * _Property_: -Dsonar.key
 * _Default_: ${project.groupId}:${project.artifactId}
 
@@ -69,18 +72,21 @@ Chave do projeto no sonar, podendo utilizar o `project.groupId:project.artifactI
 
 **sonar.url***:
 URL do sonar
+* _Type_: String
 * _Property_: -Dsonar.url ou -Dsonar.host.url
 
 ***
 
 **sonar.user**:
 Usuário para acesso ao sonar
+* _Type_: String
 * _Property_: -Dsonar.user
 
 ***
 
 **sonar.password**: 
 Senha do usuário para acesso ao sonar
+* _Type_: String
 * _Property_: -Dsonar.password
 
 ***
@@ -88,45 +94,53 @@ Senha do usuário para acesso ao sonar
 **sonar.coverage**:
 Mínino de cobertura de testes exigida no sonar
 
-_Só tem utilidade quando as properties `breakNotifier` ou `slack.onlyErrors` estiver habilitada_
+_Só tem utilidade quando as properties `breakNotifier` ou `slack.onlyErrors` estiverem habilitadas_
+* _Type_: Double
 * _Property_: -Dsonar.coverage
 
 ***
 
 **scm.url**: 
 URL do repositório (SVN/GIT)
+* _Type_: String
 * _Property_: -Dscm.url
 
 ***
 
 **scm.branch**: 
 Branch no repositório (SVN/GIT)
+* _Type_: String
 * _Property_: -Dscm.branch
 
 ***
 
 **scm.user**:
 Usuário no repositório (SVN/GIT)
+* _Type_: String
 * _Property_: -Dscm.user
 
 ***
 
 **scm.commit**: 
 Commit do usuário no repositório
+* _Type_: String
 * _Property_: -Dscm.commit
 
 ***
 
 **slack.webhook***: 
 URL de webhook do slack
+* _Type_: String
 * _Property_: -Dslack.webhook
 
 ***
 
 
 **slack.onlyErrors**: 
-Só notifica os erros no slack. Default: true
+Só notifica os erros no slack
+* _Type_: Boolean
 * _Property_: -Dslack.onlyErrors
+* _Default_: true
 
 ***
 
@@ -152,29 +166,11 @@ Os testes integrados dependem de um Sonar e um Slack configurados para serem exe
 
 Basta passar os dados de configurações como variáveis para a execução dos testes.
 
-Maven properties:
-
-* **sonar.key**: Chave do projeto no sonar, podendo utilizar o `groupId:artifactId` do projeto, ou o id no sonar (entre no projeto no sonar e verifique o ID na url).
-
-* **sonar.host.url**: Url do sonar
-
-* **sonar.user**: Usuário para acesso ao sonar
-
-* **sonar.password**: Senha do usuário para acesso ao sonar
-
-* **sonar.coverage**: Mínino de cobertura de testes exigida no sonar
-
-* **slack.webhook**: URL de webhook do slack
-
-Caso seu sonar esteja sem configuração de usuário e senha as propriedades`sonar.user` e `sonar.password` não são obrigatórias.
-
 Exemplo:
 ```sh
 mvn clean install \
 -Dsonar.key=br.com.gsw.slack:sonar-notifier \
 -Dsonar.host.url=http://sonarqube.gsw.com.br \
--Dsonar.user=sonaruser \
--Dsonar.password=sonarpass \
 -Dsonar.coverage=60.0 \
 -Dslack.webhook=https://hooks.slack.com/services/ASHDIU98/98173JOIJ/sv9RRmWpvTes2Oc3y5QeY54G
 ```
