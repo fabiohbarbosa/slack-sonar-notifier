@@ -3,17 +3,17 @@ package br.com.gsw.slack.sonar.notifier.sonar.model;
 public class Sonar {
     private String key;
     private String url;
-    private String user;
+    private String login;
     private String password;
     private Double coverage;
 
     public Sonar() {
     }
 
-    public Sonar(final String key, final String url, final String user, final String password, final Double coverage) {
+    public Sonar(final String key, final String url, final String login, final String password, final Double coverage) {
         this.key = key;
         this.url = url;
-        this.user = user;
+        this.login = login;
         this.password = password;
         this.coverage = coverage;
     }
@@ -39,12 +39,12 @@ public class Sonar {
         this.url = url;
     }
 
-    public String getUser() {
-        return user;
+    public String getLogin() {
+        return login;
     }
 
-    public void setUser(final String user) {
-        this.user = user;
+    public void setLogin(final String login) {
+        this.login = login;
     }
 
     public String getPassword() {
@@ -68,14 +68,14 @@ public class Sonar {
         return "Sonar{" +
                 "key='" + key + '\'' +
                 ", url='" + url + '\'' +
-                ", user='" + user + '\'' +
+                ", login='" + login + '\'' +
                 ", coverage='" + coverage + '\'' +
                 '}';
     }
 
     public static Sonar createOrClone(final Sonar sonar) {
         if (sonar != null) {
-            return new Sonar(sonar.getKey(), sonar.getUrl(), sonar.getUser(),sonar.getPassword(), sonar.getCoverage());
+            return new Sonar(sonar.getKey(), sonar.getUrl(), sonar.getLogin(),sonar.getPassword(), sonar.getCoverage());
         }
         return new Sonar();
     }

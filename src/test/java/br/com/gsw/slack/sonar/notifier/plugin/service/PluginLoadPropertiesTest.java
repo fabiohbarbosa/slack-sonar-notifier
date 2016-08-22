@@ -23,7 +23,7 @@ public class PluginLoadPropertiesTest extends PrepareFactoryTests {
         final Sonar sonarProp = loadProperties.sonar(sonar, MavenProjectFixture.newProject());
         assertEquals(sonar.getKey(), sonarProp.getKey());
         assertEquals(sonar.getUrl(), sonarProp.getUrl());
-        assertEquals(sonar.getUser(), sonarProp.getUser());
+        assertEquals(sonar.getLogin(), sonarProp.getLogin());
         assertEquals(sonar.getPassword(), sonarProp.getPassword());
         assertEquals(sonar.getCoverage(), sonarProp.getCoverage());
     }
@@ -99,30 +99,30 @@ public class PluginLoadPropertiesTest extends PrepareFactoryTests {
         assertEquals(url, property);
     }
 
-    //~-- sonar.user
+    //~-- sonar.login
     @Test
-    public void sonarTestNullUser() {
+    public void sonarTestNullLogin() {
         final Sonar sonar = SonarFixture.newSonar();
-        sonar.setUser(null);
+        sonar.setLogin(null);
 
         // set property
-        final String user = "sonar.user";
-        System.setProperty("sonar.user", user);
+        final String user = "sonar.login";
+        System.setProperty("sonar.login", user);
 
-        final String property = loadProperties.sonarUser(sonar);
+        final String property = loadProperties.sonarLogin(sonar);
         assertEquals(user, property);
     }
 
     @Test
-    public void sonarTestEmptyUser() {
+    public void sonarTestEmptyLogin() {
         final Sonar sonar = SonarFixture.newSonar();
-        sonar.setUser("");
+        sonar.setLogin("");
 
         // set property
-        final String user = "sonar.user";
-        System.setProperty("sonar.user", user);
+        final String user = "sonar.login";
+        System.setProperty("sonar.login", user);
 
-        final String property = loadProperties.sonarUser(sonar);
+        final String property = loadProperties.sonarLogin(sonar);
         assertEquals(user, property);
     }
 

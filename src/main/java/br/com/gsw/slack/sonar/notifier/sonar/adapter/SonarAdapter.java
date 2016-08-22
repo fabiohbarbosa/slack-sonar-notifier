@@ -23,7 +23,7 @@ public class SonarAdapter {
     public SonarStats adapter(final Sonar sonar) {
         LOGGER.debug("Sonar adapter...");
         final String url = sonar.getUrl();
-        final String user = sonar.getUser();
+        final String user = sonar.getLogin();
         final String password = sonar.getPassword();
         final String key = sonar.getKey();
         LOGGER.info(String.format("Trying to get sonar stats of %s from %s", key, url));

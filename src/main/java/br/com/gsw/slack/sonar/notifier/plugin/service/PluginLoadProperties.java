@@ -17,14 +17,14 @@ public class PluginLoadProperties {
         if (sonar == null) {
             sonar = new Sonar();
         }
-        Sonar sonarProp = new Sonar(sonar.getKey(), sonar.getUrl(), sonar.getUser(),sonar.getPassword(), sonar.getCoverage());
+        Sonar sonarProp = new Sonar(sonar.getKey(), sonar.getUrl(), sonar.getLogin(),sonar.getPassword(), sonar.getCoverage());
 
         LOGGER.debug("Sonar properties");
         LOGGER.debug(sonarProp.toString());
 
         sonarProp.setKey(sonarKey(sonarProp, mavenProject));
         sonarProp.setUrl(sonarUrl(sonarProp));
-        sonarProp.setUser(sonarUser(sonarProp));
+        sonarProp.setLogin(sonarLogin(sonarProp));
         sonarProp.setPassword(sonarPassword(sonarProp));
         sonarProp.setCoverage(sonarCoverage(sonarProp));
 
@@ -62,10 +62,10 @@ public class PluginLoadProperties {
         return property;
     }
 
-    protected String sonarUser(final Sonar sonarProp) {
-        String property = sonarProp.getUser();
+    protected String sonarLogin(final Sonar sonarProp) {
+        String property = sonarProp.getLogin();
         if (isEmpty(property)) {
-            property = getProperty("sonar.user");
+            property = getProperty("sonar.login");
         }
         return property;
     }

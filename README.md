@@ -23,7 +23,7 @@ Acesse a URL: _https://(seu-canal).slack.com/apps/manage/custom-integrations_
                 <sonar>
                     <key>${project.groupId}:${project.artifactId}</key>
                     <url>http://sonarqube.gsw.com.br</url>
-                    <user>sonaruser</user>
+                    <login>sonaruser</login>
                     <password>sonarpass</password>
                     <coverage>60.0</coverage>
                 </sonar>
@@ -77,10 +77,10 @@ URL do sonar
 
 ***
 
-**sonar.user**:
-Usuário para acesso ao sonar
+**sonar.login**:
+Login para acesso ao sonar
 * _Type_: String
-* _Property_: -Dsonar.user
+* _Property_: -Dsonar.login
 
 ***
 

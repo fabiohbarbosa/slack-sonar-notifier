@@ -4,7 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 
 public class SonarFixture {
     public static Sonar newSonar() {
-        return new Sonar("sonar.key", "sonar.host.url", "sonar.user", "sonar.password", 60.0);
+        return new Sonar("sonar.key", "sonar.host.url", "sonar.login", "sonar.password", 60.0);
     }
     public static Sonar newSonarAuthEnv() {
         final String key = System.getProperty("sonar.key");
@@ -12,7 +12,7 @@ public class SonarFixture {
         if (StringUtils.isEmpty(url)) {
              url = System.getProperty("sonar.host.url");
         }
-        final String user = System.getProperty("sonar.user");
+        final String user = System.getProperty("sonar.login");
         final String password = System.getProperty("sonar.password");
         final String coverageProp = System.getProperty("sonar.coverage");
 
