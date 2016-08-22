@@ -165,8 +165,9 @@ public class PluginLoadProperties {
         return property;
     }
 
-    private String getProperty(final String scmUser) {
-        LOGGER.debug(String.format("Load %s from property", scmUser));
-        return System.getProperty(scmUser);
+    private String getProperty(final String property) {
+        final String sysProp = System.getProperty(property);
+        LOGGER.debug(String.format("Load %s : %s from property", property, sysProp));
+        return sysProp;
     }
 }
