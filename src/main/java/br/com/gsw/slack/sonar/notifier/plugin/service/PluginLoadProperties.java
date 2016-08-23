@@ -4,6 +4,7 @@ import br.com.gsw.slack.sonar.notifier.plugin.factory.LogFactory;
 import br.com.gsw.slack.sonar.notifier.scm.model.Scm;
 import br.com.gsw.slack.sonar.notifier.slack.model.Slack;
 import br.com.gsw.slack.sonar.notifier.sonar.model.Sonar;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.project.MavenProject;
 
@@ -167,7 +168,11 @@ public class PluginLoadProperties {
 
     private String getProperty(final String property) {
         final String sysProp = System.getProperty(property);
-        LOGGER.debug(String.format("Read system property '%s' to %s", sysProp, property));
-        return sysProp;
+
+        if (!StringUtils.isEmpty(sysProp)) {
+            LOGGER.debug(String.format("Read system property '%s' to %s", sysProp, property));
+            return sysProp;
+        }
+        return null;
     }
 }
