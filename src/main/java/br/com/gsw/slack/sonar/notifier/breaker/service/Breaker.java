@@ -11,7 +11,7 @@ public class Breaker {
         if (toBreak) {
             final String errorMsg = String.format("Found sonar problems in project %s", projectName);
             LOGGER.error(errorMsg);
-            LOGGER.error("Vreaking execution");
+            LOGGER.error("Breaking execution");
             throw new SlackNotifierException(errorMsg);
         }
     }
