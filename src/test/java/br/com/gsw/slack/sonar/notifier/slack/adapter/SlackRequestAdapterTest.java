@@ -3,6 +3,8 @@ package br.com.gsw.slack.sonar.notifier.slack.adapter;
 import br.com.gsw.slack.sonar.notifier.PrepareFactoryTests;
 import br.com.gsw.slack.sonar.notifier.scm.model.Scm;
 import br.com.gsw.slack.sonar.notifier.scm.model.ScmFixture;
+import br.com.gsw.slack.sonar.notifier.slack.web.model.SlackRequest;
+import br.com.gsw.slack.sonar.notifier.slack.web.model.SlackRequestFixture;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -89,6 +91,15 @@ public class SlackRequestAdapterTest extends PrepareFactoryTests {
         final Scm scm = ScmFixture.newScmGithub();
         scm.setCommit("");
         assertNull(adapter.createScmCommitField(scm));
+    }
+
+    //~-- adapterScm
+    @Test
+    public void adapterScmTest() {
+        final SlackRequest request = SlackRequestFixture.newSlackRequest();
+        final Scm scm = new Scm();
+        scm.setUrl("https://bitbucket.com/gswteam/slack-sonar-notifier");
+        adapter.adapterScm(request, scm);
     }
 
 }

@@ -58,7 +58,7 @@ public class SlackRequestAdapter {
         slackRequest.addAttachment(attachment);
     }
 
-    private void adapterScm(final SlackRequest slackRequest, final Scm scm) {
+    protected void adapterScm(final SlackRequest slackRequest, final Scm scm) {
         final Attachment attachment = new Attachment();
         attachment.setColor(Color.SCM_COLOR.VALUE);
         attachment.setPreText("*SCM*");
