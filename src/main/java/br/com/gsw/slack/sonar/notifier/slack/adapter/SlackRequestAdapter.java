@@ -48,6 +48,8 @@ public class SlackRequestAdapter {
         final String projectName = sonarStats.getProject().getName();
         final String projectVersion = sonarStats.getProject().getVersion();
 
+        LOGGER.debug(String.format("Adapter project received %s", sonarStats));
+
         final Attachment attachment = new Attachment();
         attachment.setColor(Color.PROJECT_COLOR.VALUE);
         attachment.setPreText("*PROJECT*");
@@ -62,6 +64,8 @@ public class SlackRequestAdapter {
         final Attachment attachment = new Attachment();
         attachment.setColor(Color.SCM_COLOR.VALUE);
         attachment.setPreText("*SCM*");
+
+        LOGGER.debug(String.format("Adapter SCM received %s", scm));
 
         attachment.addField(createScmField(scm.getUrl(), "URL"));
         attachment.addField(createScmBranchField(scm));
@@ -126,6 +130,9 @@ public class SlackRequestAdapter {
             LOGGER.debug(String.format("Not found rating for project %s", sonarStats.getProject().getId()));
             return;
         }
+
+        LOGGER.debug(String.format("Adapter ratings received %s", sonarStats));
+
         final String sqaleRating = ratings.getFrmtVal(KeyMsr.SQALE_RATING);
         final String sqaleRatio = ratings.getFrmtVal(KeyMsr.SQALE_DEBT_RATIO);
 
@@ -152,6 +159,8 @@ public class SlackRequestAdapter {
             LOGGER.debug(String.format("Not found issues for project %s", sonarStats.getProject().getId()));
             return;
         }
+
+        LOGGER.debug(String.format("Adapter issues received %s", sonarStats));
 
         final Attachment attachment = new Attachment();
 
@@ -181,6 +190,8 @@ public class SlackRequestAdapter {
             LOGGER.debug(String.format("Not found duplications for project %s", sonarStats.getProject().getId()));
             return;
         }
+
+        LOGGER.debug(String.format("Adapter duplications received %s", sonarStats));
 
         final Attachment attachment = new Attachment();
 
@@ -213,6 +224,8 @@ public class SlackRequestAdapter {
             LOGGER.debug(String.format("Not found tests for project %s", sonarStats.getProject().getId()));
             return;
         }
+
+        LOGGER.debug(String.format("Adapter tests received %s", sonarStats));
 
         final Attachment attachment = new Attachment();
 
