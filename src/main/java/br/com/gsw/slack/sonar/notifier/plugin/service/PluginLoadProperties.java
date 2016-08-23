@@ -135,7 +135,7 @@ public class PluginLoadProperties {
     }
 
     private String scmUrl(final Scm scmProp) {
-        String property = scmProp.getUser();
+        String property = scmProp.getUrl();
         if (isEmpty(property)) {
             property = getProperty("scm.url");
         }
