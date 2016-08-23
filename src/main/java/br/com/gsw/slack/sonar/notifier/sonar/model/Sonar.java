@@ -72,11 +72,4 @@ public class Sonar {
                 ", coverage='" + coverage + '\'' +
                 '}';
     }
-
-    public static Sonar createOrClone(final Sonar sonar) {
-        if (sonar != null) {
-            return new Sonar(sonar.getKey(), sonar.getUrl(), sonar.getLogin(),sonar.getPassword(), sonar.getCoverage());
-        }
-        return new Sonar();
-    }
 }

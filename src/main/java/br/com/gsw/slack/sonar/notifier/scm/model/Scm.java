@@ -76,4 +76,14 @@ public class Scm {
     public void setBranch(final String branch) {
         this.branch = branch;
     }
+
+    @Override
+    public String toString() {
+        return "Scm{" +
+                "url='" + url + '\'' +
+                ", branch='" + branch + '\'' +
+                ", user='" + user + '\'' +
+                ", commit='" + commit + '\'' +
+                '}';
+    }
 }
