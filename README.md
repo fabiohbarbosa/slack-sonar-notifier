@@ -14,21 +14,21 @@ Acesse a URL: _https://(seu-canal).slack.com/apps/manage/custom-integrations_
 <build>
     <plugins>
         <plugin>
-            <groupId>br.com.gsw.slack</groupId>
-            <artifactId>sonar-notifier</artifactId>
+            <groupId>com.wordpress.fabiohbarbosa</groupId>
+            <artifactId>slack-sonar-notifier</artifactId>
             <version>1.0-SNAPSHOT</version>
             <configuration>
                 <skipNotifier>false</skipNotifier>
                 <breakNotifier>false</breakNotifier>
                 <sonar>
                     <key>${project.groupId}:${project.artifactId}</key>
-                    <url>http://sonarqube.gsw.com.br</url>
+                    <url>http://yoursonarqube.com.br</url>
                     <login>sonaruser</login>
                     <password>sonarpass</password>
                     <coverage>60.0</coverage>
                 </sonar>
                 <scm>
-                    <url>https://github.com/gswteam/slack-sonar-notifier</url>
+                    <url>https://github.com/fabiohbarbosa/slack-sonar-notifier</url>
                     <branch>origin/master</branch>
                     <user>fabiohbarbosa</user>
                     <commit>caaef090d185e90132043487bee78b877455e4a1</commit>
@@ -169,8 +169,8 @@ Basta passar os dados de configurações como variáveis para a execução dos t
 Exemplo:
 ```sh
 mvn clean install \
--Dsonar.key=br.com.gsw.slack:sonar-notifier \
--Dsonar.host.url=http://sonarqube.gsw.com.br \
+-Dsonar.key=com.wordpress.fabiohbarbosa \
+-Dsonar.host.url=http://yoursonarqube.com.br \
 -Dsonar.coverage=60.0 \
 -Dslack.webhook=https://hooks.slack.com/services/ASHDIU98/98173JOIJ/sv9RRmWpvTes2Oc3y5QeY54G
 ```
