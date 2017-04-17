@@ -12,7 +12,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import static org.junit.Assert.assertNotNull;
 
 @RunWith(MockitoJUnitRunner.class)
-public class SonarRestClientTest extends PrepareFactoryTests {
+public class SonarRestClientIT extends PrepareFactoryTests {
     private SonarRestClient restClient;
     private String projectKey;
 
