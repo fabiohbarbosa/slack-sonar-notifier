@@ -16,7 +16,7 @@ Acesse a URL: _https://(seu-canal).slack.com/apps/manage/custom-integrations_
         <plugin>
             <groupId>com.wordpress.fabiohbarbosa</groupId>
             <artifactId>slack-sonar-notifier</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>1.0.0</version>
             <configuration>
                 <skipNotifier>false</skipNotifier>
                 <breakNotifier>false</breakNotifier>
@@ -139,12 +139,12 @@ Level a serem analisados no quality gates
 
 ### 3. Execute o plugin
 ```sh
-mvn sonar-notifier:sonar-notifier
+mvn slack-sonar-notifier:notifier
 ```
 
 ## Mais Informações sobre o plugin
 ```sh
-mvn help:describe -Dplugin=sonar-notifier -Ddetail
+mvn help:describe -Dplugin=slack-sonar-notifier -Ddetail
 ```
 
 ---
