@@ -11,7 +11,8 @@ import com.wordpress.fabiohbarbosa.notifier.sonar.model.SonarFixture;
 import org.apache.maven.project.MavenProject;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class PluginLoadPropertiesTest extends PrepareFactoryTests {
     private PluginLoadProperties loadProperties = PluginLoadPropertiesFactory.getInstance();
@@ -25,7 +26,6 @@ public class PluginLoadPropertiesTest extends PrepareFactoryTests {
         assertEquals(sonar.getUrl(), sonarProp.getUrl());
         assertEquals(sonar.getLogin(), sonarProp.getLogin());
         assertEquals(sonar.getPassword(), sonarProp.getPassword());
-        assertEquals(sonar.getCoverage(), sonarProp.getCoverage());
     }
 
     @Test
@@ -151,20 +151,6 @@ public class PluginLoadPropertiesTest extends PrepareFactoryTests {
 
         final String property = loadProperties.sonarPassword(sonar);
         assertEquals(password, property);
-    }
-
-    //~-- sonar.coverage
-    @Test
-    public void slackTestNullCoverage() {
-        final Sonar sonar = SonarFixture.newSonarAuthEnv();
-        sonar.setCoverage(null);
-
-        // set property
-        final String coverage = "1";
-        System.setProperty("sonar.coverage", coverage);
-
-        final Double property = loadProperties.sonarCoverage(sonar);
-        assertTrue(property == Double.parseDouble(coverage));
     }
 
     //~-- all slack keys

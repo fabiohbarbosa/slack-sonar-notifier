@@ -1,39 +1,37 @@
 package com.wordpress.fabiohbarbosa.notifier.sonar.model;
 
-import com.wordpress.fabiohbarbosa.notifier.sonar.web.model.ResourceResponse;
+import com.google.gson.annotations.SerializedName;
 
 public class Project {
     private String id;
+    @SerializedName("k")
+    private String key;
+    @SerializedName("nm")
     private String name;
+    @SerializedName("lv")
     private String version;
-
-    public Project() {
-    }
-
-    public Project(final String id, final String name, final String version) {
-        this.id = id;
-        this.name = name;
-        this.version = version;
-    }
-
-    public Project(final String name, final String version) {
-        this.name = name;
-        this.version = version;
-    }
 
     public String getId() {
         return id;
     }
 
-    public void setId(final String id) {
+    public void setId(String id) {
         this.id = id;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(final String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -41,18 +39,16 @@ public class Project {
         return version;
     }
 
-    public void setVersion(final String version) {
+    public void setVersion(String version) {
         this.version = version;
-    }
-
-    public static Project parse(ResourceResponse sonarResource) {
-        return new Project(sonarResource.getId(), sonarResource.getName(), sonarResource.getVersion());
     }
 
     @Override
     public String toString() {
         return "Project{" +
-                "name='" + name + '\'' +
+                "id='" + id + '\'' +
+                ", key='" + key + '\'' +
+                ", name='" + name + '\'' +
                 ", version='" + version + '\'' +
                 '}';
     }

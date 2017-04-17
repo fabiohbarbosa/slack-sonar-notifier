@@ -11,11 +11,9 @@ import com.wordpress.fabiohbarbosa.notifier.slack.model.Slack;
 import com.wordpress.fabiohbarbosa.notifier.slack.service.SlackPusher;
 import com.wordpress.fabiohbarbosa.notifier.slack.web.model.SlackRequest;
 import com.wordpress.fabiohbarbosa.notifier.sonar.adapter.SonarAdapter;
-import com.wordpress.fabiohbarbosa.notifier.sonar.factory.OnlyErrorsFilterFactory;
 import com.wordpress.fabiohbarbosa.notifier.sonar.factory.SonarAdapterFactory;
 import com.wordpress.fabiohbarbosa.notifier.sonar.model.Sonar;
 import com.wordpress.fabiohbarbosa.notifier.sonar.model.SonarStats;
-import com.wordpress.fabiohbarbosa.notifier.sonar.service.OnlyErrorsFilter;
 import org.apache.maven.plugin.logging.Log;
 
 public class Notifier {
@@ -24,17 +22,12 @@ public class Notifier {
     private SonarAdapter sonarAdapter = SonarAdapterFactory.getInstance();
     private SlackRequestAdapter slackRequestAdapter = SlackRequestAdapterFactory.getInstance();
     private SlackPusher slackPusher = SlackPusherFactory.getInstance();
-    private OnlyErrorsFilter onlyErrorsFilter = OnlyErrorsFilterFactory.getInstance();
     private Breaker breaker = BreakerFactory.getInstance();
 
     public void start(final Sonar sonar, final Slack slack, final Scm scm, final Boolean toBreak) {
         LOGGER.debug("Starting notifier...");
 
         SonarStats sonarStats = sonarAdapter.adapter(sonar);
-
-        if (slack.getOnlyErrors() != null && slack.getOnlyErrors()) {
-            sonarStats = onlyErrorsFilter.filter(sonarStats, sonar.getCoverage());
-        }
 
         final SlackRequest slackRequest = slackRequestAdapter.adapter(sonarStats, scm);
         final String projectName = sonarStats.getProject().getName();

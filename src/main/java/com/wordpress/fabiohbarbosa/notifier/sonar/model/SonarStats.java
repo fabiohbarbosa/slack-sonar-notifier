@@ -1,25 +1,16 @@
 package com.wordpress.fabiohbarbosa.notifier.sonar.model;
 
-import com.wordpress.fabiohbarbosa.notifier.sonar.web.model.ResourceResponse;
-import com.wordpress.fabiohbarbosa.notifier.sonar.web.model.Severity;
-
-import java.util.Map;
+import com.wordpress.fabiohbarbosa.notifier.sonar.provider.model.QualityGate;
 
 public class SonarStats {
     private Project project;
     private Sonar sonar;
-    private ResourceResponse ratings;
-    private Map<Severity, Integer> issues;
-    private ResourceResponse duplications;
-    private ResourceResponse tests;
+    private QualityGate qualityGate;
 
-    public SonarStats(final Project project, final Sonar sonar, final ResourceResponse ratings, final Map<Severity, Integer> issues, final ResourceResponse duplications, final ResourceResponse tests) {
+    public SonarStats(final Project project, final Sonar sonar, QualityGate qualityGate) {
         this.project = project;
         this.sonar = sonar;
-        this.ratings = ratings;
-        this.issues = issues;
-        this.duplications = duplications;
-        this.tests = tests;
+        this.qualityGate = qualityGate;
     }
 
     public void setProject(final Project project) {
@@ -30,22 +21,6 @@ public class SonarStats {
         this.sonar = sonar;
     }
 
-    public void setRatings(final ResourceResponse ratings) {
-        this.ratings = ratings;
-    }
-
-    public void setIssues(final Map<Severity, Integer> issues) {
-        this.issues = issues;
-    }
-
-    public void setDuplications(final ResourceResponse duplications) {
-        this.duplications = duplications;
-    }
-
-    public void setTests(final ResourceResponse tests) {
-        this.tests = tests;
-    }
-
     public Project getProject() {
         return project;
     }
@@ -54,19 +29,11 @@ public class SonarStats {
         return sonar;
     }
 
-    public ResourceResponse getRatings() {
-        return ratings;
+    public QualityGate getQualityGate() {
+        return qualityGate;
     }
 
-    public Map<Severity, Integer> getIssues() {
-        return issues;
-    }
-
-    public ResourceResponse getDuplications() {
-        return duplications;
-    }
-
-    public ResourceResponse getTests() {
-        return tests;
+    public void setQualityGate(QualityGate qualityGate) {
+        this.qualityGate = qualityGate;
     }
 }

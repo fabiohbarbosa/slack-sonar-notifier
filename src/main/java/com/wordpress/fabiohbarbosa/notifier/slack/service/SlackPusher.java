@@ -21,7 +21,8 @@ public class SlackPusher {
         final SlackRestClient client = FeignFactory.build(SLACK_URL, SlackRestClient.class);
 
         LOGGER.debug(String.format("Slack POST URL: %s", SLACK_URL));
-        LOGGER.debug(new GsonBuilder().setPrettyPrinting().create().toJson(slackRequest));
+        String json = new GsonBuilder().setPrettyPrinting().create().toJson(slackRequest);
+        LOGGER.debug(json);
 
         client.post(token, slackRequest);
 

@@ -18,7 +18,7 @@ public class PluginLoadProperties {
         if (sonar == null) {
             sonar = new Sonar();
         }
-        Sonar sonarProp = new Sonar(sonar.getKey(), sonar.getUrl(), sonar.getLogin(),sonar.getPassword(), sonar.getCoverage());
+        Sonar sonarProp = new Sonar(sonar.getKey(), sonar.getUrl(), sonar.getLogin(),sonar.getPassword());
 
         LOGGER.debug("Sonar properties");
         LOGGER.debug(sonarProp.toString());
@@ -27,7 +27,6 @@ public class PluginLoadProperties {
         sonarProp.setUrl(sonarUrl(sonarProp));
         sonarProp.setLogin(sonarLogin(sonarProp));
         sonarProp.setPassword(sonarPassword(sonarProp));
-        sonarProp.setCoverage(sonarCoverage(sonarProp));
 
         return sonarProp;
     }
@@ -67,16 +66,6 @@ public class PluginLoadProperties {
         String property = sonarProp.getLogin();
         if (isEmpty(property)) {
             property = getProperty("sonar.login");
-        }
-        return property;
-    }
-
-    protected Double sonarCoverage(final Sonar sonarProp) {
-        Double property = sonarProp.getCoverage();
-        if (property == null) {
-            if (!isEmpty(getProperty("sonar.coverage"))) {
-                property = Double.parseDouble(getProperty("sonar.coverage"));
-            }
         }
         return property;
     }

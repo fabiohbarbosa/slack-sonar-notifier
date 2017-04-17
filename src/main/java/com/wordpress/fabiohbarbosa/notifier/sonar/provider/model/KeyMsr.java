@@ -1,4 +1,4 @@
-package com.wordpress.fabiohbarbosa.notifier.sonar.web.model;
+package com.wordpress.fabiohbarbosa.notifier.sonar.provider.model;
 
 public enum KeyMsr {
     // RATING

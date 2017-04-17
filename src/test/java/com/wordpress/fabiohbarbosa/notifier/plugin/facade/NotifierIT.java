@@ -36,24 +36,4 @@ public class NotifierIT extends PrepareFactoryTests {
         notifier.start(sonar, slack, scm, false);
     }
 
-    @Test
-    public void successTestOnlyErrorsTrueAndNullCoverage() {
-        final Sonar sonar = SonarFixture.newSonarAuthEnv();
-        sonar.setCoverage(null);
-        final Slack slack = SlackFixture.newSlackEnv(true);
-        final Scm scm = ScmFixture.newScmEnv();
-
-        notifier.start(sonar, slack, scm, false);
-    }
-
-    @Test
-    public void successTestOnlyErrorsTrueAndZeroCoverage() {
-        final Sonar sonar = SonarFixture.newSonarAuthEnv();
-        sonar.setCoverage(0.0);
-        final Slack slack = SlackFixture.newSlackEnv(true);
-        final Scm scm = ScmFixture.newScmEnv();
-
-        notifier.start(sonar, slack, scm, false);
-    }
-
 }

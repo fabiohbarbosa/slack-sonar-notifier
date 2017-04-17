@@ -25,7 +25,6 @@ Acesse a URL: _https://(seu-canal).slack.com/apps/manage/custom-integrations_
                     <url>http://yoursonarqube.com.br</url>
                     <login>sonaruser</login>
                     <password>sonarpass</password>
-                    <coverage>60.0</coverage>
                 </sonar>
                 <scm>
                     <url>https://github.com/fabiohbarbosa/slack-sonar-notifier</url>
@@ -88,15 +87,6 @@ Login para acesso ao sonar
 Senha do usuário para acesso ao sonar
 * _Type_: String
 * _Property_: -Dsonar.password
-
-***
-
-**sonar.coverage**:
-Mínino de cobertura de testes exigida no sonar
-
-_Só tem utilidade quando as properties `breakNotifier` ou `slack.onlyErrors` estiverem habilitadas_
-* _Type_: Double
-* _Property_: -Dsonar.coverage
 
 ***
 
@@ -171,7 +161,8 @@ Exemplo:
 mvn clean install \
 -Dsonar.key=com.wordpress.fabiohbarbosa \
 -Dsonar.host.url=http://yoursonarqube.com.br \
--Dsonar.coverage=60.0 \
+-Dsonar.login=sonar-login \
+-Dsonar.password=sonar-password \
 -Dslack.webhook=https://hooks.slack.com/services/ASHDIU98/98173JOIJ/sv9RRmWpvTes2Oc3y5QeY54G
 ```
 

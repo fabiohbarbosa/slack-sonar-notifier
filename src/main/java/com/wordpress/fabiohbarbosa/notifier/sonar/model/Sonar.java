@@ -5,17 +5,15 @@ public class Sonar {
     private String url;
     private String login;
     private String password;
-    private Double coverage;
 
     public Sonar() {
     }
 
-    public Sonar(final String key, final String url, final String login, final String password, final Double coverage) {
+    public Sonar(final String key, final String url, final String login, final String password) {
         this.key = key;
         this.url = url;
         this.login = login;
         this.password = password;
-        this.coverage = coverage;
     }
 
     public Sonar(final String key, final String url) {
@@ -55,21 +53,12 @@ public class Sonar {
         this.password = password;
     }
 
-    public Double getCoverage() {
-        return coverage;
-    }
-
-    public void setCoverage(Double coverage) {
-        this.coverage = coverage;
-    }
-
     @Override
     public String toString() {
         return "Sonar{" +
                 "key='" + key + '\'' +
                 ", url='" + url + '\'' +
                 ", login='" + login + '\'' +
-                ", coverage='" + coverage + '\'' +
                 '}';
     }
 }
