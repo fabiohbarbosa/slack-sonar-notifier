@@ -10,22 +10,17 @@ import com.wordpress.fabiohbarbosa.notifier.sonar.model.SonarStats;
 import com.wordpress.fabiohbarbosa.notifier.sonar.provider.model.Color;
 import com.wordpress.fabiohbarbosa.notifier.sonar.provider.model.Condition;
 import com.wordpress.fabiohbarbosa.notifier.sonar.provider.model.ProjectStatus;
-import com.wordpress.fabiohbarbosa.notifier.sonar.provider.model.QualityStatus;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.logging.Log;
+
+import java.util.List;
 
 public class SlackRequestAdapter {
     private static final Log LOGGER = LogFactory.getInstance();
 
     public SlackRequest adapter(final SonarStats sonarStats, final Scm scm) {
         LOGGER.debug("Slack request adapter...");
-
-        if (!isNeedToHook(sonarStats)) {
-            LOGGER.info(String.format("No sonar stats found in project %s", sonarStats.getProject().getName()));
-            return null;
-        }
-
         return adapters(sonarStats, scm);
     }
 
@@ -37,17 +32,18 @@ public class SlackRequestAdapter {
         return slackRequest;
     }
 
-    protected void adapterQualityGates(SlackRequest slackRequest, ProjectStatus projectStatus) {
+    protected void adapterQualityGates(final SlackRequest slackRequest, final ProjectStatus projectStatus) {
         final Attachment attach = new Attachment();
         attach.setPreText("*Quality Gates*");
         attach.setColor(projectStatus.getStatus().COLOR.VALUE);
 
-        for (Condition c : projectStatus.getConditions()) {
+        List<Condition> conditions = projectStatus.getConditions();
+
+        for (Condition c : conditions) {
             String title = String.format("%s: %n*%s*", c.getMetricKey().NAME, c.getStatus().name());
             attach.addField(new Field(title, true));
         }
         slackRequest.addAttachment(attach);
-
     }
 
     protected void adapterProject(final SlackRequest slackRequest, final SonarStats sonarStats) {
@@ -60,7 +56,7 @@ public class SlackRequestAdapter {
 
         final Attachment attachment = new Attachment();
         attachment.setColor(Color.PROJECT_COLOR.VALUE);
-        attachment.setPreText("*PROJECT*");
+        attachment.setPreText("*Project*");
 
         attachment.addField(new Field(String.format("*Name*: %s", SlackMessageHelper.projectUrl(sonarUrl, projectId, projectName)), false));
         attachment.addField(new Field(String.format("*Version*: %s", projectVersion), false));
@@ -132,7 +128,4 @@ public class SlackRequestAdapter {
         return new Field(String.format("*%s*:%n %s", title, value), true);
     }
 
-    protected boolean isNeedToHook(final SonarStats sonarStats) {
-        return sonarStats.getQualityGate().getProjectStatus().getStatus() != QualityStatus.OK;
-    }
 }

@@ -1,16 +1,16 @@
 package com.wordpress.fabiohbarbosa.notifier.slack.service;
 
+import com.google.gson.GsonBuilder;
 import com.wordpress.fabiohbarbosa.notifier.plugin.factory.LogFactory;
 import com.wordpress.fabiohbarbosa.notifier.slack.model.Slack;
 import com.wordpress.fabiohbarbosa.notifier.slack.web.client.SlackRestClient;
 import com.wordpress.fabiohbarbosa.notifier.slack.web.model.SlackRequest;
 import com.wordpress.fabiohbarbosa.notifier.web.client.FeignFactory;
-import com.google.gson.GsonBuilder;
 import org.apache.maven.plugin.logging.Log;
 
 public class SlackPusher {
     private static final Log LOGGER = LogFactory.getInstance();
-    private final static String SLACK_URL = "https://hooks.slack.com/services/";
+    private static final String SLACK_URL = "https://hooks.slack.com/services/";
 
 
     public void slackPusher(final Slack slack, final SlackRequest slackRequest) {

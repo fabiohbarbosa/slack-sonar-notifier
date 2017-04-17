@@ -1,6 +1,8 @@
 package com.wordpress.fabiohbarbosa.notifier.sonar.adapter;
 
 import com.wordpress.fabiohbarbosa.notifier.PrepareFactoryTests;
+import com.wordpress.fabiohbarbosa.notifier.sonar.model.Project;
+import com.wordpress.fabiohbarbosa.notifier.sonar.model.ProjectFixture;
 import com.wordpress.fabiohbarbosa.notifier.sonar.model.Sonar;
 import com.wordpress.fabiohbarbosa.notifier.sonar.model.SonarFixture;
 import com.wordpress.fabiohbarbosa.notifier.sonar.provider.client.SonarRestClient;
@@ -11,6 +13,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.anyString;
@@ -39,6 +45,12 @@ public class SonarAdapterTest extends PrepareFactoryTests {
     @Test
     public void adapterSucessTest() {
         final Sonar sonar = SonarFixture.newSonar();
+
+        List<Project> projects = new ArrayList<>();
+        Project project = ProjectFixture.newProject();
+        projects.add(project);
+
+        doReturn(projects).when(sonarRestClient).findProject(sonar.getKey());
 
         assertNotNull(adapter.adapter(sonar));
 

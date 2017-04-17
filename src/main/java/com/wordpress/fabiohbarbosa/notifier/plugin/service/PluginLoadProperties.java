@@ -3,6 +3,7 @@ package com.wordpress.fabiohbarbosa.notifier.plugin.service;
 import com.wordpress.fabiohbarbosa.notifier.plugin.factory.LogFactory;
 import com.wordpress.fabiohbarbosa.notifier.scm.model.Scm;
 import com.wordpress.fabiohbarbosa.notifier.slack.model.Slack;
+import com.wordpress.fabiohbarbosa.notifier.slack.model.SlackLevel;
 import com.wordpress.fabiohbarbosa.notifier.sonar.model.Sonar;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.logging.Log;
@@ -76,13 +77,13 @@ public class PluginLoadProperties {
             slack = new Slack();
         }
 
-        Slack slackProp = new Slack(slack.getWebhook(), slack.getOnlyErrors());
+        Slack slackProp = new Slack(slack.getWebhook(), slack.getLevel());
 
         LOGGER.debug("Slack properties");
         LOGGER.debug(slackProp.toString());
 
         slackProp.setWebhook(slackWebhook(slackProp));
-        slackProp.setOnlyErrors(slackOnlyErrors(slackProp));
+        slackProp.setLevel(slackLevel(slackProp));
 
         return slackProp;
     }
@@ -95,11 +96,11 @@ public class PluginLoadProperties {
         return property;
     }
 
-    protected Boolean slackOnlyErrors(final Slack slackProp) {
-        Boolean property = slackProp.getOnlyErrors();
+    protected SlackLevel slackLevel(final Slack slackProp) {
+        SlackLevel property = slackProp.getLevel();
         if (property == null) {
-            if (!isEmpty(getProperty("slack.onlyErrors"))) {
-                property = Boolean.valueOf(getProperty("slack.onlyErrors"));
+            if (!isEmpty(getProperty("slack.level"))) {
+                property = SlackLevel.valueOf(getProperty("slack.level").toUpperCase());
             }
         }
         return property;

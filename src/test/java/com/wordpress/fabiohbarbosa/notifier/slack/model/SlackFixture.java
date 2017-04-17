@@ -2,14 +2,14 @@ package com.wordpress.fabiohbarbosa.notifier.slack.model;
 
 public class SlackFixture {
     public static Slack newSlack() {
-        return new Slack("slack.webhook", true);
+        return new Slack("slack.webhook", SlackLevel.INFO);
     }
-    public static Slack newSlackEnv(final Boolean onlyErrors) {
+    public static Slack newSlackEnv(final SlackLevel level) {
         String webhook = System.getProperty("slack.webhook");
-        return new Slack(webhook, onlyErrors);
+        return new Slack(webhook, level);
     }
 
     public static Slack newSlackEnv() {
-        return newSlackEnv(true);
+        return newSlackEnv(SlackLevel.INFO);
     }
 }

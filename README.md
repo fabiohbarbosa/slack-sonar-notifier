@@ -34,7 +34,7 @@ Acesse a URL: _https://(seu-canal).slack.com/apps/manage/custom-integrations_
                 </scm>
                 <slack>
                     <webhook>https://hooks.slack.com/services/ASHDIU98/98173JOIJ/sv9RRmWpvTes2Oc3y5QeY54G</webhook>
-                    <onlyErrors>true</onlyErrors>
+                    <level>WARNING</level>
                 </slack>
             </configuration>
         </plugin>
@@ -126,11 +126,12 @@ URL de webhook do slack
 ***
 
 
-**slack.onlyErrors**: 
-Só notifica os erros no slack
-* _Type_: Boolean
-* _Property_: -Dslack.onlyErrors
-* _Default_: true
+**slack.level**: 
+Level a serem analisados no quality gates
+* _Type_: String
+* _Values_: INFO (success, warning e errors), WARNING (warnings e errors), ERROR (errors)
+* _Property_: -Dslack.level
+* _Default_: WARNING
 
 ***
 

@@ -5,9 +5,6 @@ import com.wordpress.fabiohbarbosa.notifier.scm.model.Scm;
 import com.wordpress.fabiohbarbosa.notifier.scm.model.ScmFixture;
 import com.wordpress.fabiohbarbosa.notifier.slack.web.model.SlackRequest;
 import com.wordpress.fabiohbarbosa.notifier.slack.web.model.SlackRequestFixture;
-import com.wordpress.fabiohbarbosa.notifier.sonar.model.SonarStats;
-import com.wordpress.fabiohbarbosa.notifier.sonar.model.SonarStatsFixture;
-import com.wordpress.fabiohbarbosa.notifier.sonar.provider.model.QualityStatus;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -105,25 +102,6 @@ public class SlackRequestAdapterTest extends PrepareFactoryTests {
         final Scm scm = new Scm();
         scm.setUrl("https://github.com/fabiohbarbosa/slack-sonar-notifier");
         adapter.adapterScm(request, scm);
-    }
-
-    //~-- isNeedToHook
-    @Test
-    public void isNotNeedToHookWhenStatusIsOk() {
-        SonarStats sonarStats = SonarStatsFixture.newSonarStats(QualityStatus.OK);
-        assertFalse(adapter.isNeedToHook(sonarStats));
-    }
-
-    @Test
-    public void isNeedToHookWhenStatusIsWarning() {
-        SonarStats sonarStats = SonarStatsFixture.newSonarStats(QualityStatus.WARN);
-        assertTrue(adapter.isNeedToHook(sonarStats));
-    }
-
-    @Test
-    public void isNeedToHookWhenStatusIsError() {
-        SonarStats sonarStats = SonarStatsFixture.newSonarStats(QualityStatus.ERROR);
-        assertTrue(adapter.isNeedToHook(sonarStats));
     }
 
 }

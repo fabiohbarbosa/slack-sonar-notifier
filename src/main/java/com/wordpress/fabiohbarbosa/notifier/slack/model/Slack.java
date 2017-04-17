@@ -2,14 +2,14 @@ package com.wordpress.fabiohbarbosa.notifier.slack.model;
 
 public class Slack {
     private String webhook;
-    private Boolean onlyErrors = true;
+    private SlackLevel level = SlackLevel.WARNING;
 
     public Slack() {
     }
 
-    public Slack(final String webhook, final Boolean onlyErrors) {
+    public Slack(final String webhook, final SlackLevel level) {
         this.webhook = webhook;
-        this.onlyErrors = onlyErrors;
+        this.level = level;
     }
 
     public String getWebhook() {
@@ -20,19 +20,19 @@ public class Slack {
         this.webhook = webhook;
     }
 
-    public Boolean getOnlyErrors() {
-        return onlyErrors;
+    public SlackLevel getLevel() {
+        return level;
     }
 
-    public void setOnlyErrors(final Boolean onlyErrors) {
-        this.onlyErrors = onlyErrors;
+    public void setLevel(final SlackLevel level) {
+        this.level = level;
     }
 
     @Override
     public String toString() {
         return "Slack{" +
                 "webhook='" + webhook + '\'' +
-                "onlyErrors='" + onlyErrors + '\'' +
+                "level='" + level + '\'' +
                 '}';
     }
 }

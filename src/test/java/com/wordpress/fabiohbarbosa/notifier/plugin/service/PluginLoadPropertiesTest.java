@@ -6,6 +6,7 @@ import com.wordpress.fabiohbarbosa.notifier.scm.model.Scm;
 import com.wordpress.fabiohbarbosa.notifier.scm.model.ScmFixture;
 import com.wordpress.fabiohbarbosa.notifier.slack.model.Slack;
 import com.wordpress.fabiohbarbosa.notifier.slack.model.SlackFixture;
+import com.wordpress.fabiohbarbosa.notifier.slack.model.SlackLevel;
 import com.wordpress.fabiohbarbosa.notifier.sonar.model.Sonar;
 import com.wordpress.fabiohbarbosa.notifier.sonar.model.SonarFixture;
 import org.apache.maven.project.MavenProject;
@@ -159,7 +160,7 @@ public class PluginLoadPropertiesTest extends PrepareFactoryTests {
         final Slack slack = SlackFixture.newSlackEnv();
         final Slack slackProp = loadProperties.slack(slack);
         assertEquals(slack.getWebhook(), slackProp.getWebhook());
-        assertEquals(slack.getOnlyErrors(), slackProp.getOnlyErrors());
+        assertEquals(slack.getLevel(), slackProp.getLevel());
     }
 
     @Test
@@ -194,18 +195,44 @@ public class PluginLoadPropertiesTest extends PrepareFactoryTests {
         assertEquals(webhook, property);
     }
 
-    // slack.onlyErrors
+    // slack.level
     @Test
-    public void slackTestNullOnlyErrors() {
+    public void slackTestInfoLevel() {
         final Slack slack = SlackFixture.newSlackEnv();
-        slack.setOnlyErrors(null);
+        slack.setLevel(null);
 
         // set property
-        final String onlyErrors = "false";
-        System.setProperty("slack.onlyErrors", onlyErrors);
+        final String level = "INFO";
+        System.setProperty("slack.level", level);
 
-        final Boolean property = loadProperties.slackOnlyErrors(slack);
-        assertEquals(Boolean.parseBoolean(onlyErrors), property);
+        final SlackLevel property = loadProperties.slackLevel(slack);
+        assertEquals(SlackLevel.INFO, property);
+    }
+
+    @Test
+    public void slackTestWarningLevel() {
+        final Slack slack = SlackFixture.newSlackEnv();
+        slack.setLevel(null);
+
+        // set property
+        final String level = "WARNING";
+        System.setProperty("slack.level", level);
+
+        final SlackLevel property = loadProperties.slackLevel(slack);
+        assertEquals(SlackLevel.WARNING, property);
+    }
+
+    @Test
+    public void slackTestErrorLevel() {
+        final Slack slack = SlackFixture.newSlackEnv();
+        slack.setLevel(null);
+
+        // set property
+        final String level = "ERROR";
+        System.setProperty("slack.level", level);
+
+        final SlackLevel property = loadProperties.slackLevel(slack);
+        assertEquals(SlackLevel.ERROR, property);
     }
 
     //~-- all scm keys
