@@ -19,7 +19,7 @@ public class Breaker {
             LOGGER.error("Found Errors");
             LOGGER.error("------------------------------------------------------------------------");
             for (Condition c : conditions) {
-                LOGGER.error(String.format("%s: %s", c.getMetricKey().name(), c.getStatus().name()));
+                LOGGER.error(String.format("%s: %s", c.getMetricKey().NAME, c.getStatus().name()));
                 LOGGER.error(String.format("Actual value: %s %n", c.getActualValue()));
             }
             LOGGER.error("------------------------------------------------------------------------");
