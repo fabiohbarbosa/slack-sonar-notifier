@@ -16,7 +16,7 @@ public class LevelFilter {
     private static final Log LOGGER = LogFactory.getInstance();
 
     public SonarStats filter(SonarStats sonarStats, Level level) {
-        LOGGER.debug("Only errors filter...");
+        LOGGER.info("Filtering level...");
         sonarStats.setQualityGate(filterQualityGates(sonarStats.getQualityGate(), level));
         return sonarStats;
     }
@@ -67,7 +67,7 @@ public class LevelFilter {
         if (level != Level.error) {
             return;
         }
-        if (c.getStatus() == QualityStatus.WARN || c.getStatus() == QualityStatus.ERROR) {
+        if (c.getStatus() == QualityStatus.ERROR) {
             LOGGER.debug(String.format("Adding quality gate %s %s", c.getMetricKey().name(), c.getStatus()));
             conditions.add(c);
         }
