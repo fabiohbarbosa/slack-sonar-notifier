@@ -4,9 +4,9 @@ import com.wordpress.fabiohbarbosa.notifier.PrepareFactoryTests;
 import com.wordpress.fabiohbarbosa.notifier.scm.model.Scm;
 import com.wordpress.fabiohbarbosa.notifier.scm.model.ScmFixture;
 import com.wordpress.fabiohbarbosa.notifier.slack.adapter.SlackRequestAdapter;
+import com.wordpress.fabiohbarbosa.notifier.slack.model.Level;
 import com.wordpress.fabiohbarbosa.notifier.slack.model.Slack;
 import com.wordpress.fabiohbarbosa.notifier.slack.model.SlackFixture;
-import com.wordpress.fabiohbarbosa.notifier.slack.model.SlackLevel;
 import com.wordpress.fabiohbarbosa.notifier.slack.service.SlackPusher;
 import com.wordpress.fabiohbarbosa.notifier.slack.web.model.SlackRequest;
 import com.wordpress.fabiohbarbosa.notifier.slack.web.model.SlackRequestFixture;
@@ -15,7 +15,7 @@ import com.wordpress.fabiohbarbosa.notifier.sonar.model.Sonar;
 import com.wordpress.fabiohbarbosa.notifier.sonar.model.SonarFixture;
 import com.wordpress.fabiohbarbosa.notifier.sonar.model.SonarStats;
 import com.wordpress.fabiohbarbosa.notifier.sonar.model.SonarStatsFixture;
-import com.wordpress.fabiohbarbosa.notifier.sonar.service.SlackLevelFilter;
+import com.wordpress.fabiohbarbosa.notifier.sonar.service.LevelFilter;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -41,7 +41,7 @@ public class NotifierTest extends PrepareFactoryTests {
     private SlackRequestAdapter slackRequestAdapter;
 
     @Mock
-    private SlackLevelFilter slackLevelFilter;
+    private LevelFilter levelFilter;
 
     @Mock
     private SlackPusher slackPusher;
@@ -49,17 +49,17 @@ public class NotifierTest extends PrepareFactoryTests {
     @Test
     public void startSuccessTests() {
         final Sonar sonar = SonarFixture.newSonar();
-        final SlackLevel slackLevel = SlackLevel.INFO;
+        final Level level = Level.INFO;
         final Slack slack = SlackFixture.newSlack();
         final Scm scm = ScmFixture.newScmBitbucket();
         final SonarStats sonarStats = SonarStatsFixture.newSonarStats();
         final SlackRequest slackRequest = SlackRequestFixture.newSlackRequest();
 
         doReturn(sonarStats).when(sonarAdapter).adapter(sonar);
-        doReturn(sonarStats).when(slackLevelFilter).filter(sonarStats, slackLevel);
+        doReturn(sonarStats).when(levelFilter).filter(sonarStats, level);
         doReturn(slackRequest).when(slackRequestAdapter).adapter(sonarStats, scm);
 
-        notifier.start(sonar, slack, scm, false);
+        notifier.start(sonar, slack, scm, level, false);
 
         verify(sonarAdapter).adapter(sonar);
         verify(slackRequestAdapter).adapter(sonarStats, scm);
@@ -69,8 +69,8 @@ public class NotifierTest extends PrepareFactoryTests {
     @Test
     public void startSucessNotCallSlackPusherWhenQualityGateIsNull() {
         final Sonar sonar = SonarFixture.newSonar();
-        final SlackLevel slackLevel = SlackLevel.INFO;
-        final Slack slack = SlackFixture.newSlackEnv(slackLevel);
+        final Level level = Level.INFO;
+        final Slack slack = SlackFixture.newSlack();
         final Scm scm = ScmFixture.newScmEnv();
         final SonarStats sonarStats = SonarStatsFixture.newSonarStats();
         sonarStats.setQualityGate(null);
@@ -78,10 +78,10 @@ public class NotifierTest extends PrepareFactoryTests {
         final SlackRequest slackRequest = SlackRequestFixture.newSlackRequest();
 
         doReturn(sonarStats).when(sonarAdapter).adapter(sonar);
-        doReturn(sonarStats).when(slackLevelFilter).filter(sonarStats, slackLevel);
+        doReturn(sonarStats).when(levelFilter).filter(sonarStats, level);
         doReturn(slackRequest).when(slackRequestAdapter).adapter(sonarStats, scm);
 
-        notifier.start(sonar, slack, scm, false);
+        notifier.start(sonar, slack, scm, level, false);
 
         verify(sonarAdapter).adapter(sonar);
         verify(slackRequestAdapter, times(0)).adapter(sonarStats, scm);

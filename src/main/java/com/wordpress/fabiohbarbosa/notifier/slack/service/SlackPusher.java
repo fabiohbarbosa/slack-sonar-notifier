@@ -12,7 +12,6 @@ public class SlackPusher {
     private static final Log LOGGER = LogFactory.getInstance();
     private static final String SLACK_URL = "https://hooks.slack.com/services/";
 
-
     public void slackPusher(final Slack slack, final SlackRequest slackRequest) {
         LOGGER.info(String.format("Trying to post sonar stats into slack %s", slack.getWebhook()));
 

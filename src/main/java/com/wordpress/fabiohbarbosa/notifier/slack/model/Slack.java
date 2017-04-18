@@ -2,14 +2,12 @@ package com.wordpress.fabiohbarbosa.notifier.slack.model;
 
 public class Slack {
     private String webhook;
-    private SlackLevel level = SlackLevel.WARNING;
 
     public Slack() {
     }
 
-    public Slack(final String webhook, final SlackLevel level) {
+    public Slack(final String webhook) {
         this.webhook = webhook;
-        this.level = level;
     }
 
     public String getWebhook() {
@@ -20,19 +18,10 @@ public class Slack {
         this.webhook = webhook;
     }
 
-    public SlackLevel getLevel() {
-        return level;
-    }
-
-    public void setLevel(final SlackLevel level) {
-        this.level = level;
-    }
-
     @Override
     public String toString() {
         return "Slack{" +
                 "webhook='" + webhook + '\'' +
-                "level='" + level + '\'' +
                 '}';
     }
 }

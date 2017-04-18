@@ -3,7 +3,6 @@ package com.wordpress.fabiohbarbosa.notifier.plugin.service;
 import com.wordpress.fabiohbarbosa.notifier.plugin.factory.LogFactory;
 import com.wordpress.fabiohbarbosa.notifier.scm.model.Scm;
 import com.wordpress.fabiohbarbosa.notifier.slack.model.Slack;
-import com.wordpress.fabiohbarbosa.notifier.slack.model.SlackLevel;
 import com.wordpress.fabiohbarbosa.notifier.sonar.model.Sonar;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.logging.Log;
@@ -77,13 +76,12 @@ public class PluginLoadProperties {
             slack = new Slack();
         }
 
-        Slack slackProp = new Slack(slack.getWebhook(), slack.getLevel());
+        Slack slackProp = new Slack(slack.getWebhook());
 
         LOGGER.debug("Slack properties");
         LOGGER.debug(slackProp.toString());
 
         slackProp.setWebhook(slackWebhook(slackProp));
-        slackProp.setLevel(slackLevel(slackProp));
 
         return slackProp;
     }
@@ -92,16 +90,6 @@ public class PluginLoadProperties {
         String property = slackProp.getWebhook();
         if (isEmpty(property)) {
             property = getProperty("slack.webhook");
-        }
-        return property;
-    }
-
-    protected SlackLevel slackLevel(final Slack slackProp) {
-        SlackLevel property = slackProp.getLevel();
-        if (property == null) {
-            if (!isEmpty(getProperty("slack.level"))) {
-                property = SlackLevel.valueOf(getProperty("slack.level").toUpperCase());
-            }
         }
         return property;
     }
@@ -165,4 +153,5 @@ public class PluginLoadProperties {
         }
         return null;
     }
+
 }

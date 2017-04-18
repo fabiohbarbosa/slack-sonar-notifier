@@ -20,6 +20,7 @@ Acesse a URL: _https://(seu-canal).slack.com/apps/manage/custom-integrations_
             <configuration>
                 <skipNotifier>false</skipNotifier>
                 <breakNotifier>false</breakNotifier>
+                <levelNotifier>WARNING</levelNotifier>
                 <sonar>
                     <key>${project.groupId}:${project.artifactId}</key>
                     <url>http://yoursonarqube.com.br</url>
@@ -34,7 +35,6 @@ Acesse a URL: _https://(seu-canal).slack.com/apps/manage/custom-integrations_
                 </scm>
                 <slack>
                     <webhook>https://hooks.slack.com/services/ASHDIU98/98173JOIJ/sv9RRmWpvTes2Oc3y5QeY54G</webhook>
-                    <level>WARNING</level>
                 </slack>
             </configuration>
         </plugin>
@@ -58,6 +58,15 @@ Caso seja encontrado erros no sonar, quebra o build
 * _Type_: Boolean
 * _Property_: -DbreakNotifier
 * _Default_: false
+
+***
+
+**levelNotifier**: 
+Level a serem analisados no quality gates
+* _Type_: String
+* _Values_: INFO (success, warning e errors), WARNING (warnings e errors), ERROR (errors)
+* _Property_: -DlevelNotifier
+* _Default_: WARNING
 
 ***
 
@@ -122,16 +131,6 @@ Commit do usuário no repositório
 URL de webhook do slack
 * _Type_: String
 * _Property_: -Dslack.webhook
-
-***
-
-
-**slack.level**: 
-Level a serem analisados no quality gates
-* _Type_: String
-* _Values_: INFO (success, warning e errors), WARNING (warnings e errors), ERROR (errors)
-* _Property_: -Dslack.level
-* _Default_: WARNING
 
 ***
 

@@ -1,5 +1,5 @@
 package com.wordpress.fabiohbarbosa.notifier.slack.model;
 
-public enum SlackLevel {
+public enum Level {
     INFO, WARNING, ERROR;
 }

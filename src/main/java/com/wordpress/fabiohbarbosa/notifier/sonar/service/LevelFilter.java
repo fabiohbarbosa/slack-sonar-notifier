@@ -1,7 +1,7 @@
 package com.wordpress.fabiohbarbosa.notifier.sonar.service;
 
 import com.wordpress.fabiohbarbosa.notifier.plugin.factory.LogFactory;
-import com.wordpress.fabiohbarbosa.notifier.slack.model.SlackLevel;
+import com.wordpress.fabiohbarbosa.notifier.slack.model.Level;
 import com.wordpress.fabiohbarbosa.notifier.sonar.model.SonarStats;
 import com.wordpress.fabiohbarbosa.notifier.sonar.provider.model.Condition;
 import com.wordpress.fabiohbarbosa.notifier.sonar.provider.model.ProjectStatus;
@@ -12,16 +12,16 @@ import org.apache.maven.plugin.logging.Log;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SlackLevelFilter {
+public class LevelFilter {
     private static final Log LOGGER = LogFactory.getInstance();
 
-    public SonarStats filter(SonarStats sonarStats, SlackLevel level) {
+    public SonarStats filter(SonarStats sonarStats, Level level) {
         LOGGER.debug("Only errors filter...");
         sonarStats.setQualityGate(filterQualityGates(sonarStats.getQualityGate(), level));
         return sonarStats;
     }
 
-    private QualityGate filterQualityGates(QualityGate qualityGate, SlackLevel level) {
+    private QualityGate filterQualityGates(QualityGate qualityGate, Level level) {
         LOGGER.debug("Filtering quality gates...");
 
         if (qualityGate == null || qualityGate.getProjectStatus() == null) {
@@ -45,16 +45,16 @@ public class SlackLevelFilter {
         }
     }
 
-    private void filterInfo(SlackLevel level, List<Condition> conditions, Condition c) {
-        if (level != SlackLevel.INFO) {
+    private void filterInfo(Level level, List<Condition> conditions, Condition c) {
+        if (level != Level.INFO) {
             return;
         }
         LOGGER.debug(String.format("Adding quality gate %s %s", c.getMetricKey().name(), c.getStatus()));
         conditions.add(c);
     }
 
-    private void filterWarning(SlackLevel level, List<Condition> conditions, Condition c) {
-        if (level != SlackLevel.WARNING) {
+    private void filterWarning(Level level, List<Condition> conditions, Condition c) {
+        if (level != Level.WARNING) {
             return;
         }
         if (c.getStatus() == QualityStatus.WARN || c.getStatus() == QualityStatus.ERROR) {
@@ -63,8 +63,8 @@ public class SlackLevelFilter {
         }
     }
 
-    private void filterError(SlackLevel level, List<Condition> conditions, Condition c) {
-        if (level != SlackLevel.ERROR) {
+    private void filterError(Level level, List<Condition> conditions, Condition c) {
+        if (level != Level.ERROR) {
             return;
         }
         if (c.getStatus() == QualityStatus.WARN || c.getStatus() == QualityStatus.ERROR) {
