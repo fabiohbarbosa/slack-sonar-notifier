@@ -3,7 +3,7 @@ package com.wordpress.fabiohbarbosa.notifier.plugin.facade;
 import com.wordpress.fabiohbarbosa.notifier.breaker.factory.BreakerFactory;
 import com.wordpress.fabiohbarbosa.notifier.breaker.service.Breaker;
 import com.wordpress.fabiohbarbosa.notifier.plugin.factory.LogFactory;
-import com.wordpress.fabiohbarbosa.notifier.slack.model.Level;
+import com.wordpress.fabiohbarbosa.notifier.sonar.model.Level;
 import com.wordpress.fabiohbarbosa.notifier.sonar.adapter.SonarAdapter;
 import com.wordpress.fabiohbarbosa.notifier.sonar.factory.LevelFilterFactory;
 import com.wordpress.fabiohbarbosa.notifier.sonar.factory.SonarAdapterFactory;

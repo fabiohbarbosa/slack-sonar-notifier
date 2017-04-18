@@ -64,7 +64,7 @@ Caso seja encontrado erros no sonar, quebra o build
 **levelNotifier**: 
 Level a serem analisados no quality gates
 * _Type_: String
-* _Values_: INFO (success, warning e errors), WARNING (warnings e errors), ERROR (errors)
+* _Values_: **info** (success, warning e errors), **warning** (warnings e errors), **error** (errors)
 * _Property_: -DlevelNotifier
 * _Default_: WARNING
 

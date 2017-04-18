@@ -4,7 +4,7 @@ import com.wordpress.fabiohbarbosa.notifier.PrepareFactoryTests;
 import com.wordpress.fabiohbarbosa.notifier.scm.model.Scm;
 import com.wordpress.fabiohbarbosa.notifier.scm.model.ScmFixture;
 import com.wordpress.fabiohbarbosa.notifier.slack.adapter.SlackRequestAdapter;
-import com.wordpress.fabiohbarbosa.notifier.slack.model.Level;
+import com.wordpress.fabiohbarbosa.notifier.sonar.model.Level;
 import com.wordpress.fabiohbarbosa.notifier.slack.model.Slack;
 import com.wordpress.fabiohbarbosa.notifier.slack.model.SlackFixture;
 import com.wordpress.fabiohbarbosa.notifier.slack.service.SlackPusher;
@@ -49,7 +49,7 @@ public class NotifierTest extends PrepareFactoryTests {
     @Test
     public void startSuccessTests() {
         final Sonar sonar = SonarFixture.newSonar();
-        final Level level = Level.INFO;
+        final Level level = Level.info;
         final Slack slack = SlackFixture.newSlack();
         final Scm scm = ScmFixture.newScmBitbucket();
         final SonarStats sonarStats = SonarStatsFixture.newSonarStats();
@@ -69,7 +69,7 @@ public class NotifierTest extends PrepareFactoryTests {
     @Test
     public void startSucessNotCallSlackPusherWhenQualityGateIsNull() {
         final Sonar sonar = SonarFixture.newSonar();
-        final Level level = Level.INFO;
+        final Level level = Level.info;
         final Slack slack = SlackFixture.newSlack();
         final Scm scm = ScmFixture.newScmEnv();
         final SonarStats sonarStats = SonarStatsFixture.newSonarStats();

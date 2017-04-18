@@ -4,7 +4,7 @@ import com.wordpress.fabiohbarbosa.notifier.PrepareFactoryTests;
 import com.wordpress.fabiohbarbosa.notifier.plugin.factory.NotifierFactory;
 import com.wordpress.fabiohbarbosa.notifier.scm.model.Scm;
 import com.wordpress.fabiohbarbosa.notifier.scm.model.ScmFixture;
-import com.wordpress.fabiohbarbosa.notifier.slack.model.Level;
+import com.wordpress.fabiohbarbosa.notifier.sonar.model.Level;
 import com.wordpress.fabiohbarbosa.notifier.slack.model.Slack;
 import com.wordpress.fabiohbarbosa.notifier.slack.model.SlackFixture;
 import com.wordpress.fabiohbarbosa.notifier.sonar.model.Sonar;
@@ -22,7 +22,7 @@ public class NotifierIT extends PrepareFactoryTests {
     @Test
     public void successTestInfoLevel() {
         final Sonar sonar = SonarFixture.newSonarAuthEnv();
-        Level level = Level.INFO;
+        Level level = Level.info;
         final Slack slack = SlackFixture.newSlack();
         final Scm scm = ScmFixture.newScmEnv();
 
@@ -32,7 +32,7 @@ public class NotifierIT extends PrepareFactoryTests {
     @Test
     public void successTestWarningLevel() {
         final Sonar sonar = SonarFixture.newSonarAuthEnv();
-        Level level = Level.WARNING;
+        Level level = Level.warning;
         final Slack slack = SlackFixture.newSlack();
         final Scm scm = ScmFixture.newScmEnv();
 
@@ -42,7 +42,7 @@ public class NotifierIT extends PrepareFactoryTests {
     @Test
     public void successTestErrorLevel() {
         final Sonar sonar = SonarFixture.newSonarAuthEnv();
-        Level level = Level.ERROR;
+        Level level = Level.error;
         final Slack slack = SlackFixture.newSlack();
         final Scm scm = ScmFixture.newScmEnv();
 

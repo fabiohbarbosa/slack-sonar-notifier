@@ -7,7 +7,7 @@ import com.wordpress.fabiohbarbosa.notifier.scm.model.Scm;
 import com.wordpress.fabiohbarbosa.notifier.slack.adapter.SlackRequestAdapter;
 import com.wordpress.fabiohbarbosa.notifier.slack.factory.SlackPusherFactory;
 import com.wordpress.fabiohbarbosa.notifier.slack.factory.SlackRequestAdapterFactory;
-import com.wordpress.fabiohbarbosa.notifier.slack.model.Level;
+import com.wordpress.fabiohbarbosa.notifier.sonar.model.Level;
 import com.wordpress.fabiohbarbosa.notifier.slack.model.Slack;
 import com.wordpress.fabiohbarbosa.notifier.slack.service.SlackPusher;
 import com.wordpress.fabiohbarbosa.notifier.slack.web.model.SlackRequest;

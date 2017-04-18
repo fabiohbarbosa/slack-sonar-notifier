@@ -1,7 +1,7 @@
 package com.wordpress.fabiohbarbosa.notifier.sonar.service;
 
 import com.wordpress.fabiohbarbosa.notifier.plugin.factory.LogFactory;
-import com.wordpress.fabiohbarbosa.notifier.slack.model.Level;
+import com.wordpress.fabiohbarbosa.notifier.sonar.model.Level;
 import com.wordpress.fabiohbarbosa.notifier.sonar.model.SonarStats;
 import com.wordpress.fabiohbarbosa.notifier.sonar.provider.model.Condition;
 import com.wordpress.fabiohbarbosa.notifier.sonar.provider.model.ProjectStatus;
@@ -46,7 +46,7 @@ public class LevelFilter {
     }
 
     private void filterInfo(Level level, List<Condition> conditions, Condition c) {
-        if (level != Level.INFO) {
+        if (level != Level.info) {
             return;
         }
         LOGGER.debug(String.format("Adding quality gate %s %s", c.getMetricKey().name(), c.getStatus()));
@@ -54,7 +54,7 @@ public class LevelFilter {
     }
 
     private void filterWarning(Level level, List<Condition> conditions, Condition c) {
-        if (level != Level.WARNING) {
+        if (level != Level.warning) {
             return;
         }
         if (c.getStatus() == QualityStatus.WARN || c.getStatus() == QualityStatus.ERROR) {
@@ -64,7 +64,7 @@ public class LevelFilter {
     }
 
     private void filterError(Level level, List<Condition> conditions, Condition c) {
-        if (level != Level.ERROR) {
+        if (level != Level.error) {
             return;
         }
         if (c.getStatus() == QualityStatus.WARN || c.getStatus() == QualityStatus.ERROR) {

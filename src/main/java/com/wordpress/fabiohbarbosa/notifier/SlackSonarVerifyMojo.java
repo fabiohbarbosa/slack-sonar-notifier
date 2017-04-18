@@ -5,7 +5,7 @@ import com.wordpress.fabiohbarbosa.notifier.plugin.factory.PluginLoadPropertiesF
 import com.wordpress.fabiohbarbosa.notifier.plugin.factory.PluginValidatorFactory;
 import com.wordpress.fabiohbarbosa.notifier.plugin.factory.VerifierFactory;
 import com.wordpress.fabiohbarbosa.notifier.scm.model.Scm;
-import com.wordpress.fabiohbarbosa.notifier.slack.model.Level;
+import com.wordpress.fabiohbarbosa.notifier.sonar.model.Level;
 import com.wordpress.fabiohbarbosa.notifier.sonar.model.Sonar;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -29,7 +29,7 @@ public class SlackSonarVerifyMojo extends AbstractMojo {
     @Parameter(defaultValue = "false", property = "skipNotifier")
     private Boolean skipNotifier;
 
-    @Parameter(defaultValue = "WARNING", property = "levelNotifier")
+    @Parameter(defaultValue = "warning", property = "levelNotifier")
     private Level levelNotifier;
 
     @Override
