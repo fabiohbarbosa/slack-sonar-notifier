@@ -4,11 +4,11 @@ import com.wordpress.fabiohbarbosa.notifier.plugin.factory.LogFactory;
 import com.wordpress.fabiohbarbosa.notifier.scm.model.Scm;
 import com.wordpress.fabiohbarbosa.notifier.slack.model.Slack;
 import com.wordpress.fabiohbarbosa.notifier.sonar.model.Sonar;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.project.MavenProject;
 
 import static org.apache.commons.lang3.StringUtils.isEmpty;
+
 
 public class PluginLoadProperties {
     private static final Log LOGGER = LogFactory.getInstance();
@@ -147,7 +147,7 @@ public class PluginLoadProperties {
     private String getProperty(final String property) {
         final String sysProp = System.getProperty(property);
 
-        if (!StringUtils.isEmpty(sysProp)) {
+        if (!isEmpty(sysProp)) {
             LOGGER.debug(String.format("Read system property '%s' to %s", sysProp, property));
             return sysProp;
         }

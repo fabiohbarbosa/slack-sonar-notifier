@@ -1,6 +1,6 @@
 package com.wordpress.fabiohbarbosa.notifier.scm.model;
 
-import org.apache.commons.lang3.StringUtils;
+import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 public class Scm {
     private String url;
@@ -19,7 +19,7 @@ public class Scm {
     }
 
     public static String normalizeUrl(final String url) {
-        if (StringUtils.isEmpty(url)) {
+        if (isEmpty(url)) {
             return null;
         }
         if (url.charAt(url.length() - 1) == '/') {
@@ -29,14 +29,14 @@ public class Scm {
     }
 
     public static String removeOrigin(final String branch) {
-        if (StringUtils.isEmpty(branch)) {
+        if (isEmpty(branch)) {
             return null;
         }
         return branch.replace("origin/", "");
     }
 
     public static String normalizeCommit(final String commit) {
-        if (StringUtils.isEmpty(commit)) {
+        if (isEmpty(commit)) {
             return null;
         }
         if (commit.length() > 7) {
